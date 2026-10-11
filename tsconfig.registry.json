@@ -1,0 +1,21 @@
+{
+  // Mirrors the strictest common consumer setup (Vite's react-ts template) so registry code compiles anywhere.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "types": [],
+    "incremental": false
+  },
+  "include": [
+    "components/data-table/**/*.ts",
+    "components/data-table/**/*.tsx",
+    "components/modals/**/*.ts",
+    "components/modals/**/*.tsx",
+    "components/sheets/**/*.ts",
+    "components/sheets/**/*.tsx"
+  ]
+}

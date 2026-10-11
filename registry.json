@@ -1,0 +1,357 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "dentil",
+  "homepage": "https://dentil.dev",
+  "items": [
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data Table",
+      "description": "Server-driven TanStack data table with row links, sorting, offset or cursor pagination, tabs, column visibility, context menus, split view, expandable rows and cross-page selection.",
+      "dependencies": [
+        "@tanstack/react-table@^8.21.3",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "checkbox",
+        "dropdown-menu",
+        "context-menu"
+      ],
+      "files": [
+        {
+          "path": "components/data-table/types.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/types.ts"
+        },
+        {
+          "path": "components/data-table/primitives.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/primitives.tsx"
+        },
+        {
+          "path": "components/data-table/hooks.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/hooks.ts"
+        },
+        {
+          "path": "components/data-table/error.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/error.tsx"
+        },
+        {
+          "path": "components/data-table/tabs.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/tabs.tsx"
+        },
+        {
+          "path": "components/data-table/display.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/display.tsx"
+        },
+        {
+          "path": "components/data-table/actions-button.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/actions-button.tsx"
+        },
+        {
+          "path": "components/data-table/date-cell.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/date-cell.tsx"
+        },
+        {
+          "path": "components/data-table/context-menu.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/context-menu.tsx"
+        },
+        {
+          "path": "components/data-table/selection-action-bar.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/selection-action-bar.tsx"
+        },
+        {
+          "path": "components/data-table/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/data-table.tsx"
+        },
+        {
+          "path": "components/data-table/router.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/router.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table-filter",
+      "type": "registry:block",
+      "title": "Data Table Filter",
+      "description": "Linear-style filter bar (text, option, multi-option, number, date and async options) that reads and writes the data table query.",
+      "dependencies": [
+        "date-fns",
+        "react-day-picker",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@dentil/data-table",
+        "button",
+        "calendar",
+        "checkbox",
+        "command",
+        "input",
+        "popover",
+        "separator",
+        "slider",
+        "tabs"
+      ],
+      "files": [
+        {
+          "path": "components/data-table/filters.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filters.tsx"
+        },
+        {
+          "path": "components/data-table/filter/LICENSE.md",
+          "type": "registry:file",
+          "target": "components/data-table/filter/LICENSE.md"
+        },
+        {
+          "path": "components/data-table/filter/components/active-filters.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/active-filters.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/data-table-filter.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/data-table-filter.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/filter-actions.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/filter-actions.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/filter-operator.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/filter-operator.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/filter-selector.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/filter-selector.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/filter-subject.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/filter-subject.tsx"
+        },
+        {
+          "path": "components/data-table/filter/components/filter-value.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/components/filter-value.tsx"
+        },
+        {
+          "path": "components/data-table/filter/core/filters.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/core/filters.ts"
+        },
+        {
+          "path": "components/data-table/filter/core/operators.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/core/operators.ts"
+        },
+        {
+          "path": "components/data-table/filter/core/types.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/core/types.ts"
+        },
+        {
+          "path": "components/data-table/filter/hooks/use-data-table-filters.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/hooks/use-data-table-filters.tsx"
+        },
+        {
+          "path": "components/data-table/filter/hooks/use-debounce-callback.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/hooks/use-debounce-callback.tsx"
+        },
+        {
+          "path": "components/data-table/filter/hooks/use-unmount.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/hooks/use-unmount.tsx"
+        },
+        {
+          "path": "components/data-table/filter/index.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/index.tsx"
+        },
+        {
+          "path": "components/data-table/filter/lib/array.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/lib/array.ts"
+        },
+        {
+          "path": "components/data-table/filter/lib/debounce.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/lib/debounce.ts"
+        },
+        {
+          "path": "components/data-table/filter/lib/helpers.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/lib/helpers.ts"
+        },
+        {
+          "path": "components/data-table/filter/lib/i18n.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/lib/i18n.ts"
+        },
+        {
+          "path": "components/data-table/filter/lib/memo.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/lib/memo.ts"
+        },
+        {
+          "path": "components/data-table/filter/locales/en.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/locales/en.ts"
+        },
+        {
+          "path": "components/data-table/filter/parser.ts",
+          "type": "registry:lib",
+          "target": "components/data-table/filter/parser.ts"
+        },
+        {
+          "path": "components/data-table/filter/ui/debounced-input.tsx",
+          "type": "registry:component",
+          "target": "components/data-table/filter/ui/debounced-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table-url-state",
+      "type": "registry:hook",
+      "title": "Data Table URL State",
+      "description": "useState replacement that syncs the data table query to the URL with history.replaceState.",
+      "registryDependencies": [
+        "@dentil/data-table"
+      ],
+      "files": [
+        {
+          "path": "components/data-table/use-table-query-state.ts",
+          "type": "registry:hook",
+          "target": "components/data-table/use-table-query-state.ts"
+        }
+      ]
+    },
+    {
+      "name": "modals",
+      "type": "registry:block",
+      "title": "Modals",
+      "description": "Promise-based modal registry: await openModal(key, props) for a typed result, with lazy-loaded contents and stacking.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "dialog"
+      ],
+      "files": [
+        {
+          "path": "components/modals/contents/confirm.tsx",
+          "type": "registry:component",
+          "target": "components/modals/contents/confirm.tsx"
+        },
+        {
+          "path": "components/modals/context.tsx",
+          "type": "registry:component",
+          "target": "components/modals/context.tsx"
+        },
+        {
+          "path": "components/modals/host.tsx",
+          "type": "registry:component",
+          "target": "components/modals/host.tsx"
+        },
+        {
+          "path": "components/modals/index.ts",
+          "type": "registry:lib",
+          "target": "components/modals/index.ts"
+        },
+        {
+          "path": "components/modals/registry.tsx",
+          "type": "registry:component",
+          "target": "components/modals/registry.tsx"
+        },
+        {
+          "path": "components/modals/shell.tsx",
+          "type": "registry:component",
+          "target": "components/modals/shell.tsx"
+        },
+        {
+          "path": "components/modals/types.ts",
+          "type": "registry:lib",
+          "target": "components/modals/types.ts"
+        }
+      ]
+    },
+    {
+      "name": "sheets",
+      "type": "registry:block",
+      "title": "Sheets",
+      "description": "Promise-based sheet registry: await openSheet(key, props) for a typed result, with lazy-loaded contents, stacking, minimizing and draft retention.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "input",
+        "sheet"
+      ],
+      "files": [
+        {
+          "path": "components/sheets/contents/edit-details.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/contents/edit-details.tsx"
+        },
+        {
+          "path": "components/sheets/context.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/context.tsx"
+        },
+        {
+          "path": "components/sheets/host.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/host.tsx"
+        },
+        {
+          "path": "components/sheets/index.ts",
+          "type": "registry:lib",
+          "target": "components/sheets/index.ts"
+        },
+        {
+          "path": "components/sheets/minimized-dock.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/minimized-dock.tsx"
+        },
+        {
+          "path": "components/sheets/registry.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/registry.tsx"
+        },
+        {
+          "path": "components/sheets/shell.tsx",
+          "type": "registry:component",
+          "target": "components/sheets/shell.tsx"
+        },
+        {
+          "path": "components/sheets/types.ts",
+          "type": "registry:lib",
+          "target": "components/sheets/types.ts"
+        },
+        {
+          "path": "components/sheets/use-sheet-draft.ts",
+          "type": "registry:lib",
+          "target": "components/sheets/use-sheet-draft.ts"
+        }
+      ]
+    }
+  ]
+}
