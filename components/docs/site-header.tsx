@@ -10,6 +10,7 @@ import { ThemeToggle } from './theme-toggle';
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const componentsActive = pathname === '/docs' || docs.some((doc) => pathname.startsWith(doc.href));
 
   return (
     <header className="bg-background/80 sticky top-0 z-40 border-b backdrop-blur">
@@ -28,21 +29,15 @@ export function SiteHeader() {
           {siteConfig.name}
         </Link>
         <nav className="flex gap-4 text-sm">
-          {docs.map((doc) => {
-            const active = pathname.startsWith(doc.href);
-            return (
-              <Link
-                key={doc.href}
-                href={doc.href}
-                aria-current={active ? 'page' : undefined}
-                className={cn(
-                  'transition-colors',
-                  active ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'
-                )}>
-                {doc.title}
-              </Link>
-            );
-          })}
+          <Link
+            href="/docs"
+            aria-current={pathname === '/docs' ? 'page' : componentsActive ? 'true' : undefined}
+            className={cn(
+              'transition-colors',
+              componentsActive ? 'text-foreground font-medium' : 'text-muted-foreground hover:text-foreground'
+            )}>
+            Components
+          </Link>
         </nav>
         <div className="ml-auto">
           <ThemeToggle />

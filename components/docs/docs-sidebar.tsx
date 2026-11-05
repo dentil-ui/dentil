@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { docs } from '@/lib/site';
+import { docsGroups, getDocsGroup } from '@/lib/site';
 import { cn } from '@/lib/utils';
 
 const groups = [
@@ -11,10 +11,14 @@ const groups = [
     title: 'Getting started',
     links: [
       { href: '/', title: 'Introduction' },
+      { href: '/docs', title: 'All components' },
       { href: '/docs/changelog', title: 'Changelog' },
     ],
   },
-  { title: 'Components', links: docs.map(({ href, title }) => ({ href, title })) },
+  ...docsGroups.map((group) => ({
+    title: group,
+    links: getDocsGroup(group).map(({ href, title }) => ({ href, title })),
+  })),
 ];
 
 export function DocsSidebar() {

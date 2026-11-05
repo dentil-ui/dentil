@@ -44,6 +44,11 @@ const sheets = walk('components/sheets')
   .sort()
   .map((path) => file(path));
 
+const folder = (name) =>
+  walk(`components/${name}`)
+    .sort()
+    .map((path) => file(path));
+
 const registry = {
   $schema: 'https://ui.shadcn.com/schema/registry.json',
   name: 'dentil',
@@ -107,6 +112,70 @@ const registry = {
       dependencies: ['lucide-react'],
       registryDependencies: ['button', 'input', 'sheet'],
       files: sheets,
+    },
+    {
+      name: 'date-picker',
+      type: 'registry:block',
+      title: 'Date Picker',
+      description:
+        'Single-date and range picker with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and Date or unix timestamp values.',
+      dependencies: ['date-fns', 'lucide-react'],
+      registryDependencies: ['button', 'calendar', 'input', 'popover'],
+      files: folder('date-picker'),
+    },
+    {
+      name: 'select-search',
+      type: 'registry:component',
+      title: 'Select Search',
+      description: 'Searchable single-select combobox built on Popover and Command.',
+      dependencies: ['lucide-react'],
+      registryDependencies: ['button', 'command', 'popover'],
+      files: folder('select-search'),
+    },
+    {
+      name: 'country-select',
+      type: 'registry:component',
+      title: 'Country Select',
+      description: 'Searchable country picker with ISO 3166-1 codes and localized names from Intl.DisplayNames.',
+      registryDependencies: ['@dentil/select-search'],
+      files: folder('country-select'),
+    },
+    {
+      name: 'address-input',
+      type: 'registry:component',
+      title: 'Address Input',
+      description:
+        'Postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country.',
+      registryDependencies: ['input', 'native-select', '@dentil/country-select'],
+      files: folder('address-input'),
+    },
+    {
+      name: 'phone-input',
+      type: 'registry:component',
+      title: 'Phone Input',
+      description: 'International phone number input with a flag country picker that returns E.164 numbers.',
+      dependencies: ['react-phone-number-input@^3.4.16', 'lucide-react'],
+      registryDependencies: ['input'],
+      files: folder('phone-input'),
+    },
+    {
+      name: 'currency-input',
+      type: 'registry:component',
+      title: 'Currency Input',
+      description:
+        'Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl.',
+      dependencies: ['react-number-format@^5.4.5'],
+      registryDependencies: ['input-group'],
+      files: folder('currency-input'),
+    },
+    {
+      name: 'dob-input',
+      type: 'registry:component',
+      title: 'Date of Birth Input',
+      description: 'DD / MM / YYYY date of birth fields that auto-advance and only emit real dates.',
+      dependencies: ['react-number-format@^5.4.5'],
+      registryDependencies: ['input-group'],
+      files: folder('dob-input'),
     },
   ],
 };

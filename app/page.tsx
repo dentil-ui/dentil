@@ -1,9 +1,9 @@
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 import { CodeBlock } from '@/components/docs/code-block';
-import { InstallCommand } from '@/components/docs/install-command';
 import { CopySkillButton } from '@/components/docs/copy-skill-button';
+import { DocsCards } from '@/components/docs/docs-cards';
+import { InstallCommand } from '@/components/docs/install-command';
 import { C, P } from '@/components/docs/page-shell';
 import { Step, Steps } from '@/components/docs/steps';
 import { getAgentSkill } from '@/lib/agent-skill';
@@ -19,37 +19,12 @@ export default async function Home() {
           Production dashboard primitives for shadcn/ui.
         </h1>
         <p className="text-muted-foreground text-lg leading-relaxed text-pretty">
-          Data tables, modals and sheets you install with the shadcn CLI and own outright. They build on stock shadcn/ui
-          primitives, so they pick up your theme and work in any React framework.
+          Data tables, modals, sheets, date pickers and form inputs you install with the shadcn CLI and own outright.
+          They build on stock shadcn/ui primitives, so they pick up your theme and work in any React framework.
         </p>
       </section>
 
-      <section aria-labelledby="components" className="flex flex-col gap-4">
-        <h2 id="components" className="text-muted-foreground text-sm font-medium">
-          Components
-        </h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {docs.map((doc) => (
-            <Link
-              key={doc.href}
-              href={doc.href}
-              className="group hover:bg-muted/40 flex flex-col gap-3 rounded-xl border p-5 transition-colors">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium">{doc.title}</h3>
-                <ArrowRight className="text-muted-foreground group-hover:text-foreground size-4 transition-[color,translate] group-hover:translate-x-0.5" />
-              </div>
-              <p className="text-muted-foreground flex-1 text-sm leading-relaxed">{doc.description}</p>
-              <div className="flex flex-wrap gap-1.5">
-                {doc.items.map((item) => (
-                  <code key={item} className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">
-                    {item}
-                  </code>
-                ))}
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <DocsCards />
 
       <section aria-labelledby="install" className="flex max-w-3xl scroll-mt-20 flex-col gap-6">
         <h2 id="install" className="text-xl font-semibold tracking-tight">
@@ -60,9 +35,10 @@ export default async function Home() {
             Set up with your AI
           </h3>
           <P>
-            Give your coding agent the dentil skill, then ask it to add a data table, modals or sheets. Paste it into
-            the chat, or save it as <C>.cursor/skills/dentil/SKILL.md</C> or <C>.claude/skills/dentil/SKILL.md</C> so
-            the agent uses it whenever dentil comes up. Agents can also read it from <C>{siteConfig.url}/skill.md</C>.
+            Give your coding agent the dentil skill, then ask it to add a data table, modals, sheets or form inputs.
+            Paste it into the chat, or save it as <C>.cursor/skills/dentil/SKILL.md</C> or{' '}
+            <C>.claude/skills/dentil/SKILL.md</C> so the agent uses it whenever dentil comes up. Agents can also read it
+            from <C>{siteConfig.url}/skill.md</C>.
           </P>
           <CopySkillButton skill={skill} />
         </div>

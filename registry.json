@@ -352,6 +352,157 @@
           "target": "components/sheets/use-sheet-draft.ts"
         }
       ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:block",
+      "title": "Date Picker",
+      "description": "Single-date and range picker with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and Date or unix timestamp values.",
+      "dependencies": [
+        "date-fns",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "calendar",
+        "input",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "components/date-picker/date-picker.tsx",
+          "type": "registry:component",
+          "target": "components/date-picker/date-picker.tsx"
+        },
+        {
+          "path": "components/date-picker/presets.ts",
+          "type": "registry:lib",
+          "target": "components/date-picker/presets.ts"
+        }
+      ]
+    },
+    {
+      "name": "select-search",
+      "type": "registry:component",
+      "title": "Select Search",
+      "description": "Searchable single-select combobox built on Popover and Command.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "command",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "components/select-search/select-search.tsx",
+          "type": "registry:component",
+          "target": "components/select-search/select-search.tsx"
+        }
+      ]
+    },
+    {
+      "name": "country-select",
+      "type": "registry:component",
+      "title": "Country Select",
+      "description": "Searchable country picker with ISO 3166-1 codes and localized names from Intl.DisplayNames.",
+      "registryDependencies": [
+        "@dentil/select-search"
+      ],
+      "files": [
+        {
+          "path": "components/country-select/countries.ts",
+          "type": "registry:lib",
+          "target": "components/country-select/countries.ts"
+        },
+        {
+          "path": "components/country-select/country-select.tsx",
+          "type": "registry:component",
+          "target": "components/country-select/country-select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "address-input",
+      "type": "registry:component",
+      "title": "Address Input",
+      "description": "Postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country.",
+      "registryDependencies": [
+        "input",
+        "native-select",
+        "@dentil/country-select"
+      ],
+      "files": [
+        {
+          "path": "components/address-input/address-input.tsx",
+          "type": "registry:component",
+          "target": "components/address-input/address-input.tsx"
+        },
+        {
+          "path": "components/address-input/regions.ts",
+          "type": "registry:lib",
+          "target": "components/address-input/regions.ts"
+        }
+      ]
+    },
+    {
+      "name": "phone-input",
+      "type": "registry:component",
+      "title": "Phone Input",
+      "description": "International phone number input with a flag country picker that returns E.164 numbers.",
+      "dependencies": [
+        "react-phone-number-input@^3.4.16",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "input"
+      ],
+      "files": [
+        {
+          "path": "components/phone-input/phone-input.tsx",
+          "type": "registry:component",
+          "target": "components/phone-input/phone-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "currency-input",
+      "type": "registry:component",
+      "title": "Currency Input",
+      "description": "Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl.",
+      "dependencies": [
+        "react-number-format@^5.4.5"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "files": [
+        {
+          "path": "components/currency-input/currency-input.tsx",
+          "type": "registry:component",
+          "target": "components/currency-input/currency-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dob-input",
+      "type": "registry:component",
+      "title": "Date of Birth Input",
+      "description": "DD / MM / YYYY date of birth fields that auto-advance and only emit real dates.",
+      "dependencies": [
+        "react-number-format@^5.4.5"
+      ],
+      "registryDependencies": [
+        "input-group"
+      ],
+      "files": [
+        {
+          "path": "components/dob-input/dob-input.tsx",
+          "type": "registry:component",
+          "target": "components/dob-input/dob-input.tsx"
+        }
+      ]
     }
   ]
 }

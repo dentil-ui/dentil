@@ -11,6 +11,28 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-05',
+    title: 'Date picker and form inputs',
+    items: [
+      '@dentil/date-picker',
+      '@dentil/select-search',
+      '@dentil/country-select',
+      '@dentil/address-input',
+      '@dentil/phone-input',
+      '@dentil/currency-input',
+      '@dentil/dob-input',
+    ],
+    changes: [
+      '`@dentil/date-picker`: `DatePicker`, `SingleDatePicker` and `DateRangePicker`, with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and `Date` or unix timestamp values.',
+      '`@dentil/select-search`: `SelectSearch`, a searchable single-select combobox.',
+      '`@dentil/country-select`: `CountrySelect`, with ISO 3166-1 codes and names from `Intl.DisplayNames`.',
+      '`@dentil/address-input`: `AddressInput`, with state lists for the US, Canada and Australia and a `regions` prop for any other country.',
+      '`@dentil/phone-input`: `PhoneInput`, which returns E.164 numbers.',
+      '`@dentil/currency-input`: `CurrencyInput`, which reads and writes minor units.',
+      '`@dentil/dob-input`: `DOBInput`, which only emits real dates.',
+    ],
+  },
+  {
     date: '2026-10-11',
     title: 'Initial release',
     items: [

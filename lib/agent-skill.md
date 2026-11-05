@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, or modals and sheets opened with `await openModal(...)` or `await openSheet(...)`.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date picker and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date or date range picker, or country, address, phone, currency or date of birth inputs.
 ---
 
 # dentil
@@ -14,6 +14,13 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/data-table-url-state` | `useTableQueryState`, which mirrors the table query to the URL                                           | {{SITE_URL}}/docs/data-table#url-state |
 | `@dentil/modals`               | Typed modal registry: `await openModal(key, props)`, lazy contents, stacking                             | {{SITE_URL}}/docs/modals               |
 | `@dentil/sheets`               | Typed side-sheet registry with stacking, minimize-to-dock and drafts                                     | {{SITE_URL}}/docs/sheets               |
+| `@dentil/date-picker`          | Single-date and range picker with presets, shortcuts, billing cycles and an Apply step                   | {{SITE_URL}}/docs/date-picker          |
+| `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
+| `@dentil/country-select`       | Searchable country picker (ISO codes, localized names)                                                   | {{SITE_URL}}/docs/country-select       |
+| `@dentil/address-input`        | Postal address fields with US, CA and AU state lists                                                     | {{SITE_URL}}/docs/address-input        |
+| `@dentil/phone-input`          | International phone input that returns E.164 numbers                                                     | {{SITE_URL}}/docs/phone-input          |
+| `@dentil/currency-input`       | Money input in minor units                                                                               | {{SITE_URL}}/docs/currency-input       |
+| `@dentil/dob-input`            | DD / MM / YYYY date of birth fields                                                                      | {{SITE_URL}}/docs/dob-input            |
 
 Install only what the user needs. If it's unclear which items they want, ask.
 
@@ -42,7 +49,9 @@ Merge this into `components.json`, keeping any existing keys and registries:
 npx shadcn@latest add @dentil/modals @dentil/sheets @dentil/data-table
 ```
 
-The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/modals/`, `components/sheets/` and `components/data-table/`.
+The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/<item>/`, e.g. `components/modals/`, `components/data-table/` or `components/date-picker/`.
+
+The date picker and form inputs need no provider, so skip step 4 if those are all the user wants.
 
 ## 4. Mount the providers once
 
@@ -228,6 +237,34 @@ The table writes `offset` (zero-based page), `sort` (`'ascending' | 'descending'
 
 - **Filters** (`@dentil/data-table-filter`): build columns with `createColumnConfigHelper<Row>()` from `@/components/data-table/filter`, for example `dtf.option().id('status').accessor((r) => r.status).displayName('Status').options([...]).build()`. Pass `<DataTableFilters data={data} filterColumns={filterColumns} query={query} setQuery={setQuery} />` from `@/components/data-table/filters` as the table's `toolbar`.
 - **URL state** (`@dentil/data-table-url-state`): replace `useState<TableQuery>` with `useTableQueryState({}, { urlState: true })` from `@/components/data-table/use-table-query-state`. In server-rendered Next.js pages, also pass `search: useSearchParams().toString()`.
+
+### Date picker
+
+```tsx
+import { DateRangePicker, SingleDatePicker } from '@/components/date-picker/date-picker';
+
+const [due, setDue] = useState<Date>();
+<SingleDatePicker value={due} onChange={setDue} minDate={new Date()} showShortcuts />;
+
+// returnFormat="timestamp" reads and writes unix seconds instead of Date objects.
+const [period, setPeriod] = useState<{ start: number | undefined; end: number | undefined }>();
+<DateRangePicker returnFormat="timestamp" value={period} onChange={setPeriod} showQuickSelect />;
+```
+
+Range ends move to the end of their day unless `endOfDay={false}`. `showApplyButton` holds the selection until Apply. `cycleConfig={{ startDate, durationMonths }}` adds billing-cycle end dates beside the single-date calendar. See {{SITE_URL}}/docs/date-picker#api.
+
+### Form inputs
+
+All are controlled (`value` and `onChange`) and import from `@/components/<item>/<item>`.
+
+- `SelectSearch`: `options={[{ label, value }]}`. `onChange` gets `''` when the selected option is picked again.
+- `CountrySelect`: `value` is an ISO 3166-1 alpha-2 code. `allowedCountries` limits the list, `locale` names countries.
+- `AddressInput`: `value` is `{ line1, line2, city, state, postal_code, country }`, and `onChange` gets only the non-empty fields or `undefined`. `state` is a code (`'CA'`) for countries in `regions` and free text otherwise. Pass `regions={{ IN: { label: 'State', regions: [...] } }}` to add a list.
+- `PhoneInput`: `value` is E.164 (`'+447700900123'`), `onChange` gets `''` when cleared. Set `defaultCountry`.
+- `CurrencyInput`: `value` is in minor units (`1050` is £10.50 with `currency="GBP"`), `onChange` gets `undefined` when empty. Decimal places follow the currency (0 for JPY).
+- `DOBInput`: `value` is `{ day, month, year }`. `onChange` gets `undefined` until the three fields form a real date.
+
+Pass `aria-invalid` when a field fails validation, and the stock destructive styles apply. `AddressInput` takes an `error` message instead.
 
 ## Rules
 

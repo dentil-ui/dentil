@@ -16,6 +16,20 @@
     "components/modals/**/*.ts",
     "components/modals/**/*.tsx",
     "components/sheets/**/*.ts",
-    "components/sheets/**/*.tsx"
+    "components/sheets/**/*.tsx",
+    "components/date-picker/**/*.ts",
+    "components/date-picker/**/*.tsx",
+    "components/select-search/**/*.ts",
+    "components/select-search/**/*.tsx",
+    "components/country-select/**/*.ts",
+    "components/country-select/**/*.tsx",
+    "components/address-input/**/*.ts",
+    "components/address-input/**/*.tsx",
+    "components/phone-input/**/*.ts",
+    "components/phone-input/**/*.tsx",
+    "components/currency-input/**/*.ts",
+    "components/currency-input/**/*.tsx",
+    "components/dob-input/**/*.ts",
+    "components/dob-input/**/*.tsx"
   ]
 }

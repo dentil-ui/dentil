@@ -9,6 +9,13 @@ A [shadcn](https://ui.shadcn.com/docs/registry) registry of production dashboard
 | `@dentil/data-table-url-state` | `useTableQueryState`, which syncs the table query to the URL                                                                                                                                                                          |
 | `@dentil/modals`               | `ModalProvider` and `useModal`: a promise-based modal registry (`await openModal(key, props)` returns a typed result) with lazy-loaded contents and stacking                                                                          |
 | `@dentil/sheets`               | `SheetProvider`, `useSheet` and `useSheetDraft`: the same registry for side sheets, plus minimize-to-dock and draft retention                                                                                                         |
+| `@dentil/date-picker`          | `DatePicker`, `SingleDatePicker` and `DateRangePicker`: single-date and range picker with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and `Date` or unix timestamp values                        |
+| `@dentil/select-search`        | `SelectSearch`, a searchable single-select combobox built on Popover and Command                                                                                                                                                      |
+| `@dentil/country-select`       | `CountrySelect`, a searchable country picker with ISO 3166-1 codes and localized names from `Intl.DisplayNames`                                                                                                                       |
+| `@dentil/address-input`        | `AddressInput`, postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country                                                                           |
+| `@dentil/phone-input`          | `PhoneInput`, an international phone number input with a flag country picker that returns E.164 numbers                                                                                                                               |
+| `@dentil/currency-input`       | `CurrencyInput`, a money input that reads and writes minor units, with the currency symbol and decimal places taken from `Intl`                                                                                                       |
+| `@dentil/dob-input`            | `DOBInput`, DD / MM / YYYY date of birth fields that auto-advance and only emit real dates                                                                                                                                            |
 
 ## Using the registry
 
@@ -36,7 +43,7 @@ npx shadcn@latest add https://dentil.dev/r/data-table.json
 
 Files are written to `components/data-table/` (or `src/components/data-table/`). Requirements: React 19, Tailwind v4 and `@tanstack/react-table` v8. Any shadcn style works, whether it's built on Radix (`new-york`, `radix-*`) or Base UI (`base-*`).
 
-Docs and live demos are at `/docs/data-table`, `/docs/modals` and `/docs/sheets`. The [changelog](https://dentil.dev/docs/changelog) lists what changed in each item. Agents can read [`/llms.txt`](https://dentil.dev/llms.txt) and [`/skill.md`](https://dentil.dev/skill.md).
+Docs and live demos are at [`/docs`](https://dentil.dev/docs), with a page per item: `/docs/data-table`, `/docs/modals`, `/docs/sheets`, `/docs/date-picker`, `/docs/select-search`, `/docs/country-select`, `/docs/address-input`, `/docs/phone-input`, `/docs/currency-input` and `/docs/dob-input`. The [changelog](https://dentil.dev/docs/changelog) lists what changed in each item. Agents can read [`/llms.txt`](https://dentil.dev/llms.txt) and [`/skill.md`](https://dentil.dev/skill.md).
 
 ## Development
 
@@ -49,7 +56,7 @@ npm run lint
 ./scripts/test-install.sh  # install every item into fresh Radix and Base UI apps (Next.js and Vite), then build them
 ```
 
-- **Sources** live in `components/data-table/`, `components/modals/` and `components/sheets/`. The docs site imports them directly, and the registry ships the same files.
+- **Sources** live in `components/<item>/`, e.g. `components/data-table/` or `components/date-picker/`. The docs site imports them directly, and the registry ships the same files.
 - **`registry.json` is generated** by `scripts/generate-registry.mjs`. Add new files or items there, not by hand.
 - **`tsconfig.registry.json`** compiles the registry code with the strictest common consumer settings (`noUnusedLocals`, `verbatimModuleSyntax`, no Node types, as in Vite's template). Code that passes here compiles in fresh Vite and Next apps.
 - **Imports inside registry files**: use `@/components/ui/*` and `@/lib/utils` for shadcn deps (the CLI rewrites them to the consumer's aliases), and relative imports between registry files.
