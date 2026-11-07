@@ -11,7 +11,7 @@ A [shadcn](https://ui.shadcn.com/docs/registry) registry of production dashboard
 | `@dentil/sheets`               | `SheetProvider`, `useSheet` and `useSheetDraft`: the same registry for side sheets, plus minimize-to-dock and draft retention                                                                                                         |
 | `@dentil/date-picker`          | `DatePicker`, `SingleDatePicker` and `DateRangePicker`: single-date and range picker with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and `Date` or unix timestamp values                        |
 | `@dentil/select-search`        | `SelectSearch`, a searchable single-select combobox built on Popover and Command                                                                                                                                                      |
-| `@dentil/country-select`       | `CountrySelect`, a searchable country picker with ISO 3166-1 codes and localized names from `Intl.DisplayNames`                                                                                                                       |
+| `@dentil/country-select`       | `CountrySelect`, a searchable country picker with ISO 3166-1 codes, localized names from `Intl.DisplayNames`, preferred countries listed first, and optional flags                                                                    |
 | `@dentil/address-input`        | `AddressInput`, postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country                                                                           |
 | `@dentil/phone-input`          | `PhoneInput`, an international phone number input with a flag country picker that returns E.164 numbers                                                                                                                               |
 | `@dentil/currency-input`       | `CurrencyInput`, a money input that reads and writes minor units, with the currency symbol and decimal places taken from `Intl`                                                                                                       |
@@ -19,7 +19,19 @@ A [shadcn](https://ui.shadcn.com/docs/registry) registry of production dashboard
 
 ## Using the registry
 
-Add the namespace to your project's `components.json`:
+dentil is in the [shadcn registry directory](https://ui.shadcn.com/docs/directory), so the CLI resolves `@dentil` names with no setup:
+
+```bash
+npx shadcn@latest add @dentil/data-table @dentil/data-table-filter
+```
+
+If your CLI version can't resolve `@dentil`, install by URL:
+
+```bash
+npx shadcn@latest add https://dentil.dev/r/data-table.json
+```
+
+Or add the namespace to your project's `components.json`:
 
 ```json
 {
@@ -27,18 +39,6 @@ Add the namespace to your project's `components.json`:
     "@dentil": "https://dentil.dev/r/{name}.json"
   }
 }
-```
-
-Then install:
-
-```bash
-npx shadcn@latest add @dentil/data-table @dentil/data-table-filter
-```
-
-Or skip the config and install by URL:
-
-```bash
-npx shadcn@latest add https://dentil.dev/r/data-table.json
 ```
 
 Files are written to `components/data-table/` (or `src/components/data-table/`). Requirements: React 19, Tailwind v4 and `@tanstack/react-table` v8. Any shadcn style works, whether it's built on Radix (`new-york`, `radix-*`) or Base UI (`base-*`).

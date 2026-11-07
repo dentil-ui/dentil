@@ -1,13 +1,10 @@
-import Link from 'next/link';
-
-import { CodeBlock } from '@/components/docs/code-block';
 import { CopySkillButton } from '@/components/docs/copy-skill-button';
 import { DocsCards } from '@/components/docs/docs-cards';
 import { InstallCommand } from '@/components/docs/install-command';
-import { C, P } from '@/components/docs/page-shell';
+import { A, C, P } from '@/components/docs/page-shell';
 import { Step, Steps } from '@/components/docs/steps';
 import { getAgentSkill } from '@/lib/agent-skill';
-import { docs, registryItemUrl, registryUrl, siteConfig } from '@/lib/site';
+import { registryItemUrl, siteConfig } from '@/lib/site';
 
 export default async function Home() {
   const skill = await getAgentSkill();
@@ -23,8 +20,6 @@ export default async function Home() {
           They build on stock shadcn/ui primitives, so they pick up your theme and work in any React framework.
         </p>
       </section>
-
-      <DocsCards />
 
       <section aria-labelledby="install" className="flex max-w-3xl scroll-mt-20 flex-col gap-6">
         <h2 id="install" className="text-xl font-semibold tracking-tight">
@@ -50,30 +45,32 @@ export default async function Home() {
         <h3 className="-mb-2 font-medium">Set up manually</h3>
         <Steps>
           <Step
-            title="Add the registry to components.json"
-            description="This lets the CLI resolve @dentil/* names. You can skip it and install by URL instead.">
-            <CodeBlock lang="json" code={JSON.stringify({ registries: { '@dentil': registryUrl } }, null, 2)} />
+            title="Install a component"
+            description={
+              <>
+                dentil is in the <A href="https://ui.shadcn.com/docs/directory">shadcn registry directory</A>, so the
+                CLI resolves <C>@dentil</C> names with no setup and adds any stock shadcn/ui components they need.
+                Requires React 19 and Tailwind v4, with a Radix or Base UI style.
+              </>
+            }>
+            <InstallCommand title="By name" items={['@dentil/data-table']} />
+            <InstallCommand title="By URL, for older CLI versions" items={[registryItemUrl('@dentil/data-table')]} />
           </Step>
           <Step
-            title="Install a component"
-            description="The CLI adds any stock shadcn/ui components it needs. Requires React 19 and Tailwind v4, with a Radix or Base UI style.">
-            <InstallCommand title="By name" items={['@dentil/data-table']} />
-            <InstallCommand title="By URL" items={[registryItemUrl('@dentil/data-table')]} />
-          </Step>
-          <Step title="Read the docs" description="Each page has setup steps, live examples and an API reference.">
-            <div className="flex flex-wrap gap-2">
-              {docs.map((doc) => (
-                <Link
-                  key={doc.href}
-                  href={doc.href}
-                  className="hover:bg-muted rounded-md border px-3 py-1.5 text-sm font-medium transition-colors">
-                  {doc.title}
-                </Link>
-              ))}
-            </div>
-          </Step>
+            title="Read the docs"
+            description={
+              <>
+                Each <A href="#components">component</A> has a page with setup steps, live examples and an API
+                reference.
+              </>
+            }
+          />
         </Steps>
       </section>
+
+      <div id="components" className="scroll-mt-20">
+        <DocsCards />
+      </div>
     </main>
   );
 }

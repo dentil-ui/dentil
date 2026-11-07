@@ -8,7 +8,8 @@ import { CountrySelectOverviewDemo } from '@/components/demos/country-select-ove
 
 export const metadata: Metadata = {
   title: 'Country Select',
-  description: 'A searchable country picker for shadcn/ui with ISO 3166-1 codes and localized names.',
+  description:
+    'A searchable country picker for shadcn/ui with ISO 3166-1 codes, localized names, preferred countries, and optional flags.',
 };
 
 const sections = [
@@ -20,6 +21,18 @@ const rows: PropRow[] = [
   { name: 'value', type: 'string | null | undefined', description: 'ISO 3166-1 alpha-2 code, e.g. GB.' },
   { name: 'onChange', type: '(value: string) => void', description: 'Called with the picked code.' },
   { name: 'allowedCountries', type: 'string[]', description: 'Only list these codes. Lists all 250 when omitted.' },
+  {
+    name: 'preferredCountries',
+    type: 'string[]',
+    description:
+      'ISO codes listed first, in this order. A separator sits under them until the search field has text. Unknown codes are ignored.',
+  },
+  {
+    name: 'showFlags',
+    type: 'boolean',
+    default: 'false',
+    description: 'Draws a flag beside each country, in the list and on the trigger. Same icons as Phone Input.',
+  },
   {
     name: 'locale',
     type: 'string',
@@ -41,8 +54,10 @@ export default function CountrySelectPage() {
       lead={
         <>
           <C>CountrySelect</C> is a <A href="/docs/select-search">Select Search</A> over every ISO 3166-1 country. Names
-          come from <C>Intl.DisplayNames</C>, so pass <C>locale</C> to translate and sort them. The second select is
-          limited to six countries and named in German. Search by name or by code.
+          come from <C>Intl.DisplayNames</C>, so pass <C>locale</C> to translate and sort them. Pass{' '}
+          <C>preferredCountries</C> to list those codes first, and <C>showFlags</C> for a flag beside each country. The
+          first select does both, for GB and US. The second is limited to six countries and named in German. Search by
+          name or by code.
         </>
       }
       demo={
@@ -53,8 +68,8 @@ export default function CountrySelectPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/country-select']} />
         <P>
-          Files land in <C>components/country-select/</C>. It installs <C>@dentil/select-search</C>. No country data
-          package is installed.
+          Files land in <C>components/country-select/</C>. It installs <C>@dentil/select-search</C> and{' '}
+          <C>country-flag-icons</C>. Country names come from <C>Intl.DisplayNames</C>, not a data file.
         </P>
       </Section>
 

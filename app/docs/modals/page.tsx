@@ -219,8 +219,8 @@ export default function ModalsPage() {
         <InstallCommand items={['@dentil/modals']} />
         <P>
           Files land in <C>components/modals/</C>, including <C>registry.tsx</C>, which you edit to add modals. Uses the
-          stock shadcn <C>dialog</C> and <C>button</C>. Requires React 19. Without the <C>@dentil</C> registry in{' '}
-          <C>components.json</C>, install by URL: <C>{registryItemUrl('@dentil/modals')}</C>.
+          stock shadcn <C>dialog</C> and <C>button</C>. Requires React 19. If your CLI can&apos;t resolve{' '}
+          <C>@dentil</C>, install by URL: <C>{registryItemUrl('@dentil/modals')}</C>.
         </P>
       </Section>
 

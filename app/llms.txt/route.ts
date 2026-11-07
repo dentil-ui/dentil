@@ -12,13 +12,13 @@ export function GET() {
 
 dentil is a shadcn/ui registry. The shadcn CLI copies its components into the project, which then owns the code. They compose the project's existing shadcn/ui primitives and theme. Requires React 19 and Tailwind v4. Works with Radix styles (\`new-york\`, \`radix-*\`) and Base UI styles (\`base-*\`).
 
-Install by name after adding \`"@dentil": "${registryUrl}"\` to \`registries\` in components.json:
+dentil is in the shadcn registry directory, so the CLI resolves \`@dentil\` names with no config:
 
 \`\`\`bash
 npx shadcn@latest add @dentil/data-table
 \`\`\`
 
-Or install by URL with no config: \`npx shadcn@latest add ${registryItemUrl('@dentil/data-table')}\`.
+If the CLI can't resolve \`@dentil\`, install by URL (\`npx shadcn@latest add ${registryItemUrl('@dentil/data-table')}\`) or add \`"@dentil": "${registryUrl}"\` to \`registries\` in components.json.
 
 ## Docs
 

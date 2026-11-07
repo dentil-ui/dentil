@@ -11,7 +11,7 @@ export function CountrySelectOverviewDemo() {
   return (
     <div className="grid w-full max-w-xl gap-4 sm:grid-cols-2">
       <div className="flex flex-col gap-2">
-        <CountrySelect value={country} onChange={setCountry} />
+        <CountrySelect value={country} onChange={setCountry} preferredCountries={['GB', 'US']} showFlags />
         <span className="text-muted-foreground text-sm">
           Result: <code className="text-foreground">{country || '—'}</code>
         </span>

@@ -11,6 +11,17 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-06',
+    title: 'Preferred countries and flags',
+    items: ['@dentil/country-select', '@dentil/select-search'],
+    changes: [
+      '`@dentil/country-select`: `preferredCountries` lists those ISO codes first, ahead of the alphabetical list.',
+      '`@dentil/country-select`: `showFlags` draws a flag beside each country, in the list and on the trigger.',
+      '`@dentil/select-search`: `groups` renders options in groups with a separator between them. The separator hides while searching.',
+      '`@dentil/select-search`: an option `icon` is shown before the label.',
+    ],
+  },
+  {
     date: '2026-11-05',
     title: 'Date picker and form inputs',
     items: [

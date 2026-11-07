@@ -94,6 +94,8 @@ const rows: PropRow[] = [
     description: 'Placeholders and accessible labels for each field.',
   },
   { name: 'allowedCountries', type: 'string[]', description: 'Passed to CountrySelect.' },
+  { name: 'preferredCountries', type: 'string[]', description: 'Passed to CountrySelect.' },
+  { name: 'showFlags', type: 'boolean', default: 'false', description: 'Passed to CountrySelect.' },
   { name: 'locale', type: 'string', default: "'en'", description: 'Passed to CountrySelect.' },
 ];
 

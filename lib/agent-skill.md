@@ -16,7 +16,7 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/sheets`               | Typed side-sheet registry with stacking, minimize-to-dock and drafts                                     | {{SITE_URL}}/docs/sheets               |
 | `@dentil/date-picker`          | Single-date and range picker with presets, shortcuts, billing cycles and an Apply step                   | {{SITE_URL}}/docs/date-picker          |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
-| `@dentil/country-select`       | Searchable country picker (ISO codes, localized names)                                                   | {{SITE_URL}}/docs/country-select       |
+| `@dentil/country-select`       | Searchable country picker (ISO codes, localized names, optional flags)                                   | {{SITE_URL}}/docs/country-select       |
 | `@dentil/address-input`        | Postal address fields with US, CA and AU state lists                                                     | {{SITE_URL}}/docs/address-input        |
 | `@dentil/phone-input`          | International phone input that returns E.164 numbers                                                     | {{SITE_URL}}/docs/phone-input          |
 | `@dentil/currency-input`       | Money input in minor units                                                                               | {{SITE_URL}}/docs/currency-input       |
@@ -31,9 +31,15 @@ Install only what the user needs. If it's unclear which items they want, ask.
 - Use the project's package manager, which you can tell from its lockfile: `pnpm dlx`, `npx`, `yarn dlx` or `bunx --bun`. The examples below use `npx`.
 - Imports below use the `@/components` alias. Match whatever `aliases` in `components.json` says.
 
-## 2. Add the registry
+## 2. Install
 
-Merge this into `components.json`, keeping any existing keys and registries:
+dentil is in the shadcn registry directory, so the CLI resolves `@dentil` names without any `components.json` changes:
+
+```bash
+npx shadcn@latest add @dentil/modals @dentil/sheets @dentil/data-table
+```
+
+If the CLI says it can't find the `@dentil` registry, merge this into `components.json`, keeping any existing keys and registries, and run the command again:
 
 ```json
 {
@@ -43,17 +49,11 @@ Merge this into `components.json`, keeping any existing keys and registries:
 }
 ```
 
-## 3. Install
-
-```bash
-npx shadcn@latest add @dentil/modals @dentil/sheets @dentil/data-table
-```
-
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/<item>/`, e.g. `components/modals/`, `components/data-table/` or `components/date-picker/`.
 
-The date picker and form inputs need no provider, so skip step 4 if those are all the user wants.
+The date picker and form inputs need no provider, so skip step 3 if those are all the user wants.
 
-## 4. Mount the providers once
+## 3. Mount the providers once
 
 In the root layout (`app/layout.tsx` in Next.js, or the app's root component). The providers are client components, so a server layout can render them. Put `SheetProvider` inside `ModalProvider` so sheets can open modals.
 
@@ -97,7 +97,7 @@ export function TableRouter({ children }: { children: React.ReactNode }) {
 
 For React Router, adapt its `Link` once with `DataTableLinkProps` from `@/components/data-table/types`: `const RouterLink = ({ href, ...props }: DataTableLinkProps) => <Link to={href} {...props} />`, then pass `linkComponent={RouterLink} onNavigate={useNavigate()}`.
 
-## 5. Use them
+## 4. Use them
 
 ### Modals
 
@@ -257,8 +257,8 @@ Range ends move to the end of their day unless `endOfDay={false}`. `showApplyBut
 
 All are controlled (`value` and `onChange`) and import from `@/components/<item>/<item>`.
 
-- `SelectSearch`: `options={[{ label, value }]}`. `onChange` gets `''` when the selected option is picked again.
-- `CountrySelect`: `value` is an ISO 3166-1 alpha-2 code. `allowedCountries` limits the list, `locale` names countries.
+- `SelectSearch`: `options={[{ label, value, icon }]}`. `icon` is shown before the label. `onChange` gets `''` when the selected option is picked again. `groups` splits the list, with a separator that hides while searching.
+- `CountrySelect`: `value` is an ISO 3166-1 alpha-2 code. `allowedCountries` limits the list, `preferredCountries` lists those codes first, `showFlags` draws a flag beside each country, `locale` names countries.
 - `AddressInput`: `value` is `{ line1, line2, city, state, postal_code, country }`, and `onChange` gets only the non-empty fields or `undefined`. `state` is a code (`'CA'`) for countries in `regions` and free text otherwise. Pass `regions={{ IN: { label: 'State', regions: [...] } }}` to add a list.
 - `PhoneInput`: `value` is E.164 (`'+447700900123'`), `onChange` gets `''` when cleared. Set `defaultCountry`.
 - `CurrencyInput`: `value` is in minor units (`1050` is £10.50 with `currency="GBP"`), `onChange` gets `undefined` when empty. Decimal places follow the currency (0 for JPY).

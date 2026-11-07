@@ -136,7 +136,9 @@ const registry = {
       name: 'country-select',
       type: 'registry:component',
       title: 'Country Select',
-      description: 'Searchable country picker with ISO 3166-1 codes and localized names from Intl.DisplayNames.',
+      description:
+        'Searchable country picker with ISO 3166-1 codes, localized names from Intl.DisplayNames, preferred countries listed first, and optional flags.',
+      dependencies: ['country-flag-icons@^1.6.14'],
       registryDependencies: ['@dentil/select-search'],
       files: folder('country-select'),
     },

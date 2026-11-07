@@ -7,7 +7,7 @@ export const siteConfig = {
 
 export const registryUrl = `${siteConfig.url}/r/{name}.json`;
 
-/** The URL that installs a registry item without adding `@dentil` to components.json. */
+/** The URL that installs a registry item on CLI versions that can't resolve `@dentil` by name. */
 export function registryItemUrl(item: string) {
   return registryUrl.replace('{name}', item.replace(/^@dentil\//, ''));
 }
@@ -70,7 +70,8 @@ export const docs: DocsEntry[] = [
   {
     href: '/docs/country-select',
     title: 'Country Select',
-    description: 'Searchable country picker with ISO 3166-1 codes and localized names from Intl.DisplayNames.',
+    description:
+      'Searchable country picker with ISO 3166-1 codes, localized names from Intl.DisplayNames, preferred countries listed first, and optional flags.',
     items: ['@dentil/country-select'],
     group: 'Form inputs',
   },

@@ -234,8 +234,8 @@ export default function DatePickerPage() {
         <InstallCommand items={['@dentil/date-picker']} />
         <P>
           Files land in <C>components/date-picker/</C>. Uses the stock shadcn <C>button</C>, <C>calendar</C>,{' '}
-          <C>input</C> and <C>popover</C>, and <C>date-fns</C>. Without the <C>@dentil</C> registry in{' '}
-          <C>components.json</C>, install by URL: <C>{registryItemUrl('@dentil/date-picker')}</C>.
+          <C>input</C> and <C>popover</C>, and <C>date-fns</C>. If your CLI can&apos;t resolve <C>@dentil</C>, install
+          by URL: <C>{registryItemUrl('@dentil/date-picker')}</C>.
         </P>
       </Section>
 

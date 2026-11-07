@@ -271,8 +271,8 @@ export default function SheetsPage() {
         <InstallCommand items={['@dentil/sheets']} />
         <P>
           Files land in <C>components/sheets/</C>, including <C>registry.tsx</C>, which you edit to add sheets. Uses the
-          stock shadcn <C>sheet</C>, <C>button</C> and <C>input</C>. Requires React 19. Without the <C>@dentil</C>{' '}
-          registry in <C>components.json</C>, install by URL: <C>{registryItemUrl('@dentil/sheets')}</C>.
+          stock shadcn <C>sheet</C>, <C>button</C> and <C>input</C>. Requires React 19. If your CLI can&apos;t resolve{' '}
+          <C>@dentil</C>, install by URL: <C>{registryItemUrl('@dentil/sheets')}</C>.
         </P>
       </Section>
 

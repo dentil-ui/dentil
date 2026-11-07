@@ -19,8 +19,9 @@ const sections = [
 const rows: PropRow[] = [
   {
     name: 'options',
-    type: '{ label: string; value: string; keywords?: string[] }[]',
-    description: 'Options to list. Search matches the value, the label and any keywords.',
+    type: '{ label: string; value: string; keywords?: string[]; icon?: ReactNode }[]',
+    description:
+      'Options to list. Search matches the value, the label and any keywords. icon is shown before the label.',
   },
   { name: 'value', type: 'string | null | undefined', description: 'The selected option’s value.' },
   {
@@ -39,6 +40,12 @@ const rows: PropRow[] = [
     name: 'filter',
     type: '(value, search, keywords?) => number',
     description: 'cmdk filter. Return 0 to hide an option, and higher numbers to rank it first.',
+  },
+  {
+    name: 'groups',
+    type: '{ label: string; value: string; keywords?: string[]; icon?: ReactNode }[][]',
+    description:
+      'Renders these groups instead of one list, with a separator between them. The separator hides while searching, and a group hides when none of its options match. options is still used for the selected label.',
   },
   {
     name: '…props',

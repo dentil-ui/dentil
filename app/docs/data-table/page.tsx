@@ -373,8 +373,7 @@ export default function DataTablePage() {
       }>
       <Section id="installation" title="Installation">
         <P>
-          Add the <C>@dentil</C> registry to <C>components.json</C> (see <A href="/#install">Get started</A>), then
-          install the pieces you need. Without it, swap each name for its URL, e.g.{' '}
+          Install the pieces you need. If your CLI can&apos;t resolve <C>@dentil</C>, swap each name for its URL, e.g.{' '}
           <C>{registryItemUrl('@dentil/data-table')}</C>. The table uses stock shadcn/ui components, Radix or Base UI,
           which the CLI installs if they&apos;re missing.
         </P>
