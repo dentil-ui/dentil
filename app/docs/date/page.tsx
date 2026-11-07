@@ -171,7 +171,7 @@ export default function DatePage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/date']} />
         <P>
-          Files land in <C>components/date/</C>. It uses <C>Intl.DateTimeFormat</C> and the stock <C>Popover</C>. Pass
+          Files land in <C>components/date/</C>. It uses <C>Intl.DateTimeFormat</C> and the stock <C>Popover</C> and <C>HoverCard</C>. Pass
           an IANA name such as <C>Europe/London</C>. There is no provider.
         </P>
       </Section>

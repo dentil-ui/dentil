@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
@@ -9,10 +10,6 @@ import { formatDateParts, formatDateTime, type DateFormatOptions, type DateInput
 
 /** Long enough to move from the date onto the popover across the offset gap. */
 const HOVER_CLOSE_MS = 150;
-
-function preventAutoFocus(event: Event) {
-  event.preventDefault();
-}
 
 export type DateProps = {
   date: DateInput;
@@ -98,38 +95,61 @@ export function Date({
     setOpen(next);
   }
 
-  const hoverHandlers = hover ? { onMouseEnter: openPopover, onMouseLeave: closePopover } : undefined;
+  const triggerClassName = cn(
+    'hover:bg-muted cursor-pointer rounded-sm underline underline-offset-2 transition-colors',
+    className
+  );
+  const time = (
+    <time dateTime={formatted.iso} suppressHydrationWarning={!timezone} {...props}>
+      {formatted.label}
+    </time>
+  );
+  const details = (
+    <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
+      <dt className="text-muted-foreground">{zone}</dt>
+      <dd className="text-right">{formatDateTime(instant, zone, locale)}</dd>
+      <dt className="text-muted-foreground">UTC</dt>
+      <dd className="text-right">{formatDateTime(instant, 'UTC', locale)}</dd>
+    </dl>
+  );
+
+  // A popover moves focus into itself on open in both Radix and Base UI, so hovering would steal focus from
+  // whatever the user is typing in. A hover card leaves focus alone.
+  if (hover) {
+    return (
+      <HoverCard open={open} onOpenChange={handleOpenChange}>
+        <HoverCardTrigger asChild>
+          <button
+            type="button"
+            data-slot="date"
+            className={triggerClassName}
+            onMouseEnter={openPopover}
+            onMouseLeave={closePopover}>
+            {time}
+          </button>
+        </HoverCardTrigger>
+        <HoverCardContent
+          align={align}
+          className="w-auto p-3"
+          side={side}
+          sideOffset={8}
+          onMouseEnter={openPopover}
+          onMouseLeave={closePopover}>
+          {details}
+        </HoverCardContent>
+      </HoverCard>
+    );
+  }
 
   return (
-    <Popover {...(hover ? { open, onOpenChange: handleOpenChange } : {})}>
+    <Popover>
       <PopoverTrigger asChild>
-        <button
-          type="button"
-          data-slot="date"
-          className={cn(
-            'hover:bg-muted cursor-pointer rounded-sm underline underline-offset-2 transition-colors',
-            className
-          )}
-          {...hoverHandlers}>
-          <time dateTime={formatted.iso} suppressHydrationWarning={!timezone} {...props}>
-            {formatted.label}
-          </time>
+        <button type="button" data-slot="date" className={triggerClassName}>
+          {time}
         </button>
       </PopoverTrigger>
-      <PopoverContent
-        align={align}
-        className="w-auto p-3"
-        side={side}
-        sideOffset={8}
-        onOpenAutoFocus={hover ? preventAutoFocus : undefined}
-        onCloseAutoFocus={hover ? preventAutoFocus : undefined}
-        {...hoverHandlers}>
-        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
-          <dt className="text-muted-foreground">{zone}</dt>
-          <dd className="text-right">{formatDateTime(instant, zone, locale)}</dd>
-          <dt className="text-muted-foreground">UTC</dt>
-          <dd className="text-right">{formatDateTime(instant, 'UTC', locale)}</dd>
-        </dl>
+      <PopoverContent align={align} className="w-auto p-3" side={side} sideOffset={8}>
+        {details}
       </PopoverContent>
     </Popover>
   );
