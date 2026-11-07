@@ -12,6 +12,14 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-07',
+    title: 'Date hover on Base UI',
+    items: ['@dentil/date'],
+    changes: [
+      '`@dentil/date`: `hover` now opens a `HoverCard` instead of a `Popover`, so it builds on Base UI styles and hovering never moves focus. Now depends on `hover-card`.',
+    ],
+  },
+  {
+    date: '2026-11-07',
     title: 'Currency picker',
     items: ['@dentil/currency-input', '@dentil/select-search'],
     changes: [
