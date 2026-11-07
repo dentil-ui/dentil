@@ -23,7 +23,7 @@ export type InvoiceLine = {
   period?: InvoicePeriod;
   quantity?: number;
   /**
-   * A decimal string such as `'0.05'` keeps fractions of a minor unit, like Stripe's `unit_amount_decimal`, for prices
+   * A decimal string such as `'0.05'` keeps fractions of a minor unit
    * below one cent.
    */
   unitAmount?: number | string;
