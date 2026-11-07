@@ -82,6 +82,10 @@ The site is hosted at [dentil.dev](https://dentil.dev), which is the default for
 - `NEXT_PUBLIC_SITE_URL`: the public URL, shown in the docs' setup snippet
 - `REGISTRY_HOMEPAGE`: the same URL, written into `registry.json`
 
+### Usage
+
+Vercel Web Analytics counts docs page views. `proxy.ts` also records a `registry_install` custom event, with an `item` property, each time the shadcn CLI fetches `/r/<item>.json`. Fetches of `registry.json` and requests from browsers aren't counted. A dependency installed along with another item counts as an install of that item too. To see the counts, go to Analytics > Events > `registry_install` in the Vercel dashboard. Custom events need Web Analytics turned on and a Pro plan or above.
+
 ## License
 
 MIT. The filter in `components/data-table/filter/` is adapted from [bazza/ui](https://github.com/bazzalabs/ui) (MIT), and its license ships with it as `LICENSE.md`.
