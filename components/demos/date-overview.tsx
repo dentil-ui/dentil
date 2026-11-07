@@ -1,6 +1,6 @@
 'use client';
 
-import { Date } from '@/components/date/date';
+import { Date } from '@/components/dentil/date/date';
 
 /** 7 Nov 2026, 09:14 UTC. */
 const created = 1_794_042_840;

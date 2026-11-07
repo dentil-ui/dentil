@@ -22,6 +22,6 @@ SOFTWARE.
 
 ---
 
-components/data-table/filter/ is adapted from bazza/ui
+components/dentil/data-table/filter/ is adapted from bazza/ui
 (https://github.com/bazzalabs/ui), used under the MIT License. Its copyright
-notice and license are in components/data-table/filter/LICENSE.md.
+notice and license are in components/dentil/data-table/filter/LICENSE.md.

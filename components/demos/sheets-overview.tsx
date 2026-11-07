@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-import { useSheet } from '@/components/sheets';
+import { useSheet } from '@/components/dentil/sheets';
 import { Button } from '@/components/ui/button';
 
 export function SheetsOverviewDemo() {

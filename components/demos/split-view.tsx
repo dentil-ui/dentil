@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 
-import { DataTable } from '@/components/data-table/data-table';
-import { DateCell } from '@/components/data-table/date-cell';
-import type { TableQuery } from '@/components/data-table/types';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import { DateCell } from '@/components/dentil/data-table/date-cell';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 import { StatusBadge, invoiceColumns } from '@/lib/demo/columns';
 import { type Invoice, formatAmount, useInvoices } from '@/lib/demo/invoices';
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { SingleDatePicker } from '@/components/date-picker/date-picker';
+import { SingleDatePicker } from '@/components/dentil/date-picker/date-picker';
 
 export function DatePickerTimestampDemo() {
   const [startsAt, setStartsAt] = useState<number>();

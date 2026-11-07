@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { SelectSearch } from '@/components/select-search/select-search';
+import { SelectSearch } from '@/components/dentil/select-search/select-search';
 
 const timezones = [
   { label: 'London (GMT+0)', value: 'Europe/London', keywords: ['UK', 'Britain'] },

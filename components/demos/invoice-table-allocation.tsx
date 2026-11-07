@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { type InvoiceLine, InvoiceTable, formatInvoiceAmount } from '@/components/invoice-table/invoice-table';
+import { type InvoiceLine, InvoiceTable, formatInvoiceAmount } from '@/components/dentil/invoice-table/invoice-table';
 
 type CreditableLine = InvoiceLine & { credited: number };
 

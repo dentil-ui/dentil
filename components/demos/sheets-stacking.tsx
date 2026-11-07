@@ -1,7 +1,7 @@
 'use client';
 
-import { useModal } from '@/components/modals';
-import { useSheet } from '@/components/sheets';
+import { useModal } from '@/components/dentil/modals';
+import { useSheet } from '@/components/dentil/sheets';
 import { Button } from '@/components/ui/button';
 
 const MAX_DEPTH = 3;

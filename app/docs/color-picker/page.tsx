@@ -29,8 +29,8 @@ const rows: PropRow[] = [
     type: '(value: string) => void',
     description: (
       <>
-        Called on every change with the hex and no <code>#</code>, including a partial value such as{' '}
-        <code>ed56</code>. Characters other than 0–9 and a–f are removed.
+        Called on every change with the hex and no <code>#</code>, including a partial value such as <code>ed56</code>.
+        Characters other than 0–9 and a–f are removed.
       </>
     ),
   },
@@ -73,8 +73,8 @@ export default function ColorPickerPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/color-picker']} />
         <P>
-          Files land in <C>components/color-picker/</C>. Uses the stock shadcn <C>input-group</C>, <C>button</C> and{' '}
-          <C>popover</C>, and <C>react-colorful</C> for the saturation and hue picker.
+          Files land in <C>components/dentil/color-picker/</C>. Uses the stock shadcn <C>input-group</C>, <C>button</C>{' '}
+          and <C>popover</C>, and <C>react-colorful</C> for the saturation and hue picker.
         </P>
       </Section>
 

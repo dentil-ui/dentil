@@ -403,6 +403,7 @@ function DataTableInner<TData>({
   useHotkey('ArrowLeft', goToPreviousPage, paginationHotkeys && canGoPrevious);
 
   const hasToolbar = Boolean(toolbar || toolbarActions || showDisplay);
+  const hasTopBorder = hasToolbar || Boolean(tabs);
 
   return (
     <div data-slot="data-table" className={cn('flex flex-col', hasSplitView && 'flex-1', className)}>
@@ -427,7 +428,7 @@ function DataTableInner<TData>({
       )}
 
       <div className={cn('flex w-full flex-row', hasSplitView && 'flex-1')}>
-        <div className={cn('min-w-0 flex-1 border-t', hasSplitView && 'border-r md:w-1/2')}>
+        <div className={cn('min-w-0 flex-1', hasTopBorder && 'border-t', hasSplitView && 'border-r md:w-1/2')}>
           {loading ? (
             (loadingState ?? (
               <div className="flex h-30 items-center justify-center" role="status" aria-label="Loading">
@@ -461,6 +462,7 @@ function DataTableInner<TData>({
                                 key={header.id}
                                 className={cn(
                                   'text-xs font-bold uppercase',
+                                  columnMeta?.align === 'center' && 'text-center',
                                   columnMeta?.align === 'right' && 'text-right',
                                   columnMeta?.minimize && 'w-px'
                                 )}
@@ -537,6 +539,7 @@ function DataTableInner<TData>({
                                   <TableCellContent
                                     className={cn(
                                       'h-full min-h-10 w-full',
+                                      columnMeta?.align === 'center' && 'justify-center',
                                       columnMeta?.align === 'right' && 'justify-end',
                                       columnMeta?.itemAlign === 'center' && 'items-center'
                                     )}>
@@ -589,7 +592,12 @@ function DataTableInner<TData>({
                                 return (
                                   <TableCell
                                     key={cell.id}
-                                    className={cn('leading-6.5', columnMeta?.minimize && 'w-px')}>
+                                    className={cn(
+                                      'leading-6.5',
+                                      columnMeta?.verticalAlign === 'top' && 'align-top',
+                                      columnMeta?.verticalAlign === 'bottom' && 'align-bottom',
+                                      columnMeta?.minimize && 'w-px'
+                                    )}>
                                     {wrapped}
                                   </TableCell>
                                 );
@@ -659,7 +667,7 @@ function DataTableInner<TData>({
         </div>
 
         {splitView && (
-          <div className="relative hidden flex-1 border-t md:block">
+          <div className={cn('relative hidden flex-1 md:block', hasTopBorder && 'border-t')}>
             <div className="absolute inset-0 overflow-y-auto">{splitView.component(splitViewRow)}</div>
           </div>
         )}

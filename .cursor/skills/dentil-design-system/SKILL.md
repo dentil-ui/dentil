@@ -9,7 +9,7 @@ dentil ships code into other people's apps. A registry component should be indis
 
 ## Principles
 
-1. **Two surfaces, one rule set.** Registry code (`components/data-table/`, `components/modals/`, `components/sheets/`) is copied into consumer apps. Docs code (`app/`, `components/docs/`, `components/demos/`) only runs here. Both use the same tokens, but registry code has extra portability rules (see the `dentil-registry-item` skill).
+1. **Two surfaces, one rule set.** Registry code (`components/dentil/data-table/`, `components/dentil/modals/`, `components/dentil/sheets/`) is copied into consumer apps. Docs code (`app/`, `components/docs/`, `components/demos/`) only runs here. Both use the same tokens, but registry code has extra portability rules (see the `dentil-registry-item` skill).
 2. **Semantic tokens only.** Colour comes from shadcn variables: `bg-background`, `text-foreground`, `text-muted-foreground`, `bg-muted`, `border`, `text-destructive`, `ring`. Never a hex, `oklch()`, or palette class (`bg-zinc-100`, `text-blue-600`) in a component. The consumer's theme must win.
 3. **Compose stock primitives, never fork them.** Import from `@/components/ui/*` and layer behaviour around them. `components/ui/` is vendored shadcn (ESLint-ignored, and consumers have their own copy), so don't edit it to make a dentil component work.
 4. **The data is the content.** Dashboards are dense and neutral. Prefer type weight, muted text and hairlines over boxes, colour and icons.
@@ -67,7 +67,7 @@ Inside registry components, text is `text-sm` with `text-xs` for secondary detai
 - Use the stock `Button` and its variants and sizes (`outline`, `ghost`, `sm`, `icon-xs`) rather than styling raw buttons. Raw `<button>` is fine for unstyled hit areas inside a styled container.
 - Icons come from `lucide-react`: `size-4` by default, `size-3.5` inside `sm` buttons, `text-muted-foreground` when decorative.
 - Loading: `<Loader2 className="text-muted-foreground size-5 animate-spin" />`, centred in the space the content will take.
-- Errors: the error boundary pattern in `components/modals/shell.tsx` (destructive tint circle, `text-sm font-medium` title, `text-xs` message, "Try again" + "Dismiss").
+- Errors: the error boundary pattern in `components/dentil/modals/shell.tsx` (destructive tint circle, `text-sm font-medium` title, `text-xs` message, "Try again" + "Dismiss").
 - Elevation: only floating UI gets a shadow (`shadow-lg`, `hover:shadow-xl` on the dock). Cards and frames are bordered, never shadowed.
 - Destructive affordances on hover: `hover:bg-destructive/10 hover:text-destructive`.
 

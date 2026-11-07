@@ -7,7 +7,7 @@ export default defineConfig([
   ...nextTs,
   {
     // Vendored from bazza/ui: generic `any`s are intentional, and its hook patterns predate the React Compiler rules.
-    files: ["components/data-table/filter/**"],
+    files: ["components/dentil/data-table/filter/**"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "react-hooks/set-state-in-effect": "warn",

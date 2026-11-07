@@ -94,7 +94,7 @@ export default function CurrencyInputPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/currency-input']} />
         <P>
-          Files land in <C>components/currency-input/</C>. Uses the stock shadcn <C>input-group</C>,{' '}
+          Files land in <C>components/dentil/currency-input/</C>. Uses the stock shadcn <C>input-group</C>,{' '}
           <C>react-number-format</C> and <C>@dentil/select-search</C> for the searchable picker. The symbol and decimal
           places come from <C>Intl.NumberFormat</C>.
         </P>

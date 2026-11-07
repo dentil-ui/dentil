@@ -72,7 +72,7 @@ export default function SwitchLabelPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/switch-label']} />
         <P>
-          Files land in <C>components/switch-label/</C>. Uses the stock shadcn <C>switch</C> and <C>label</C>.
+          Files land in <C>components/dentil/switch-label/</C>. Uses the stock shadcn <C>switch</C> and <C>label</C>.
         </P>
       </Section>
 

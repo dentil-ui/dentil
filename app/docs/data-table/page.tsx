@@ -38,9 +38,9 @@ const USAGE = `
 import { createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { DataTable } from '@/components/data-table/data-table';
-import { DateCell } from '@/components/data-table/date-cell';
-import type { TableQuery } from '@/components/data-table/types';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import { DateCell } from '@/components/dentil/data-table/date-cell';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 
 type Customer = { id: string; name: string; email: string; created: number };
 
@@ -111,7 +111,7 @@ const NEXT = `
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { DataTableRouter } from '@/components/data-table/router';
+import { DataTableRouter } from '@/components/dentil/data-table/router';
 
 export function TableRouter({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -130,8 +130,8 @@ const REACT_ROUTER = `
 
 import { Link, useNavigate } from 'react-router';
 
-import { DataTableRouter } from '@/components/data-table/router';
-import type { DataTableLinkProps } from '@/components/data-table/types';
+import { DataTableRouter } from '@/components/dentil/data-table/router';
+import type { DataTableLinkProps } from '@/components/dentil/data-table/types';
 
 // React Router's Link takes \`to\`, so adapt it once:
 const RouterLink = ({ href, ...props }: DataTableLinkProps) => <Link to={href} {...props} />;
@@ -146,8 +146,8 @@ export function TableRouter({ children }: { children: React.ReactNode }) {
 `;
 
 const FILTER_USAGE = `
-import { createColumnConfigHelper } from '@/components/data-table/filter';
-import { DataTableFilters } from '@/components/data-table/filters';
+import { createColumnConfigHelper } from '@/components/dentil/data-table/filter';
+import { DataTableFilters } from '@/components/dentil/data-table/filters';
 
 const dtf = createColumnConfigHelper<Invoice>();
 
@@ -192,7 +192,7 @@ const FILTER_QUERY = `
 `;
 
 const URL_STATE = `
-import { useTableQueryState } from '@/components/data-table/use-table-query-state';
+import { useTableQueryState } from '@/components/dentil/data-table/use-table-query-state';
 
 // Drop-in replacement for useState<TableQuery>.
 const [query, setQuery] = useTableQueryState({ sort: 'descending' }, { urlState: true });
@@ -209,9 +209,10 @@ const COLUMN_META = `
 col.accessor('amount', {
   header: 'Amount',
   meta: {
-    align: 'right',          // right-align header and cell
+    align: 'right',          // 'left' (default) | 'center' | 'right', for the header and cells
+    verticalAlign: 'top',    // 'top' | 'middle' (default) | 'bottom', where the cell sits in a taller row
     minimize: true,          // shrink the column to its content (w-px)
-    itemAlign: 'center',     // vertically centre the cell content
+    itemAlign: 'center',     // centre a checkbox or icon button within the cell's 40px minimum height
     disableRowLink: true,    // the cell renders its own link/button, so leave it out of the row link
   },
 });
@@ -381,8 +382,8 @@ export default function DataTablePage() {
         <InstallCommand title="Filter bar (optional)" items={['@dentil/data-table-filter']} />
         <InstallCommand title="URL state hook (optional)" items={['@dentil/data-table-url-state']} />
         <P>
-          Files land in <C>components/data-table/</C>. Requires React 19, Tailwind v4 and <C>@tanstack/react-table</C>{' '}
-          v8.
+          Files land in <C>components/dentil/data-table/</C>. Requires React 19, Tailwind v4 and{' '}
+          <C>@tanstack/react-table</C> v8.
         </P>
       </Section>
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { PhoneInput } from '@/components/phone-input/phone-input';
+import { PhoneInput } from '@/components/dentil/phone-input/phone-input';
 
 export function PhoneInputOverviewDemo() {
   const [phone, setPhone] = useState('');

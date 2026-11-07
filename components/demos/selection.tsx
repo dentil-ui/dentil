@@ -8,9 +8,9 @@ import {
   createCustomAction,
   createSeparator,
   createSubMenu,
-} from '@/components/data-table/context-menu';
-import { DataTable } from '@/components/data-table/data-table';
-import type { TableQuery } from '@/components/data-table/types';
+} from '@/components/dentil/data-table/context-menu';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 import { invoiceColumns } from '@/lib/demo/columns';
 import { type Invoice, useInvoices } from '@/lib/demo/invoices';
 

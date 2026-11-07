@@ -30,8 +30,8 @@ const sections = [
 
 const SETUP = `
 // app/layout.tsx (or your root component)
-import { ModalProvider } from '@/components/modals';
-import { SheetProvider } from '@/components/sheets';
+import { ModalProvider } from '@/components/dentil/modals';
+import { SheetProvider } from '@/components/dentil/sheets';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 const USAGE = `
 'use client';
 
-import { useSheet } from '@/components/sheets';
+import { useSheet } from '@/components/dentil/sheets';
 
 export function EditCustomerButton({ customer }: { customer: Customer }) {
   const { openSheet } = useSheet();
@@ -75,7 +75,7 @@ export function EditCustomerButton({ customer }: { customer: Customer }) {
 `;
 
 const CONTENT = `
-// components/sheets/contents/create-price.tsx
+// components/dentil/sheets/contents/create-price.tsx
 'use client';
 
 import { useState } from 'react';
@@ -120,7 +120,7 @@ export default function CreatePriceSheet({ sheetId, close, productId }: CreatePr
 `;
 
 const REGISTER = `
-// components/sheets/registry.tsx
+// components/dentil/sheets/registry.tsx
 const sheetLoaders = {
   'edit-details': () => import('./contents/edit-details'),
   'prices.create': () => import('./contents/create-price'), // ← the only line to add
@@ -270,9 +270,9 @@ export default function SheetsPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/sheets']} />
         <P>
-          Files land in <C>components/sheets/</C>, including <C>registry.tsx</C>, which you edit to add sheets. Uses the
-          stock shadcn <C>sheet</C>, <C>button</C> and <C>input</C>. Requires React 19. If your CLI can&apos;t resolve{' '}
-          <C>@dentil</C>, install by URL: <C>{registryItemUrl('@dentil/sheets')}</C>.
+          Files land in <C>components/dentil/sheets/</C>, including <C>registry.tsx</C>, which you edit to add sheets.
+          Uses the stock shadcn <C>sheet</C>, <C>button</C> and <C>input</C>. Requires React 19. If your CLI can&apos;t
+          resolve <C>@dentil</C>, install by URL: <C>{registryItemUrl('@dentil/sheets')}</C>.
         </P>
       </Section>
 

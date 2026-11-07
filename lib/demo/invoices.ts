@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import type { TableQuery } from '@/components/data-table/types';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 
 export type InvoiceStatus = 'draft' | 'open' | 'paid' | 'void';
 

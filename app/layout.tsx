@@ -5,8 +5,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import { SiteHeader } from '@/components/docs/site-header';
 import { DocsTableRouter } from '@/components/docs/table-router';
-import { ModalProvider } from '@/components/modals';
-import { SheetProvider } from '@/components/sheets';
+import { ModalProvider } from '@/components/dentil/modals';
+import { SheetProvider } from '@/components/dentil/sheets';
 import { DEFAULT_PACKAGE_MANAGER, packageManagerScript } from '@/lib/package-manager';
 import { siteConfig } from '@/lib/site';
 import { themeScript } from '@/lib/theme';

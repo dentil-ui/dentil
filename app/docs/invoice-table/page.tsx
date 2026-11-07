@@ -24,7 +24,7 @@ const sections = [
 ] as const;
 
 const USAGE = `
-import { InvoiceTable } from '@/components/invoice-table/invoice-table';
+import { InvoiceTable } from '@/components/dentil/invoice-table/invoice-table';
 
 <InvoiceTable
   currency="USD"
@@ -291,7 +291,7 @@ export default function InvoiceTablePage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/invoice-table']} />
         <P>
-          Files land in <C>components/invoice-table/</C>. Uses the stock shadcn <C>table</C>, and{' '}
+          Files land in <C>components/dentil/invoice-table/</C>. Uses the stock shadcn <C>table</C>, and{' '}
           <C>@dentil/currency-input</C> for the allocation inputs and currency formatting.
         </P>
       </Section>

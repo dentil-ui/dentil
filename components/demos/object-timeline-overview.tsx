@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Banknote, CreditCard, Mail, RotateCcw } from 'lucide-react';
 
-import { ObjectTimeline } from '@/components/object-timeline/object-timeline';
+import { ObjectTimeline } from '@/components/dentil/object-timeline/object-timeline';
 
 export function ObjectTimelineOverviewDemo() {
   const [opened, setOpened] = useState<string>();

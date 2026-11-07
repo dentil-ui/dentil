@@ -3,9 +3,14 @@ import type { RowData } from '@tanstack/react-table';
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
-    /** Cell text alignment. */
-    align?: 'left' | 'right';
-    /** Vertically centre the cell content. */
+    /** Horizontal alignment of the header and cells. Defaults to `'left'`. */
+    align?: 'left' | 'center' | 'right';
+    /** Where a cell sits when its row is taller than the cell, e.g. beside a multi-line cell. Defaults to `'middle'`. */
+    verticalAlign?: 'top' | 'middle' | 'bottom';
+    /**
+     * Centre items shorter than a line of text, like a checkbox or icon button, within the cell's 40px minimum height.
+     * Doesn't move the cell in a taller row; use `verticalAlign` for that.
+     */
     itemAlign?: 'center';
     /** Shrink the column to its content width (`w-px`). */
     minimize?: boolean;

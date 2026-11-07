@@ -61,7 +61,7 @@ export default function DobInputPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/dob-input']} />
         <P>
-          Files land in <C>components/dob-input/</C>. Uses the stock shadcn <C>input-group</C> and{' '}
+          Files land in <C>components/dentil/dob-input/</C>. Uses the stock shadcn <C>input-group</C> and{' '}
           <C>react-number-format</C>.
         </P>
       </Section>

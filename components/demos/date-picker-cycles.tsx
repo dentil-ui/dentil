@@ -3,7 +3,7 @@
 import { format, startOfMonth } from 'date-fns';
 import { useState } from 'react';
 
-import { SingleDatePicker } from '@/components/date-picker/date-picker';
+import { SingleDatePicker } from '@/components/dentil/date-picker/date-picker';
 
 const subscriptionStart = startOfMonth(new Date());
 

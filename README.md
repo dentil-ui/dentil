@@ -47,7 +47,7 @@ Or add the namespace to your project's `components.json`:
 }
 ```
 
-Files are written to `components/data-table/` (or `src/components/data-table/`). Requirements: React 19, Tailwind v4 and `@tanstack/react-table` v8. Any shadcn style works, whether it's built on Radix (`new-york`, `radix-*`) or Base UI (`base-*`).
+Files are written to `components/dentil/data-table/` (or `src/components/dentil/data-table/`). Requirements: React 19, Tailwind v4 and `@tanstack/react-table` v8. Any shadcn style works, whether it's built on Radix (`new-york`, `radix-*`) or Base UI (`base-*`).
 
 Docs and live demos are at [`/docs`](https://dentil.dev/docs), with a page per item: `/docs/data-table`, `/docs/modals`, `/docs/sheets`, `/docs/date-picker`, `/docs/date`, `/docs/object-timeline`, `/docs/invoice-table`, `/docs/select-search`, `/docs/async-select`, `/docs/country-select`, `/docs/address-input`, `/docs/phone-input`, `/docs/currency-input`, `/docs/dob-input`, `/docs/switch-label` and `/docs/color-picker`. The [changelog](https://dentil.dev/docs/changelog) lists what changed in each item. Agents can read [`/llms.txt`](https://dentil.dev/llms.txt) and [`/skill.md`](https://dentil.dev/skill.md).
 
@@ -62,7 +62,7 @@ npm run lint
 ./scripts/test-install.sh  # install every item into fresh Radix and Base UI apps (Next.js and Vite), then build them
 ```
 
-- **Sources** live in `components/<item>/`, e.g. `components/data-table/` or `components/date-picker/`. The docs site imports them directly, and the registry ships the same files.
+- **Sources** live in `components/dentil/<item>/`, e.g. `components/dentil/data-table/` or `components/dentil/date-picker/`. The docs site imports them directly, and the registry ships the same files.
 - **`registry.json` is generated** by `scripts/generate-registry.mjs`. Add new files or items there, not by hand.
 - **`tsconfig.registry.json`** compiles the registry code with the strictest common consumer settings (`noUnusedLocals`, `verbatimModuleSyntax`, no Node types, as in Vite's template). Code that passes here compiles in fresh Vite and Next apps.
 - **Imports inside registry files**: use `@/components/ui/*` and `@/lib/utils` for shadcn deps (the CLI rewrites them to the consumer's aliases), and relative imports between registry files.
@@ -88,4 +88,4 @@ Vercel Web Analytics counts docs page views. `proxy.ts` also records a `registry
 
 ## License
 
-MIT. The filter in `components/data-table/filter/` is adapted from [bazza/ui](https://github.com/bazzalabs/ui) (MIT), and its license ships with it as `LICENSE.md`.
+MIT. The filter in `components/dentil/data-table/filter/` is adapted from [bazza/ui](https://github.com/bazzalabs/ui) (MIT), and its license ships with it as `LICENSE.md`.

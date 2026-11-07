@@ -68,7 +68,7 @@ export default function CountrySelectPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/country-select']} />
         <P>
-          Files land in <C>components/country-select/</C>. It installs <C>@dentil/select-search</C> and{' '}
+          Files land in <C>components/dentil/country-select/</C>. It installs <C>@dentil/select-search</C> and{' '}
           <C>country-flag-icons</C>. Country names come from <C>Intl.DisplayNames</C>, not a data file.
         </P>
       </Section>

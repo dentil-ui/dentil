@@ -31,7 +31,7 @@ const USAGE = `
 
 import { useState } from 'react';
 
-import { DateRangePicker, SingleDatePicker } from '@/components/date-picker/date-picker';
+import { DateRangePicker, SingleDatePicker } from '@/components/dentil/date-picker/date-picker';
 
 export function ReportFilters() {
   const [due, setDue] = useState<Date>();
@@ -49,7 +49,7 @@ export function ReportFilters() {
 const PRESETS = `
 import { endOfDay, startOfDay, subDays } from 'date-fns';
 
-import { DateRangePicker, quickSelectOptions, type QuickSelectOption } from '@/components/date-picker/date-picker';
+import { DateRangePicker, quickSelectOptions, type QuickSelectOption } from '@/components/dentil/date-picker/date-picker';
 
 const presets: QuickSelectOption[] = [
   {
@@ -233,7 +233,7 @@ export default function DatePickerPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/date-picker']} />
         <P>
-          Files land in <C>components/date-picker/</C>. Uses the stock shadcn <C>button</C>, <C>calendar</C>,{' '}
+          Files land in <C>components/dentil/date-picker/</C>. Uses the stock shadcn <C>button</C>, <C>calendar</C>,{' '}
           <C>input</C> and <C>popover</C>, and <C>date-fns</C>. If your CLI can&apos;t resolve <C>@dentil</C>, install
           by URL: <C>{registryItemUrl('@dentil/date-picker')}</C>.
         </P>

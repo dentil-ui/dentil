@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AddressInput, type Address } from '@/components/address-input/address-input';
+import { AddressInput, type Address } from '@/components/dentil/address-input/address-input';
 
 export function AddressInputOverviewDemo() {
   const [address, setAddress] = useState<Address | undefined>({

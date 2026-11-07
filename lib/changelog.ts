@@ -12,6 +12,31 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-07',
+    title: 'Install into components/dentil',
+    items: ['@dentil/*'],
+    changes: [
+      'Breaking: every item now installs into `components/dentil/<item>/` instead of `components/<item>/`, so imports become `@/components/dentil/<item>/…`. Existing installs keep working where they are. Re-adding an item writes a fresh copy to the new folder, so move any edits (such as your `modals/registry.tsx` and `sheets/registry.tsx` entries) across and delete the old folder.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Column alignment',
+    items: ['@dentil/data-table'],
+    changes: [
+      "`@dentil/data-table`: column `meta.verticalAlign` (`'top' | 'middle' | 'bottom'`) sets where cells sit when the row is taller than them. The default is `'middle'`, as before.",
+      "`@dentil/data-table`: column `meta.align` also takes `'center'`.",
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Data table without a toolbar',
+    items: ['@dentil/data-table'],
+    changes: [
+      '`@dentil/data-table`: with no `toolbar`, `toolbarActions`, `showDisplay` or `tabs`, the table no longer draws a border above its header.',
+    ],
+  },
+  {
+    date: '2026-11-07',
     title: 'Date hover on Base UI',
     items: ['@dentil/date'],
     changes: [

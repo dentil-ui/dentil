@@ -2,8 +2,8 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 
-import { ActionsButton } from '@/components/data-table/actions-button';
-import { DateCell } from '@/components/data-table/date-cell';
+import { ActionsButton } from '@/components/dentil/data-table/actions-button';
+import { DateCell } from '@/components/dentil/data-table/date-cell';
 import { cn } from '@/lib/utils';
 
 import { type Invoice, type InvoiceStatus, formatAmount } from './invoices';

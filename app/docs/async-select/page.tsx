@@ -27,7 +27,7 @@ const USAGE = `
 
 import { useState } from 'react';
 
-import { AsyncSelect } from '@/components/async-select/async-select';
+import { AsyncSelect } from '@/components/dentil/async-select/async-select';
 
 type Customer = { id: string; name: string; email: string };
 
@@ -191,7 +191,7 @@ export default function AsyncSelectPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/async-select']} />
         <P>
-          Files land in <C>components/async-select/</C>. Uses the stock shadcn <C>button</C>, <C>command</C> and{' '}
+          Files land in <C>components/dentil/async-select/</C>. Uses the stock shadcn <C>button</C>, <C>command</C> and{' '}
           <C>popover</C>, so it follows your theme. For a list you already have in memory, use{' '}
           <A href="/docs/select-search">Select Search</A>.
         </P>

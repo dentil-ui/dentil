@@ -2,7 +2,7 @@
 import { readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const root = 'components/data-table';
+const root = 'components/dentil/data-table';
 
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {
@@ -36,16 +36,16 @@ const core = [
 
 const filter = [`${root}/filters.tsx`, ...walk(`${root}/filter`).sort()].map((path) => file(path));
 
-const modals = walk('components/modals')
+const modals = walk('components/dentil/modals')
   .sort()
   .map((path) => file(path));
 
-const sheets = walk('components/sheets')
+const sheets = walk('components/dentil/sheets')
   .sort()
   .map((path) => file(path));
 
 const folder = (name) =>
-  walk(`components/${name}`)
+  walk(`components/dentil/${name}`)
     .sort()
     .map((path) => file(path));
 

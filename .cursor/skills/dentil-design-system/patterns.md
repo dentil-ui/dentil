@@ -24,7 +24,7 @@ export function ThingBar({ className, ...props }: React.ComponentProps<'div'>) {
 </div>
 ```
 
-If it sits over a modal sheet, add `pointer-events-auto` (Radix disables pointer events on the body) and add its `data-slot` to `STACKED_OVERLAY_SELECTOR` in `components/sheets/shell.tsx` so clicking it doesn't dismiss the sheet.
+If it sits over a modal sheet, add `pointer-events-auto` (Radix disables pointer events on the body) and add its `data-slot` to `STACKED_OVERLAY_SELECTOR` in `components/dentil/sheets/shell.tsx` so clicking it doesn't dismiss the sheet.
 
 ## Icon button
 
@@ -36,7 +36,7 @@ If it sits over a modal sheet, add `pointer-events-auto` (Radix disables pointer
 
 ## Error state
 
-Copy `ModalErrorBoundary` from `components/modals/shell.tsx`. The visual is:
+Copy `ModalErrorBoundary` from `components/dentil/modals/shell.tsx`. The visual is:
 
 ```tsx
 <div role="alert" className="flex min-h-40 flex-col items-center justify-center gap-3 text-center">

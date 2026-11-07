@@ -2,10 +2,10 @@
 
 import { CircleDot, Hash, Mail, PoundSterling, User } from 'lucide-react';
 
-import { DataTable } from '@/components/data-table/data-table';
-import { createColumnConfigHelper } from '@/components/data-table/filter';
-import { DataTableFilters } from '@/components/data-table/filters';
-import { useTableQueryState } from '@/components/data-table/use-table-query-state';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import { createColumnConfigHelper } from '@/components/dentil/data-table/filter';
+import { DataTableFilters } from '@/components/dentil/data-table/filters';
+import { useTableQueryState } from '@/components/dentil/data-table/use-table-query-state';
 import { invoiceColumns } from '@/lib/demo/columns';
 import { type Invoice, getCustomerName, searchCustomers, useInvoices } from '@/lib/demo/invoices';
 

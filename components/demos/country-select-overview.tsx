@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { CountrySelect } from '@/components/country-select/country-select';
+import { CountrySelect } from '@/components/dentil/country-select/country-select';
 
 export function CountrySelectOverviewDemo() {
   const [country, setCountry] = useState('');

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AsyncSelect } from '@/components/async-select/async-select';
+import { AsyncSelect } from '@/components/dentil/async-select/async-select';
 import { Button } from '@/components/ui/button';
 
 const teams = ['Design', 'Finance', 'Support'];

@@ -22,7 +22,7 @@ const sections = [
 ] as const;
 
 const USAGE = `
-import { Date } from '@/components/date/date';
+import { Date } from '@/components/dentil/date/date';
 
 // 7 Nov 2026, 09:14 UTC. Unix seconds, milliseconds, an ISO string or a Date all work.
 const created = 1_794_042_840;
@@ -146,8 +146,7 @@ const toDateRows: PropRow[] = [
   {
     name: 'value',
     type: 'number | string | Date | null | undefined',
-    description:
-      'Unix seconds, unix milliseconds, an ISO string or a Date. Returns null for empty or invalid values.',
+    description: 'Unix seconds, unix milliseconds, an ISO string or a Date. Returns null for empty or invalid values.',
   },
 ];
 
@@ -171,21 +170,20 @@ export default function DatePage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/date']} />
         <P>
-          Files land in <C>components/date/</C>. It uses <C>Intl.DateTimeFormat</C> and the stock <C>Popover</C> and <C>HoverCard</C>. Pass
-          an IANA name such as <C>Europe/London</C>. There is no provider.
+          Files land in <C>components/dentil/date/</C>. It uses <C>Intl.DateTimeFormat</C> and the stock <C>Popover</C>{' '}
+          and <C>HoverCard</C>. Pass an IANA name such as <C>Europe/London</C>. There is no provider.
         </P>
       </Section>
 
       <Section id="usage" title="Usage">
         <CodeBlock code={USAGE} />
         <P>
-          The year is omitted when the date is in the current year in <C>timezone</C>. <C>showYear</C> puts it back.
-          The popover always shows the clock time, including when the date itself hides it. <C>hover</C> opens it on
-          hover and keeps it open while the pointer is over the popover. <C>side</C> and <C>align</C> set where it
-          opens. <C>formatDate</C> and{' '}
-          <C>toDate</C> live in <C>components/date/format</C>, so a server component can call them without pulling in
-          the client component. <C>formatDate</C> appends the short zone name when <C>showTimezone</C> is set, instead
-          of opening a popover.
+          The year is omitted when the date is in the current year in <C>timezone</C>. <C>showYear</C> puts it back. The
+          popover always shows the clock time, including when the date itself hides it. <C>hover</C> opens it on hover
+          and keeps it open while the pointer is over the popover. <C>side</C> and <C>align</C> set where it opens.{' '}
+          <C>formatDate</C> and <C>toDate</C> live in <C>components/dentil/date/format</C>, so a server component can
+          call them without pulling in the client component. <C>formatDate</C> appends the short zone name when{' '}
+          <C>showTimezone</C> is set, instead of opening a popover.
         </P>
       </Section>
 
@@ -207,7 +205,7 @@ export default function DatePage() {
         </SubSection>
         <SubSection title="formatDate">
           <P>
-            <C>formatDate(value, options)</C> from <C>@/components/date/format</C> returns the compact string, or{' '}
+            <C>formatDate(value, options)</C> from <C>@/components/dentil/date/format</C> returns the compact string, or{' '}
             <C>null</C>. With <C>showTimezone</C> it appends the short zone name.
           </P>
           <PropsTable rows={formatRows} />

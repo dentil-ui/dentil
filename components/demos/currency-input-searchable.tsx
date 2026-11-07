@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { CurrencyInput } from '@/components/currency-input/currency-input';
+import { CurrencyInput } from '@/components/dentil/currency-input/currency-input';
 
 export function CurrencyInputSearchableDemo() {
   const [amount, setAmount] = useState<number | undefined>(4999);

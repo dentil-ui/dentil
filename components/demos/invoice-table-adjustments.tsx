@@ -1,6 +1,6 @@
 'use client';
 
-import { InvoiceTable } from '@/components/invoice-table/invoice-table';
+import { InvoiceTable } from '@/components/dentil/invoice-table/invoice-table';
 
 export function InvoiceTableAdjustmentsDemo() {
   return (

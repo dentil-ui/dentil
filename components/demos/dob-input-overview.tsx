@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { DOBInput, type DOB } from '@/components/dob-input/dob-input';
+import { DOBInput, type DOB } from '@/components/dentil/dob-input/dob-input';
 
 export function DobInputOverviewDemo() {
   const [dob, setDob] = useState<DOB>();

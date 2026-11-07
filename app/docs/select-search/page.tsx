@@ -95,7 +95,7 @@ export default function SelectSearchPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/select-search']} />
         <P>
-          Files land in <C>components/select-search/</C>. Uses the stock shadcn <C>button</C>, <C>command</C> and{' '}
+          Files land in <C>components/dentil/select-search/</C>. Uses the stock shadcn <C>button</C>, <C>command</C> and{' '}
           <C>popover</C>, so it follows your theme.
         </P>
       </Section>

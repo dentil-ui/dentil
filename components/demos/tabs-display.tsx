@@ -3,8 +3,8 @@
 import { Download } from 'lucide-react';
 import { useState } from 'react';
 
-import { DataTable } from '@/components/data-table/data-table';
-import type { TableQuery } from '@/components/data-table/types';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 import { Button } from '@/components/ui/button';
 import { invoiceColumns } from '@/lib/demo/columns';
 import { useInvoices } from '@/lib/demo/invoices';

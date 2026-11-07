@@ -27,7 +27,7 @@ const sections = [
 
 const SETUP = `
 // app/layout.tsx (or your root component)
-import { ModalProvider } from '@/components/modals';
+import { ModalProvider } from '@/components/dentil/modals';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 const USAGE = `
 'use client';
 
-import { useModal } from '@/components/modals';
+import { useModal } from '@/components/dentil/modals';
 
 export function DeleteButton({ id }: { id: string }) {
   const { openModal } = useModal();
@@ -72,7 +72,7 @@ export function DeleteButton({ id }: { id: string }) {
 `;
 
 const CONTENT = `
-// components/modals/contents/rename.tsx
+// components/dentil/modals/contents/rename.tsx
 'use client';
 
 import { useState } from 'react';
@@ -112,7 +112,7 @@ export default function RenameModal({ name: initial, close }: RenameModalProps) 
 `;
 
 const REGISTER = `
-// components/modals/registry.tsx
+// components/dentil/modals/registry.tsx
 const modalLoaders = {
   confirm: () => import('./contents/confirm'),
   rename: () => import('./contents/rename'), // ← the only line to add
@@ -218,8 +218,8 @@ export default function ModalsPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/modals']} />
         <P>
-          Files land in <C>components/modals/</C>, including <C>registry.tsx</C>, which you edit to add modals. Uses the
-          stock shadcn <C>dialog</C> and <C>button</C>. Requires React 19. If your CLI can&apos;t resolve{' '}
+          Files land in <C>components/dentil/modals/</C>, including <C>registry.tsx</C>, which you edit to add modals.
+          Uses the stock shadcn <C>dialog</C> and <C>button</C>. Requires React 19. If your CLI can&apos;t resolve{' '}
           <C>@dentil</C>, install by URL: <C>{registryItemUrl('@dentil/modals')}</C>.
         </P>
       </Section>

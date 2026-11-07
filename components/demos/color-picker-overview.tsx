@@ -2,7 +2,7 @@
 
 import { useState, useSyncExternalStore } from 'react';
 
-import { ColorPicker } from '@/components/color-picker/color-picker';
+import { ColorPicker } from '@/components/dentil/color-picker/color-picker';
 
 const HEX = /^[0-9a-f]{6}$/;
 

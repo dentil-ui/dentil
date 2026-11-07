@@ -1,4 +1,4 @@
-import { DateCell } from '@/components/data-table/date-cell';
+import { DateCell } from '@/components/dentil/data-table/date-cell';
 
 import { type Invoice, formatAmount } from './invoices';
 

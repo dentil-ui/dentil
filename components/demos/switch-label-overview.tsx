@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { SwitchLabel } from '@/components/switch-label/switch-label';
+import { SwitchLabel } from '@/components/dentil/switch-label/switch-label';
 
 export function SwitchLabelOverviewDemo() {
   const [emails, setEmails] = useState(true);

@@ -3,11 +3,11 @@
 import { Archive, Mail, PoundSterling, User } from 'lucide-react';
 import { useState } from 'react';
 
-import { createCommonActions } from '@/components/data-table/context-menu';
-import { DataTable } from '@/components/data-table/data-table';
-import { createColumnConfigHelper } from '@/components/data-table/filter';
-import { DataTableFilters } from '@/components/data-table/filters';
-import type { TableQuery } from '@/components/data-table/types';
+import { createCommonActions } from '@/components/dentil/data-table/context-menu';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import { createColumnConfigHelper } from '@/components/dentil/data-table/filter';
+import { DataTableFilters } from '@/components/dentil/data-table/filters';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 import { invoiceColumns } from '@/lib/demo/columns';
 import { InvoiceDetails } from '@/lib/demo/invoice-details';
 import { type Invoice, getCustomerName, searchCustomers, useInvoices } from '@/lib/demo/invoices';

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { type InvoiceLine, InvoiceTable, formatInvoiceAmount } from '@/components/invoice-table/invoice-table';
+import { type InvoiceLine, InvoiceTable, formatInvoiceAmount } from '@/components/dentil/invoice-table/invoice-table';
 
 const lines: InvoiceLine[] = [
   {

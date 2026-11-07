@@ -60,7 +60,7 @@ The `lead` is one paragraph that says what the thing does and names its key API 
 | `<SourceFile file="lib/demo/columns.tsx" />` | Showing a real repo file verbatim, e.g. shared column definitions.                                                                                                                |
 | `<CodeBlock code={SNIPPET} />`               | Setup, usage and "adding" steps that show code in the consumer's app. Pass `lang="bash"` or `"json"` when needed, and `title` for a file label.                                   |
 
-Inline snippets are `SCREAMING_CASE` template-literal consts at the top of the page. `CodeBlock` trims them. Escape backticks inside as `` \` ``. They show consumer paths (`@/components/modals`), start with a `// path/to/file.tsx` comment when the file matters, and use `// ← the only line to add` style markers sparingly.
+Inline snippets are `SCREAMING_CASE` template-literal consts at the top of the page. `CodeBlock` trims them. Escape backticks inside as `` \` ``. They show consumer paths (`@/components/dentil/modals`), start with a `// path/to/file.tsx` comment when the file matters, and use `// ← the only line to add` style markers sparingly.
 
 Inline snippets are **not type-checked**. Keep them short, and move anything long or fiddly into a demo or `SourceFile`, which are compiled.
 
@@ -72,7 +72,7 @@ Inline snippets are **not type-checked**. Keep them short, and move anything lon
 - Use the shared fixtures in `lib/demo/` (`invoices.ts`, `columns.tsx`) for table data rather than inventing new datasets.
 - Fake latency with `new Promise((resolve) => setTimeout(resolve, 800))` so loading states are visible.
 - When the demo resolves a value, show it with the `Result: <code>…</code>` readout from the design system patterns.
-- If a demo needs a new modal or sheet content, remember that `components/modals/contents/` and `components/sheets/contents/` ship to consumers (see the `dentil-registry-item` skill).
+- If a demo needs a new modal or sheet content, remember that `components/dentil/modals/contents/` and `components/dentil/sheets/contents/` ship to consumers (see the `dentil-registry-item` skill).
 
 ## API reference
 

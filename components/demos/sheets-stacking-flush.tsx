@@ -1,6 +1,6 @@
 'use client';
 
-import { useSheet } from '@/components/sheets';
+import { useSheet } from '@/components/dentil/sheets';
 import { Button } from '@/components/ui/button';
 
 const MAX_DEPTH = 3;

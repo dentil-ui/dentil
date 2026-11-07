@@ -20,7 +20,7 @@ const sections = [
 ] as const;
 
 const REGIONS = `
-import { AddressInput } from '@/components/address-input/address-input';
+import { AddressInput } from '@/components/dentil/address-input/address-input';
 
 <AddressInput
   value={address}
@@ -120,8 +120,8 @@ export default function AddressInputPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/address-input']} />
         <P>
-          Files land in <C>components/address-input/</C>. Uses the stock shadcn <C>input</C> and <C>native-select</C>,
-          and installs <A href="/docs/country-select">Country Select</A> and{' '}
+          Files land in <C>components/dentil/address-input/</C>. Uses the stock shadcn <C>input</C> and{' '}
+          <C>native-select</C>, and installs <A href="/docs/country-select">Country Select</A> and{' '}
           <A href="/docs/select-search">Select Search</A>.
         </P>
       </Section>

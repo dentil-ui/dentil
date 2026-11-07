@@ -5,12 +5,12 @@ description: Adds or changes an item in the @dentil shadcn registry — where so
 
 # Registry Item
 
-Each item's source lives in `components/<item>/`. The docs site imports those files directly, and the registry ships the same files, so there is one copy of the code. `registry.json` and `public/r/*.json` are generated. Never edit them by hand.
+Each item's source lives in `components/dentil/<item>/`. The docs site imports those files directly, and the registry ships the same files, so there is one copy of the code. `registry.json` and `public/r/*.json` are generated. Never edit them by hand.
 
 ## Workflow
 
 ```
-- [ ] 1. Write the source in components/<item>/
+- [ ] 1. Write the source in components/dentil/<item>/
 - [ ] 2. Add the item to scripts/generate-registry.mjs
 - [ ] 3. Add its folder to tsconfig.registry.json
 - [ ] 4. List it in README.md and the docs list in lib/site.ts
@@ -22,15 +22,15 @@ Each item's source lives in `components/<item>/`. The docs site imports those fi
 
 Registry code is copied into apps you don't control. Write it for the strictest common consumer (Vite's `react-ts` template), which `tsconfig.registry.json` enforces:
 
-| Rule                                                                | Why                                                                                                                                      |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `import type` for type-only imports                                 | `verbatimModuleSyntax`                                                                                                                   |
-| No `enum`, `namespace` or constructor parameter properties          | `erasableSyntaxOnly`                                                                                                                     |
-| No unused locals or parameters                                      | `noUnusedLocals`, `noUnusedParameters`                                                                                                   |
-| No Node globals (`process`, `Buffer`, `node:*`)                     | `types: []`. Consumers may be browser-only                                                                                               |
-| No `next/*` imports                                                 | Must work in any React framework. Take a `linkComponent` prop instead (see `DataTableLinkComponent` in `components/data-table/types.ts`) |
-| `'use client'` at the top of any file with hooks, state or handlers | Next.js RSC consumers                                                                                                                    |
-| React 19 APIs are fine                                              | It's a stated requirement                                                                                                                |
+| Rule                                                                | Why                                                                                                                                             |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `import type` for type-only imports                                 | `verbatimModuleSyntax`                                                                                                                          |
+| No `enum`, `namespace` or constructor parameter properties          | `erasableSyntaxOnly`                                                                                                                            |
+| No unused locals or parameters                                      | `noUnusedLocals`, `noUnusedParameters`                                                                                                          |
+| No Node globals (`process`, `Buffer`, `node:*`)                     | `types: []`. Consumers may be browser-only                                                                                                      |
+| No `next/*` imports                                                 | Must work in any React framework. Take a `linkComponent` prop instead (see `DataTableLinkComponent` in `components/dentil/data-table/types.ts`) |
+| `'use client'` at the top of any file with hooks, state or handlers | Next.js RSC consumers                                                                                                                           |
+| React 19 APIs are fine                                              | It's a stated requirement                                                                                                                       |
 
 Imports:
 
@@ -42,10 +42,10 @@ The same source has to work on Radix styles (`new-york`, `radix-*`) and Base UI 
 
 - Use `asChild` only on a stock primitive whose child is a literal JSX element. For `base-*` the CLI rewrites `<X asChild><Child /></X>` into Base UI's `render` prop, but given `{children}` it just deletes `asChild`. It rewrites any element, so never name a prop of your own `asChild` (`TableContextMenu` uses `childAsTrigger`).
 - Put a menu label (`DropdownMenuLabel`, `ContextMenuLabel`) inside its `…Group`. Base UI throws otherwise.
-- Don't depend on Radix-only props such as `onInteractOutside`, `onEscapeKeyDown` or `onSelect`'s `preventDefault()`. Base UI ignores them and passes a close `reason` to `onOpenChange` instead (see `useDismissal` in `components/sheets/shell.tsx`).
+- Don't depend on Radix-only props such as `onInteractOutside`, `onEscapeKeyDown` or `onSelect`'s `preventDefault()`. Base UI ignores them and passes a close `reason` to `onOpenChange` instead (see `useDismissal` in `components/dentil/sheets/shell.tsx`).
 - Style state with both attribute forms (`data-[state=checked]:` and `data-checked:`), and don't use `--radix-*` CSS variables.
 
-Files the consumer is expected to edit (like `components/modals/registry.tsx`) get a short header comment saying what to add and where. Keep their extension point to one line, as the `modalLoaders` map does.
+Files the consumer is expected to edit (like `components/dentil/modals/registry.tsx`) get a short header comment saying what to add and where. Keep their extension point to one line, as the `modalLoaders` map does.
 
 Anything inside the item's folder ships. Example content such as `modals/contents/confirm.tsx` and `sheets/contents/edit-details.tsx` must be genuinely useful to a consumer, not demo-only scaffolding. Demo-only code goes in `components/demos/` or `lib/demo/`.
 
@@ -73,7 +73,7 @@ List every shadcn primitive the item imports in `registryDependencies`. Missing 
 
 ## 3. Strict typecheck
 
-Add `components/<item>/**/*.ts` and `components/<item>/**/*.tsx` to `include` in `tsconfig.registry.json`. Without this, the portability rules above aren't enforced.
+Add `components/dentil/<item>/**/*.ts` and `components/dentil/<item>/**/*.tsx` to `include` in `tsconfig.registry.json`. Without this, the portability rules above aren't enforced.
 
 ## 4. Listings
 

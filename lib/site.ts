@@ -84,10 +84,11 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
-    href: '/docs/select-search',
-    title: 'Select Search',
-    description: 'Searchable single-select combobox built on Popover and Command.',
-    items: ['@dentil/select-search'],
+    href: '/docs/address-input',
+    title: 'Address Input',
+    description:
+      'Postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country.',
+    items: ['@dentil/address-input'],
     group: 'Form inputs',
   },
   {
@@ -99,26 +100,19 @@ export const docs: DocsEntry[] = [
     group: 'Form inputs',
   },
   {
+    href: '/docs/color-picker',
+    title: 'Color Picker',
+    description:
+      'Hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker.',
+    items: ['@dentil/color-picker'],
+    group: 'Form inputs',
+  },
+  {
     href: '/docs/country-select',
     title: 'Country Select',
     description:
       'Searchable country picker with ISO 3166-1 codes, localized names from Intl.DisplayNames, preferred countries listed first, and optional flags.',
     items: ['@dentil/country-select'],
-    group: 'Form inputs',
-  },
-  {
-    href: '/docs/address-input',
-    title: 'Address Input',
-    description:
-      'Postal address fields that start from a country, with state lists for the US, Canada and Australia and your own lists for any other country.',
-    items: ['@dentil/address-input'],
-    group: 'Form inputs',
-  },
-  {
-    href: '/docs/phone-input',
-    title: 'Phone Input',
-    description: 'International phone number input with a flag country picker that returns E.164 numbers.',
-    items: ['@dentil/phone-input'],
     group: 'Form inputs',
   },
   {
@@ -137,18 +131,24 @@ export const docs: DocsEntry[] = [
     group: 'Form inputs',
   },
   {
+    href: '/docs/phone-input',
+    title: 'Phone Input',
+    description: 'International phone number input with a flag country picker that returns E.164 numbers.',
+    items: ['@dentil/phone-input'],
+    group: 'Form inputs',
+  },
+  {
+    href: '/docs/select-search',
+    title: 'Select Search',
+    description: 'Searchable single-select combobox built on Popover and Command.',
+    items: ['@dentil/select-search'],
+    group: 'Form inputs',
+  },
+  {
     href: '/docs/switch-label',
     title: 'Switch Label',
     description: 'Labeled switch with an optional description aligned to the control or the label text.',
     items: ['@dentil/switch-label'],
-    group: 'Form inputs',
-  },
-  {
-    href: '/docs/color-picker',
-    title: 'Color Picker',
-    description:
-      'Hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker.',
-    items: ['@dentil/color-picker'],
     group: 'Form inputs',
   },
 ];

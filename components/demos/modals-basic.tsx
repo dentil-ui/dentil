@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { useModal } from '@/components/modals';
+import { useModal } from '@/components/dentil/modals';
 import { Button } from '@/components/ui/button';
 
 export function ModalsBasicDemo() {

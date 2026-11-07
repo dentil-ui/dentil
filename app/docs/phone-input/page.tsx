@@ -62,8 +62,8 @@ export default function PhoneInputPage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/phone-input']} />
         <P>
-          Files land in <C>components/phone-input/</C>. Wraps <C>react-phone-number-input</C> with the stock shadcn{' '}
-          <C>input</C> and a flag country picker.
+          Files land in <C>components/dentil/phone-input/</C>. Wraps <C>react-phone-number-input</C> with the stock
+          shadcn <C>input</C> and a flag country picker.
         </P>
       </Section>
 

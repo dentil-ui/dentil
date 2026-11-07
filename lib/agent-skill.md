@@ -55,7 +55,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 }
 ```
 
-The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/<item>/`, e.g. `components/modals/`, `components/data-table/` or `components/date-picker/`.
+The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/dentil/<item>/`, e.g. `components/dentil/modals/`, `components/dentil/data-table/` or `components/dentil/date-picker/`.
 
 The date display, date picker, object timeline, invoice table and form inputs need no provider, so skip step 3 if those are all the user wants.
 
@@ -64,8 +64,8 @@ The date display, date picker, object timeline, invoice table and form inputs ne
 In the root layout (`app/layout.tsx` in Next.js, or the app's root component). The providers are client components, so a server layout can render them. Put `SheetProvider` inside `ModalProvider` so sheets can open modals.
 
 ```tsx
-import { ModalProvider } from '@/components/modals';
-import { SheetProvider } from '@/components/sheets';
+import { ModalProvider } from '@/components/dentil/modals';
+import { SheetProvider } from '@/components/dentil/sheets';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -89,7 +89,7 @@ For the data table, wrap the app once in `DataTableRouter` so row links and pref
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { DataTableRouter } from '@/components/data-table/router';
+import { DataTableRouter } from '@/components/dentil/data-table/router';
 
 export function TableRouter({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -101,7 +101,7 @@ export function TableRouter({ children }: { children: React.ReactNode }) {
 }
 ```
 
-For React Router, adapt its `Link` once with `DataTableLinkProps` from `@/components/data-table/types`: `const RouterLink = ({ href, ...props }: DataTableLinkProps) => <Link to={href} {...props} />`, then pass `linkComponent={RouterLink} onNavigate={useNavigate()}`.
+For React Router, adapt its `Link` once with `DataTableLinkProps` from `@/components/dentil/data-table/types`: `const RouterLink = ({ href, ...props }: DataTableLinkProps) => <Link to={href} {...props} />`, then pass `linkComponent={RouterLink} onNavigate={useNavigate()}`.
 
 ## 4. Use them
 
@@ -125,7 +125,7 @@ if (confirmed) toast('Webhook deleted');
 To add a modal, write a content file and register it with one line:
 
 ```tsx
-// components/modals/contents/rename.tsx
+// components/dentil/modals/contents/rename.tsx
 'use client';
 
 import { useState } from 'react';
@@ -163,7 +163,7 @@ export default function RenameModal({ name: initial, close }: RenameModalProps) 
 ```
 
 ```tsx
-// components/modals/registry.tsx
+// components/dentil/modals/registry.tsx
 const modalLoaders = {
   confirm: () => import('./contents/confirm'),
   rename: () => import('./contents/rename'),
@@ -175,7 +175,7 @@ const result = await openModal('rename', { name: 'Acme' }, { size: 'md' }); // {
 
 ### Sheets
 
-Sheets work the same way, with `useSheet`, `openSheet`, `SheetContentProps<TReturn>`, `components/sheets/contents/` and `components/sheets/registry.tsx`. An `edit-details` sheet ships as a starting point.
+Sheets work the same way, with `useSheet`, `openSheet`, `SheetContentProps<TReturn>`, `components/dentil/sheets/contents/` and `components/dentil/sheets/registry.tsx`. An `edit-details` sheet ships as a starting point.
 
 ```tsx
 const { openSheet } = useSheet();
@@ -200,9 +200,9 @@ The table doesn't fetch. It reads and writes one `query` object; send it to the 
 import { createColumnHelper } from '@tanstack/react-table';
 import { useState } from 'react';
 
-import { DataTable } from '@/components/data-table/data-table';
-import { DateCell } from '@/components/data-table/date-cell';
-import type { TableQuery } from '@/components/data-table/types';
+import { DataTable } from '@/components/dentil/data-table/data-table';
+import { DateCell } from '@/components/dentil/data-table/date-cell';
+import type { TableQuery } from '@/components/dentil/data-table/types';
 
 type Customer = { id: string; name: string; email: string; created: number };
 
@@ -239,15 +239,15 @@ export function CustomersTable() {
 }
 ```
 
-The table writes `offset` (zero-based page), `sort` (`'ascending' | 'descending'`), `sort_field` (a value from `sortableColumns`), and tab and filter values keyed by id. For a cursor-paginated API, pass `nextCursor` and `previousCursor` from the response instead of `hasMore`: Next writes `after: nextCursor` and Previous writes `before: previousCursor`, and `null` disables the button. Any change except paging resets the page (`offset`, `after`, `before`). Other props: `tabs`, `showDisplay`, `toolbar`, `toolbarActions`, `contextMenuActions`, `splitView`, `expandable` (`{ component: (row) => ReactNode, canExpand?, trigger? }`, a chevron column at the end of the row that opens a full-width panel under it; `trigger: 'row'` makes the whole row toggle it instead of linking), `enableSelection` with `selectionActions`, and `emptyState`. See {{SITE_URL}}/docs/data-table#api.
+The table writes `offset` (zero-based page), `sort` (`'ascending' | 'descending'`), `sort_field` (a value from `sortableColumns`), and tab and filter values keyed by id. For a cursor-paginated API, pass `nextCursor` and `previousCursor` from the response instead of `hasMore`: Next writes `after: nextCursor` and Previous writes `before: previousCursor`, and `null` disables the button. Any change except paging resets the page (`offset`, `after`, `before`). Other props: `tabs`, `showDisplay`, `toolbar`, `toolbarActions`, `contextMenuActions`, `splitView`, `expandable` (`{ component: (row) => ReactNode, canExpand?, trigger? }`, a chevron column at the end of the row that opens a full-width panel under it; `trigger: 'row'` makes the whole row toggle it instead of linking), `enableSelection` with `selectionActions`, and `emptyState`. Column `meta` takes `align` (`'left' | 'center' | 'right'`), `verticalAlign` (`'top' | 'middle' | 'bottom'`, for cells beside a taller one), `minimize`, `itemAlign: 'center'` (for a checkbox or icon button) and `disableRowLink`. See {{SITE_URL}}/docs/data-table#api.
 
-- **Filters** (`@dentil/data-table-filter`): build columns with `createColumnConfigHelper<Row>()` from `@/components/data-table/filter`, for example `dtf.option().id('status').accessor((r) => r.status).displayName('Status').options([...]).build()`. Pass `<DataTableFilters data={data} filterColumns={filterColumns} query={query} setQuery={setQuery} />` from `@/components/data-table/filters` as the table's `toolbar`.
-- **URL state** (`@dentil/data-table-url-state`): replace `useState<TableQuery>` with `useTableQueryState({}, { urlState: true })` from `@/components/data-table/use-table-query-state`. In server-rendered Next.js pages, also pass `search: useSearchParams().toString()`.
+- **Filters** (`@dentil/data-table-filter`): build columns with `createColumnConfigHelper<Row>()` from `@/components/dentil/data-table/filter`, for example `dtf.option().id('status').accessor((r) => r.status).displayName('Status').options([...]).build()`. Pass `<DataTableFilters data={data} filterColumns={filterColumns} query={query} setQuery={setQuery} />` from `@/components/dentil/data-table/filters` as the table's `toolbar`.
+- **URL state** (`@dentil/data-table-url-state`): replace `useState<TableQuery>` with `useTableQueryState({}, { urlState: true })` from `@/components/dentil/data-table/use-table-query-state`. In server-rendered Next.js pages, also pass `search: useSearchParams().toString()`.
 
 ### Date picker
 
 ```tsx
-import { DateRangePicker, SingleDatePicker } from '@/components/date-picker/date-picker';
+import { DateRangePicker, SingleDatePicker } from '@/components/dentil/date-picker/date-picker';
 
 const [due, setDue] = useState<Date>();
 <SingleDatePicker value={due} onChange={setDue} minDate={new Date()} showShortcuts />;
@@ -262,8 +262,8 @@ Range ends move to the end of their day unless `endOfDay={false}`. `showApplyBut
 ### Date
 
 ```tsx
-import { Date } from '@/components/date/date';
-import { formatDate } from '@/components/date/format';
+import { Date } from '@/components/dentil/date/date';
+import { formatDate } from '@/components/dentil/date/format';
 
 const created = 1_794_042_840; // unix seconds; milliseconds, ISO strings and Date also work
 
@@ -280,7 +280,7 @@ The year is omitted in the current year unless `showYear` is set. `showTimezone`
 ```tsx
 import { CreditCard, Mail } from 'lucide-react';
 
-import { ObjectTimeline } from '@/components/object-timeline/object-timeline';
+import { ObjectTimeline } from '@/components/dentil/object-timeline/object-timeline';
 
 <ObjectTimeline
   items={[
@@ -310,7 +310,7 @@ import { ObjectTimeline } from '@/components/object-timeline/object-timeline';
 The table doesn't fetch or calculate totals. Map the project's invoice onto `lines` and `totals`. Every amount is in minor units.
 
 ```tsx
-import { InvoiceTable } from '@/components/invoice-table/invoice-table';
+import { InvoiceTable } from '@/components/dentil/invoice-table/invoice-table';
 
 <InvoiceTable
   currency="USD"
@@ -334,7 +334,7 @@ Optional columns (`quantity`, `unitAmount`, `taxRate`, `tax`) show when any line
 
 ### Form inputs
 
-Import them from `@/components/<item>/<item>`. The text fields are controlled with `value` and `onChange`. `SwitchLabel` uses `checked` and `onCheckedChange`.
+Import them from `@/components/dentil/<item>/<item>`. The text fields are controlled with `value` and `onChange`. `SwitchLabel` uses `checked` and `onCheckedChange`.
 
 - `SelectSearch`: `options={[{ label, value, icon, description }]}`. `icon` is a component (a Lucide icon) or a React node, shown before the label. `description` is muted text in the list, and search matches it. `onChange` gets `''` when the selected option is picked again. `groups` splits the list, with a separator that hides while searching. `renderValue` replaces the trigger content.
 - `AsyncSelect`: `fetcher(query, signal)` returns the options. `value` is the selected id and `onChange` receives the option or `null`. Pass the stored option as `defaultOption` so its label shows before the list loads. `preload` loads once and filters locally. Picking the selected option again clears it, unless `clearable={false}`.

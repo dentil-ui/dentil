@@ -22,7 +22,7 @@ const sections = [
 const USAGE = `
 import { CreditCard, Mail } from 'lucide-react';
 
-import { ObjectTimeline } from '@/components/object-timeline/object-timeline';
+import { ObjectTimeline } from '@/components/dentil/object-timeline/object-timeline';
 
 <ObjectTimeline
   items={[
@@ -116,8 +116,8 @@ export default function ObjectTimelinePage() {
       <Section id="installation" title="Installation">
         <InstallCommand items={['@dentil/object-timeline']} />
         <P>
-          Files land in <C>components/object-timeline/</C>. It has no stock shadcn dependencies. Pass any icon component
-          that accepts <C>className</C> and <C>size</C>, such as one from <C>lucide-react</C>.
+          Files land in <C>components/dentil/object-timeline/</C>. It has no stock shadcn dependencies. Pass any icon
+          component that accepts <C>className</C> and <C>size</C>, such as one from <C>lucide-react</C>.
         </P>
       </Section>
 

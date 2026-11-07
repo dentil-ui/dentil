@@ -3,7 +3,7 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
 
-import { DateRangePicker } from '@/components/date-picker/date-picker';
+import { DateRangePicker } from '@/components/dentil/date-picker/date-picker';
 
 export function DatePickerOverviewDemo() {
   const [period, setPeriod] = useState<{ start: Date | undefined; end: Date | undefined }>();

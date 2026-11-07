@@ -3,7 +3,7 @@
 import { addDays, format } from 'date-fns';
 import { useState } from 'react';
 
-import { SingleDatePicker } from '@/components/date-picker/date-picker';
+import { SingleDatePicker } from '@/components/dentil/date-picker/date-picker';
 
 export function DatePickerSingleDemo() {
   const [dueDate, setDueDate] = useState<Date>();

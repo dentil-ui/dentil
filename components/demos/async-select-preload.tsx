@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AsyncSelect } from '@/components/async-select/async-select';
+import { AsyncSelect } from '@/components/dentil/async-select/async-select';
 
 type Account = { id: string; name: string; added?: boolean };
 
