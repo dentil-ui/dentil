@@ -124,6 +124,32 @@ const registry = {
       files: folder('date-picker'),
     },
     {
+      name: 'date',
+      type: 'registry:component',
+      title: 'Date',
+      description:
+        'Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.',
+      registryDependencies: ['popover'],
+      files: folder('date'),
+    },
+    {
+      name: 'object-timeline',
+      type: 'registry:component',
+      title: 'Object Timeline',
+      description: 'Vertical event list with an icon, title, description, date and an optional action on the title.',
+      files: folder('object-timeline'),
+    },
+    {
+      name: 'invoice-table',
+      type: 'registry:component',
+      title: 'Invoice Table',
+      description:
+        'Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+      dependencies: ['lucide-react'],
+      registryDependencies: ['table', '@dentil/currency-input'],
+      files: folder('invoice-table'),
+    },
+    {
       name: 'select-search',
       type: 'registry:component',
       title: 'Select Search',
@@ -131,6 +157,16 @@ const registry = {
       dependencies: ['lucide-react'],
       registryDependencies: ['button', 'command', 'popover'],
       files: folder('select-search'),
+    },
+    {
+      name: 'async-select',
+      type: 'registry:component',
+      title: 'Async Select',
+      description:
+        'Searchable single-select combobox that loads options from an async fetcher, with debounced search, preloading and custom option rendering.',
+      dependencies: ['lucide-react'],
+      registryDependencies: ['button', 'command', 'popover'],
+      files: folder('async-select'),
     },
     {
       name: 'country-select',
@@ -165,9 +201,9 @@ const registry = {
       type: 'registry:component',
       title: 'Currency Input',
       description:
-        'Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl.',
-      dependencies: ['react-number-format@^5.4.5'],
-      registryDependencies: ['input-group'],
+        'Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl and an optional searchable currency picker.',
+      dependencies: ['lucide-react', 'react-number-format@^5.4.5'],
+      registryDependencies: ['input-group', '@dentil/select-search'],
       files: folder('currency-input'),
     },
     {
@@ -178,6 +214,24 @@ const registry = {
       dependencies: ['react-number-format@^5.4.5'],
       registryDependencies: ['input-group'],
       files: folder('dob-input'),
+    },
+    {
+      name: 'switch-label',
+      type: 'registry:component',
+      title: 'Switch Label',
+      description: 'Labeled switch with an optional description aligned to the control or the label text.',
+      registryDependencies: ['switch', 'label'],
+      files: folder('switch-label'),
+    },
+    {
+      name: 'color-picker',
+      type: 'registry:component',
+      title: 'Color Picker',
+      description:
+        'Hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker.',
+      dependencies: ['react-colorful@^5.8.1'],
+      registryDependencies: ['button', 'input-group', 'popover'],
+      files: folder('color-picker'),
     },
   ],
 };

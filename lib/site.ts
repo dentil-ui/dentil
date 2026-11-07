@@ -61,10 +61,41 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
+    href: '/docs/date',
+    title: 'Date',
+    description:
+      'Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.',
+    items: ['@dentil/date'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/object-timeline',
+    title: 'Object Timeline',
+    description: 'Vertical event list with an icon, title, description, date and an optional action on the title.',
+    items: ['@dentil/object-timeline'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/invoice-table',
+    title: 'Invoice Table',
+    description:
+      'Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+    items: ['@dentil/invoice-table'],
+    group: 'Components',
+  },
+  {
     href: '/docs/select-search',
     title: 'Select Search',
     description: 'Searchable single-select combobox built on Popover and Command.',
     items: ['@dentil/select-search'],
+    group: 'Form inputs',
+  },
+  {
+    href: '/docs/async-select',
+    title: 'Async Select',
+    description:
+      'Searchable single-select combobox that loads options from an async fetcher, with debounced search, preloading and custom option rendering.',
+    items: ['@dentil/async-select'],
     group: 'Form inputs',
   },
   {
@@ -94,7 +125,7 @@ export const docs: DocsEntry[] = [
     href: '/docs/currency-input',
     title: 'Currency Input',
     description:
-      'Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl.',
+      'Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl and an optional searchable currency picker.',
     items: ['@dentil/currency-input'],
     group: 'Form inputs',
   },
@@ -103,6 +134,21 @@ export const docs: DocsEntry[] = [
     title: 'Date of Birth Input',
     description: 'DD / MM / YYYY date of birth fields that auto-advance and only emit real dates.',
     items: ['@dentil/dob-input'],
+    group: 'Form inputs',
+  },
+  {
+    href: '/docs/switch-label',
+    title: 'Switch Label',
+    description: 'Labeled switch with an optional description aligned to the control or the label text.',
+    items: ['@dentil/switch-label'],
+    group: 'Form inputs',
+  },
+  {
+    href: '/docs/color-picker',
+    title: 'Color Picker',
+    description:
+      'Hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker.',
+    items: ['@dentil/color-picker'],
     group: 'Form inputs',
   },
 ];

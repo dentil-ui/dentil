@@ -19,9 +19,9 @@ const sections = [
 const rows: PropRow[] = [
   {
     name: 'options',
-    type: '{ label: string; value: string; keywords?: string[]; icon?: ReactNode }[]',
+    type: '{ label: string; value: string; keywords?: string[]; icon?: ReactNode | ComponentType; description?: string; labelClassName?: string }[]',
     description:
-      'Options to list. Search matches the value, the label and any keywords. icon is shown before the label.',
+      'Options to list. Search matches the value, the label, the description and any keywords. icon is a component, such as a Lucide icon, or any node, shown before the label. description is muted text after the label, in the list only. labelClassName sizes that label, such as a fixed-width code.',
   },
   { name: 'value', type: 'string | null | undefined', description: 'The selected option’s value.' },
   {
@@ -43,9 +43,25 @@ const rows: PropRow[] = [
   },
   {
     name: 'groups',
-    type: '{ label: string; value: string; keywords?: string[]; icon?: ReactNode }[][]',
+    type: 'SelectSearchOption[][]',
     description:
       'Renders these groups instead of one list, with a separator between them. The separator hides while searching, and a group hides when none of its options match. options is still used for the selected label.',
+  },
+  {
+    name: 'renderValue',
+    type: '(selected: SelectSearchOption | undefined) => ReactNode',
+    description: 'Trigger content in place of the selected option’s icon and label. The chevron stays.',
+  },
+  {
+    name: 'align',
+    type: "'start' | 'center' | 'end'",
+    default: "'start'",
+    description: 'Popover alignment against the trigger.',
+  },
+  {
+    name: 'contentClassName',
+    type: 'string',
+    description: 'Applied to the popover. It is at least as wide as the trigger; use a min-w-* class to widen it.',
   },
   {
     name: '…props',
@@ -67,7 +83,8 @@ export default function SelectSearchPage() {
       lead={
         <>
           <C>SelectSearch</C> is a controlled single-select combobox for lists too long to scroll. Search by city, or by
-          a keyword such as PST. Pick the selected option again to clear it.
+          a keyword such as PST. Pass an icon component to show it before the label. Pick the selected option again to
+          clear it.
         </>
       }
       demo={

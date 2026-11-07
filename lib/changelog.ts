@@ -11,6 +11,73 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-07',
+    title: 'Currency picker',
+    items: ['@dentil/currency-input', '@dentil/select-search'],
+    changes: [
+      '`@dentil/currency-input`: `onCurrencyChange` turns the currency code into a picker, and `currencies` limits its list. `searchable` opens it as a `SelectSearch` popover filtered by code or name. Switching to a currency with different decimal places keeps the amount on screen and emits it in the new minor units. Now depends on `lucide-react` and `@dentil/select-search`.',
+      '`@dentil/select-search`: an option `icon` can be a component, such as a Lucide icon, or any React node. It is shown before the label in the list and on the trigger.',
+      '`@dentil/select-search`: options take a `description`, shown muted in the list and matched by search. `renderValue` replaces the trigger content, and `align` and `contentClassName` position and size the popover.',
+      '`@dentil/currency-input`: in the searchable list, each currency code sits in a fixed-width column so the names line up.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Date popover hover and placement',
+    items: ['@dentil/date'],
+    changes: [
+      '`@dentil/date`: `hover` opens the time-zone popover on hover and keeps it open while the pointer is over the popover. `side` and `align` set where it opens.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Date',
+    items: ['@dentil/date'],
+    changes: [
+      '`@dentil/date`: `Date`, a compact date formatted in a time zone you supply, from unix seconds, milliseconds, an ISO string or a `Date`. `showTimezone` underlines the date and opens a popover with that zone and the UTC time. `formatDate` and `toDate` parse the same values.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Invoice table',
+    items: ['@dentil/invoice-table'],
+    changes: [
+      '`@dentil/invoice-table`: `InvoiceTable`, an invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Async select',
+    items: ['@dentil/async-select'],
+    changes: [
+      '`@dentil/async-select`: `AsyncSelect`, a searchable combobox that loads options from an async fetcher, with debounced search, preloading and custom option rendering.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Object timeline',
+    items: ['@dentil/object-timeline'],
+    changes: [
+      '`@dentil/object-timeline`: `ObjectTimeline`, a vertical event list with an icon, title, description, date and an optional action on the title.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Color picker',
+    items: ['@dentil/color-picker'],
+    changes: [
+      '`@dentil/color-picker`: `ColorPicker`, a hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker. With no valid hex, the picker opens on a random color.',
+    ],
+  },
+  {
+    date: '2026-11-07',
+    title: 'Switch label',
+    items: ['@dentil/switch-label'],
+    changes: [
+      '`@dentil/switch-label`: `SwitchLabel`, a switch with a clickable label and an optional description aligned to the control or the label text.',
+    ],
+  },
+  {
     date: '2026-11-06',
     title: 'Preferred countries and flags',
     items: ['@dentil/country-select', '@dentil/select-search'],

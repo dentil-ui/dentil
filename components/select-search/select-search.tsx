@@ -16,13 +16,20 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
+/** A Lucide-style icon component, or any node such as a flag or a currency symbol. */
+export type SelectSearchIcon = React.ReactNode | React.ComponentType<{ className?: string }>;
+
 export interface SelectSearchOption {
   label: string;
   value: string;
   /** Extra terms the search matches, on top of the label and value. */
   keywords?: string[];
   /** Shown before the label, in the list and on the trigger. */
-  icon?: React.ReactNode;
+  icon?: SelectSearchIcon;
+  /** Muted text after the label, in the list only. Search matches it. */
+  description?: string;
+  /** Classes for the label. With a description, the label stays a fixed column. */
+  labelClassName?: string;
 }
 
 export type SelectSearchFilter = (value: string, search: string, keywords?: string[]) => number;
@@ -45,6 +52,39 @@ export interface SelectSearchProps extends Omit<
    * `options` is still used for the selected label.
    */
   groups?: SelectSearchOption[][];
+  /** Trigger content in place of the selected option's icon and label. */
+  renderValue?: (selected: SelectSearchOption | undefined) => React.ReactNode;
+  /** Popover alignment against the trigger. */
+  align?: 'start' | 'center' | 'end';
+  contentClassName?: string;
+}
+
+function isIconComponent(icon: SelectSearchIcon): icon is React.ComponentType<{ className?: string }> {
+  if (typeof icon === 'function') return true;
+  return typeof icon === 'object' && icon !== null && !React.isValidElement(icon) && '$$typeof' in icon;
+}
+
+function OptionIcon({ icon }: { icon: SelectSearchIcon }) {
+  if (icon == null || typeof icon === 'boolean') return null;
+  if (isIconComponent(icon)) {
+    const Icon = icon;
+    return (
+      <span aria-hidden="true" className="text-muted-foreground flex shrink-0 items-center">
+        <Icon className="size-4" />
+      </span>
+    );
+  }
+  const text = typeof icon === 'string' || typeof icon === 'number';
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "text-muted-foreground flex shrink-0 items-center [&_svg:not([class*='size-'])]:size-4",
+        text && 'min-w-6 justify-center'
+      )}>
+      {icon}
+    </span>
+  );
 }
 
 const defaultFilter: SelectSearchFilter = (value, search, keywords) => {
@@ -63,6 +103,9 @@ export function SelectSearch({
   emptyText = 'No results.',
   filter = defaultFilter,
   groups,
+  renderValue,
+  align = 'start',
+  contentClassName,
   disabled = false,
   className,
   ...props
@@ -79,13 +122,20 @@ export function SelectSearch({
     <CommandItem
       key={option.value}
       value={option.value}
-      keywords={[option.label, ...(option.keywords ?? [])]}
+      keywords={[option.label, ...(option.description ? [option.description] : []), ...(option.keywords ?? [])]}
       onSelect={(current) => {
         onChange(current === value ? '' : current);
         setOpen(false);
       }}>
-      {option.icon}
-      <span className="truncate">{option.label}</span>
+      {option.icon != null && <OptionIcon icon={option.icon} />}
+      {option.description ? (
+        <>
+          <span className={cn('shrink-0', option.labelClassName)}>{option.label}</span>
+          <span className="text-muted-foreground min-w-0 truncate">{option.description}</span>
+        </>
+      ) : (
+        <span className={cn('min-w-0 truncate', option.labelClassName)}>{option.label}</span>
+      )}
       <CheckIcon
         className={cn('ml-auto size-4', option.value === value ? 'opacity-100' : 'opacity-0')}
         aria-hidden="true"
@@ -111,14 +161,18 @@ export function SelectSearch({
           data-slot="select-search"
           className={cn('w-full justify-between px-3 font-normal', className)}
           {...props}>
-          <span className={cn('flex min-w-0 items-center gap-2', !selected && 'text-muted-foreground')}>
-            {selected?.icon}
-            <span className="truncate">{selected ? selected.label : placeholder}</span>
-          </span>
+          {renderValue ? (
+            renderValue(selected)
+          ) : (
+            <span className={cn('flex min-w-0 items-center gap-2', !selected && 'text-muted-foreground')}>
+              {selected?.icon != null && <OptionIcon icon={selected.icon} />}
+              <span className="min-w-0 truncate">{selected ? selected.label : placeholder}</span>
+            </span>
+          )}
           <ChevronDownIcon className="text-muted-foreground size-4 shrink-0" aria-hidden="true" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="min-w-48 p-0" style={{ width }} align="start">
+      <PopoverContent className={cn('min-w-48 p-0', contentClassName)} style={{ width }} align={align}>
         <Command filter={filter}>
           <CommandInput placeholder={searchPlaceholder} />
           <CommandList>

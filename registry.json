@@ -382,6 +382,60 @@
       ]
     },
     {
+      "name": "date",
+      "type": "registry:component",
+      "title": "Date",
+      "description": "Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.",
+      "registryDependencies": [
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "components/date/date.tsx",
+          "type": "registry:component",
+          "target": "components/date/date.tsx"
+        },
+        {
+          "path": "components/date/format.ts",
+          "type": "registry:lib",
+          "target": "components/date/format.ts"
+        }
+      ]
+    },
+    {
+      "name": "object-timeline",
+      "type": "registry:component",
+      "title": "Object Timeline",
+      "description": "Vertical event list with an icon, title, description, date and an optional action on the title.",
+      "files": [
+        {
+          "path": "components/object-timeline/object-timeline.tsx",
+          "type": "registry:component",
+          "target": "components/object-timeline/object-timeline.tsx"
+        }
+      ]
+    },
+    {
+      "name": "invoice-table",
+      "type": "registry:component",
+      "title": "Invoice Table",
+      "description": "Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "table",
+        "@dentil/currency-input"
+      ],
+      "files": [
+        {
+          "path": "components/invoice-table/invoice-table.tsx",
+          "type": "registry:component",
+          "target": "components/invoice-table/invoice-table.tsx"
+        }
+      ]
+    },
+    {
       "name": "select-search",
       "type": "registry:component",
       "title": "Select Search",
@@ -399,6 +453,27 @@
           "path": "components/select-search/select-search.tsx",
           "type": "registry:component",
           "target": "components/select-search/select-search.tsx"
+        }
+      ]
+    },
+    {
+      "name": "async-select",
+      "type": "registry:component",
+      "title": "Async Select",
+      "description": "Searchable single-select combobox that loads options from an async fetcher, with debounced search, preloading and custom option rendering.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button",
+        "command",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "components/async-select/async-select.tsx",
+          "type": "registry:component",
+          "target": "components/async-select/async-select.tsx"
         }
       ]
     },
@@ -473,12 +548,14 @@
       "name": "currency-input",
       "type": "registry:component",
       "title": "Currency Input",
-      "description": "Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl.",
+      "description": "Money input that reads and writes minor units, with the currency symbol and decimal places taken from Intl and an optional searchable currency picker.",
       "dependencies": [
+        "lucide-react",
         "react-number-format@^5.4.5"
       ],
       "registryDependencies": [
-        "input-group"
+        "input-group",
+        "@dentil/select-search"
       ],
       "files": [
         {
@@ -504,6 +581,44 @@
           "path": "components/dob-input/dob-input.tsx",
           "type": "registry:component",
           "target": "components/dob-input/dob-input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "switch-label",
+      "type": "registry:component",
+      "title": "Switch Label",
+      "description": "Labeled switch with an optional description aligned to the control or the label text.",
+      "registryDependencies": [
+        "switch",
+        "label"
+      ],
+      "files": [
+        {
+          "path": "components/switch-label/switch-label.tsx",
+          "type": "registry:component",
+          "target": "components/switch-label/switch-label.tsx"
+        }
+      ]
+    },
+    {
+      "name": "color-picker",
+      "type": "registry:component",
+      "title": "Color Picker",
+      "description": "Hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker.",
+      "dependencies": [
+        "react-colorful@^5.8.1"
+      ],
+      "registryDependencies": [
+        "button",
+        "input-group",
+        "popover"
+      ],
+      "files": [
+        {
+          "path": "components/color-picker/color-picker.tsx",
+          "type": "registry:component",
+          "target": "components/color-picker/color-picker.tsx"
         }
       ]
     }

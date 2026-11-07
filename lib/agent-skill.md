@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date picker and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date or date range picker, or country, address, phone, currency or date of birth inputs.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, an invoice line items table with totals or credit note allocation, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
 ---
 
 # dentil
@@ -15,12 +15,18 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/modals`               | Typed modal registry: `await openModal(key, props)`, lazy contents, stacking                             | {{SITE_URL}}/docs/modals               |
 | `@dentil/sheets`               | Typed side-sheet registry with stacking, minimize-to-dock and drafts                                     | {{SITE_URL}}/docs/sheets               |
 | `@dentil/date-picker`          | Single-date and range picker with presets, shortcuts, billing cycles and an Apply step                   | {{SITE_URL}}/docs/date-picker          |
+| `@dentil/date`                 | Compact date formatted in a time zone you supply, from unix, ISO or Date                                 | {{SITE_URL}}/docs/date                 |
+| `@dentil/object-timeline`      | Vertical event list with an icon, title, description, date and an optional action                        | {{SITE_URL}}/docs/object-timeline      |
+| `@dentil/invoice-table`        | Invoice line items with a totals footer and an optional per-line allocation column                       | {{SITE_URL}}/docs/invoice-table        |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
+| `@dentil/async-select`         | Async combobox that loads options as you type, with preload and custom rendering                         | {{SITE_URL}}/docs/async-select         |
 | `@dentil/country-select`       | Searchable country picker (ISO codes, localized names, optional flags)                                   | {{SITE_URL}}/docs/country-select       |
 | `@dentil/address-input`        | Postal address fields with US, CA and AU state lists                                                     | {{SITE_URL}}/docs/address-input        |
 | `@dentil/phone-input`          | International phone input that returns E.164 numbers                                                     | {{SITE_URL}}/docs/phone-input          |
 | `@dentil/currency-input`       | Money input in minor units                                                                               | {{SITE_URL}}/docs/currency-input       |
 | `@dentil/dob-input`            | DD / MM / YYYY date of birth fields                                                                      | {{SITE_URL}}/docs/dob-input            |
+| `@dentil/switch-label`         | Labeled switch with an optional description                                                              | {{SITE_URL}}/docs/switch-label         |
+| `@dentil/color-picker`         | Hex color input with a saturation and hue picker                                                         | {{SITE_URL}}/docs/color-picker         |
 
 Install only what the user needs. If it's unclear which items they want, ask.
 
@@ -51,7 +57,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/<item>/`, e.g. `components/modals/`, `components/data-table/` or `components/date-picker/`.
 
-The date picker and form inputs need no provider, so skip step 3 if those are all the user wants.
+The date display, date picker, object timeline, invoice table and form inputs need no provider, so skip step 3 if those are all the user wants.
 
 ## 3. Mount the providers once
 
@@ -253,16 +259,92 @@ const [period, setPeriod] = useState<{ start: number | undefined; end: number | 
 
 Range ends move to the end of their day unless `endOfDay={false}`. `showApplyButton` holds the selection until Apply. `cycleConfig={{ startDate, durationMonths }}` adds billing-cycle end dates beside the single-date calendar. See {{SITE_URL}}/docs/date-picker#api.
 
+### Date
+
+```tsx
+import { Date } from '@/components/date/date';
+import { formatDate } from '@/components/date/format';
+
+const created = 1_794_042_840; // unix seconds; milliseconds, ISO strings and Date also work
+
+<Date date={created} timezone="Europe/London" />;
+<Date date={created} timezone="America/New_York" showTimezone hover side="top" align="end" />;
+
+formatDate(created, { timezone: 'Europe/London', showTime: false });
+```
+
+The year is omitted in the current year unless `showYear` is set. `showTimezone` underlines the date and opens a popover with that zone and the UTC time. `hover` opens it on hover and keeps it open while the pointer is over the popover. `side` (`'top' | 'right' | 'bottom' | 'left'`, default `'bottom'`) and `align` (`'start' | 'center' | 'end'`, default `'start'`) set where it opens. An unknown `timezone` is formatted as UTC. Omit `timezone` to use the runtime zone. `formatDate` and `toDate` are safe to call from a server component. See {{SITE_URL}}/docs/date#api.
+
+### Object timeline
+
+```tsx
+import { CreditCard, Mail } from 'lucide-react';
+
+import { ObjectTimeline } from '@/components/object-timeline/object-timeline';
+
+<ObjectTimeline
+  items={[
+    {
+      id: 'created',
+      icon: CreditCard,
+      title: 'Payment created from an invoice',
+      date: '7 Nov 2026, 09:14',
+    },
+    {
+      id: 'sent',
+      icon: Mail,
+      iconClassName: 'text-primary',
+      title: 'Receipt sent to ada@example.com',
+      description: 'Delivered',
+      date: '7 Nov 2026, 09:15',
+      onClick: () => openReceipt(),
+    },
+  ]}
+/>;
+```
+
+`onClick` turns the title into a button. Items without it stay plain text. `icon` is any component that takes `className` and `size`, such as a Lucide icon. See {{SITE_URL}}/docs/object-timeline#api.
+
+### Invoice table
+
+The table doesn't fetch or calculate totals. Map the project's invoice onto `lines` and `totals`. Every amount is in minor units.
+
+```tsx
+import { InvoiceTable } from '@/components/invoice-table/invoice-table';
+
+<InvoiceTable
+  currency="USD"
+  lines={invoice.items.map((item) => ({
+    id: item.id,
+    description: item.description,
+    quantity: item.quantity,
+    unitAmount: item.unit_amount,
+    taxRate: item.tax_percent,
+    amount: item.amount,
+  }))}
+  totals={[
+    { label: 'Subtotal', amount: invoice.subtotal },
+    { label: 'Tax', amount: invoice.tax },
+    { label: 'Amount due', amount: invoice.amount_due, variant: 'strong' },
+  ]}
+/>;
+```
+
+Optional columns (`quantity`, `unitAmount`, `taxRate`, `tax`) show when any line has a value, or pass `columns` to choose them. `unitAmount` also takes a decimal string in minor units (`'0.05'` is $0.0005), such as Stripe's `unit_amount_decimal`, for prices below one cent. `period: { start, end }` (unix seconds, ISO strings or `Date`s) adds a muted line under the description, such as "Dec 1 – 31, 2026", shown in UTC unless you pass `timezone`. Cells sit at the top of taller lines; pass `verticalAlign="middle"` to centre them, inputs included. `originalAmount` shows a struck-through price before `amount`, and `meta` renders beside the description. A total with `variant: 'entry'` puts its label on the left, for a credit note or part payment line, and `gap` adds space above a group. For credit notes and part payments, pass `allocation={{ values, onChange, max }}`: `values` is keyed by line id, and each line's input is capped at `max(line)`. `formatInvoiceAmount(amount, currency)` formats minor units for labels such as "Tax (10% on $100.00)". See {{SITE_URL}}/docs/invoice-table#api.
+
 ### Form inputs
 
-All are controlled (`value` and `onChange`) and import from `@/components/<item>/<item>`.
+Import them from `@/components/<item>/<item>`. The text fields are controlled with `value` and `onChange`. `SwitchLabel` uses `checked` and `onCheckedChange`.
 
-- `SelectSearch`: `options={[{ label, value, icon }]}`. `icon` is shown before the label. `onChange` gets `''` when the selected option is picked again. `groups` splits the list, with a separator that hides while searching.
+- `SelectSearch`: `options={[{ label, value, icon, description }]}`. `icon` is a component (a Lucide icon) or a React node, shown before the label. `description` is muted text in the list, and search matches it. `onChange` gets `''` when the selected option is picked again. `groups` splits the list, with a separator that hides while searching. `renderValue` replaces the trigger content.
+- `AsyncSelect`: `fetcher(query, signal)` returns the options. `value` is the selected id and `onChange` receives the option or `null`. Pass the stored option as `defaultOption` so its label shows before the list loads. `preload` loads once and filters locally. Picking the selected option again clears it, unless `clearable={false}`.
 - `CountrySelect`: `value` is an ISO 3166-1 alpha-2 code. `allowedCountries` limits the list, `preferredCountries` lists those codes first, `showFlags` draws a flag beside each country, `locale` names countries.
 - `AddressInput`: `value` is `{ line1, line2, city, state, postal_code, country }`, and `onChange` gets only the non-empty fields or `undefined`. `state` is a code (`'CA'`) for countries in `regions` and free text otherwise. Pass `regions={{ IN: { label: 'State', regions: [...] } }}` to add a list.
 - `PhoneInput`: `value` is E.164 (`'+447700900123'`), `onChange` gets `''` when cleared. Set `defaultCountry`.
-- `CurrencyInput`: `value` is in minor units (`1050` is £10.50 with `currency="GBP"`), `onChange` gets `undefined` when empty. Decimal places follow the currency (0 for JPY).
+- `CurrencyInput`: `value` is in minor units (`1050` is £10.50 with `currency="GBP"`), `onChange` gets `undefined` when empty. Decimal places follow the currency (0 for JPY). Pass `onCurrencyChange` to make the currency code a picker, `currencies` to limit its list, and `searchable` to open it as a `SelectSearch` popover filtered by code or name.
 - `DOBInput`: `value` is `{ day, month, year }`. `onChange` gets `undefined` until the three fields form a real date.
+- `ColorPicker`: `value` is a 6-digit hex without `#` (`'ed5656'`). `onChange` gets that hex on every change, including a partial value. Pass `aria-invalid` until it is six digits. With no valid hex, the picker opens on a random color.
+- `SwitchLabel`: a switch plus `label`, with an optional `description`. `alignDescription="label"` lines the description up with the text; the default `"switch"` lines it up with the control. Other props go to the stock `Switch` (`checked`, `onCheckedChange`, `disabled`, `size`).
 
 Pass `aria-invalid` when a field fails validation, and the stock destructive styles apply. `AddressInput` takes an `error` message instead.
 

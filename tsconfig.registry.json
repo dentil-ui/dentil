@@ -19,8 +19,16 @@
     "components/sheets/**/*.tsx",
     "components/date-picker/**/*.ts",
     "components/date-picker/**/*.tsx",
+    "components/date/**/*.ts",
+    "components/date/**/*.tsx",
+    "components/object-timeline/**/*.ts",
+    "components/object-timeline/**/*.tsx",
+    "components/invoice-table/**/*.ts",
+    "components/invoice-table/**/*.tsx",
     "components/select-search/**/*.ts",
     "components/select-search/**/*.tsx",
+    "components/async-select/**/*.ts",
+    "components/async-select/**/*.tsx",
     "components/country-select/**/*.ts",
     "components/country-select/**/*.tsx",
     "components/address-input/**/*.ts",
@@ -30,6 +38,10 @@
     "components/currency-input/**/*.ts",
     "components/currency-input/**/*.tsx",
     "components/dob-input/**/*.ts",
-    "components/dob-input/**/*.tsx"
+    "components/dob-input/**/*.tsx",
+    "components/color-picker/**/*.ts",
+    "components/color-picker/**/*.tsx",
+    "components/switch-label/**/*.ts",
+    "components/switch-label/**/*.tsx"
   ]
 }
