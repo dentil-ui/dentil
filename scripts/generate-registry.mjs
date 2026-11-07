@@ -129,7 +129,7 @@ const registry = {
       title: 'Date',
       description:
         'Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.',
-      registryDependencies: ['popover'],
+      registryDependencies: ['popover', 'hover-card'],
       files: folder('date'),
     },
     {
