@@ -296,6 +296,13 @@ const dataTableProps: PropRow[] = [
   { name: 'onTabChange', type: '(tab) => void', description: 'Called after a tab is selected.' },
   { name: 'showPagination', type: 'boolean', default: 'false', description: 'Previous/Next footer and ← → hotkeys.' },
   { name: 'showMore', type: 'string | null', description: '“Show more” link in the footer instead of pagination.' },
+  {
+    name: 'showBottomBorder',
+    type: 'boolean',
+    default: 'false',
+    description:
+      'Closing line under the last row when there is no pagination or “Show more” footer. Leave it off inside a bordered container.',
+  },
   { name: 'sortableColumns', type: 'Record<string, string>', description: 'Column id → API sort field.' },
   { name: 'contextMenuActions', type: 'Action[] | (row) => Action[]', description: 'Right-click menu per row.' },
   {

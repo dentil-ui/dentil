@@ -82,6 +82,11 @@ export interface DataTableProps<TData> {
   showPagination?: boolean;
   /** Render a "Show more" link to this URL in the footer (ignored when `showPagination`). */
   showMore?: string | null;
+  /**
+   * Closing hairline under the last row when there is no pagination or "Show more" footer.
+   * Leave this off when the table sits inside a bordered container.
+   */
+  showBottomBorder?: boolean;
 
   /** Make each row a link. Cells in `select`/`actions` columns, or with `meta.disableRowLink`, are excluded. */
   url?: (row: TData) => string | undefined;
@@ -155,6 +160,7 @@ function DataTableInner<TData>({
   onTabChange,
   showPagination = false,
   showMore = null,
+  showBottomBorder = false,
   url,
   onRowClick,
   linkComponent,
@@ -633,7 +639,7 @@ function DataTableInner<TData>({
                   ))}
               </div>
 
-              {data.length > 0 && !showPagination && !showMore && <div className="border-t" />}
+              {data.length > 0 && !showPagination && !showMore && showBottomBorder && <div className="border-t" />}
 
               {data.length > 0 && showMore && !showPagination && (
                 <div className="flex items-center justify-center border-t px-5 py-2.5">

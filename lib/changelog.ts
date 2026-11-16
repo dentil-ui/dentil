@@ -12,6 +12,14 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-16',
+    title: 'Data table bottom border',
+    items: ['@dentil/data-table'],
+    changes: [
+      'Breaking: `@dentil/data-table`: a table with no pagination or "Show more" footer no longer draws a line under the last row. Pass `showBottomBorder` to draw it.',
+    ],
+  },
+  {
+    date: '2026-11-16',
     title: 'Invoice table proration and plan changes',
     items: ['@dentil/invoice-table'],
     changes: [
