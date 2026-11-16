@@ -11,6 +11,30 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-16',
+    title: 'JSON Viewer',
+    items: ['@dentil/json-viewer'],
+    changes: [
+      '`@dentil/json-viewer`: `JsonViewer`, a collapsible JSON tree with `defaultExpandDepth`, `getHref` and `linkComponent` to link object IDs, and timestamps that show their date in a `timezone` and UTC on hover.',
+    ],
+  },
+  {
+    date: '2026-11-16',
+    title: 'Description list',
+    items: ['@dentil/description-list'],
+    changes: [
+      '`@dentil/description-list`: `Descriptions`, term and detail pairs in one or two columns built from an array, with links through your `linkComponent`, copy buttons, a "Show more" section and a vertical layout. The `DescriptionList`, `DescriptionTerm`, `DescriptionDetails`, `DescriptionListColumns` and `DescriptionCopyButton` primitives are exported for custom layouts.',
+    ],
+  },
+  {
+    date: '2026-11-16',
+    title: 'Link',
+    items: ['@dentil/link'],
+    changes: [
+      '`@dentil/link`: `Link`, a text link with a chevron that turns into an arrow on hover, an `external` variant that opens a new tab, and a `linkComponent` prop for `next/link` or your router.',
+    ],
+  },
+  {
     date: '2026-11-07',
     title: 'Install into components/dentil',
     items: ['@dentil/*'],

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
-export function CopyButton({ value, className }: { value: string; className?: string }) {
+export function CopyButton({ value, onCopy, className }: { value: string; onCopy?: () => void; className?: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <button
@@ -13,6 +13,7 @@ export function CopyButton({ value, className }: { value: string; className?: st
       aria-label={copied ? 'Copied' : 'Copy to clipboard'}
       onClick={async () => {
         await navigator.clipboard.writeText(value);
+        onCopy?.();
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}

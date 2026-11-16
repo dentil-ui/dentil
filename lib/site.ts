@@ -37,19 +37,11 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
-    href: '/docs/modals',
-    title: 'Modals',
+    href: '/docs/date',
+    title: 'Date',
     description:
-      'Promise-based modal registry. await openModal(key, props) for a typed result, with lazy-loaded contents and stacking.',
-    items: ['@dentil/modals'],
-    group: 'Components',
-  },
-  {
-    href: '/docs/sheets',
-    title: 'Sheets',
-    description:
-      'Promise-based side sheets with the same typed registry, plus stacking, minimize-to-dock and draft retention.',
-    items: ['@dentil/sheets'],
+      'Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.',
+    items: ['@dentil/date'],
     group: 'Components',
   },
   {
@@ -61,11 +53,43 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
-    href: '/docs/date',
-    title: 'Date',
+    href: '/docs/description-list',
+    title: 'Description List',
     description:
-      'Compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or Date, and can underline the date to open that zone beside UTC.',
-    items: ['@dentil/date'],
+      'Term and detail pairs in one or two columns, built from an array or composed by hand, with links, copy buttons, a "Show more" section and a vertical layout for narrow panels.',
+    items: ['@dentil/description-list'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/invoice-table',
+    title: 'Invoice Table',
+    description:
+      'Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+    items: ['@dentil/invoice-table'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/json-viewer',
+    title: 'JSON Viewer',
+    description:
+      'Collapsible JSON tree in your theme tokens, with object IDs rendered as links and the date behind unix timestamps on hover.',
+    items: ['@dentil/json-viewer'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/link',
+    title: 'Link',
+    description:
+      'Text link with a chevron that turns into an arrow on hover, an external variant that opens a new tab, and a linkComponent prop for your router.',
+    items: ['@dentil/link'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/modals',
+    title: 'Modals',
+    description:
+      'Promise-based modal registry. await openModal(key, props) for a typed result, with lazy-loaded contents and stacking.',
+    items: ['@dentil/modals'],
     group: 'Components',
   },
   {
@@ -76,11 +100,11 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
-    href: '/docs/invoice-table',
-    title: 'Invoice Table',
+    href: '/docs/sheets',
+    title: 'Sheets',
     description:
-      'Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
-    items: ['@dentil/invoice-table'],
+      'Promise-based side sheets with the same typed registry, plus stacking, minimize-to-dock and draft retention.',
+    items: ['@dentil/sheets'],
     group: 'Components',
   },
   {
@@ -153,8 +177,9 @@ export const docs: DocsEntry[] = [
   },
 ];
 
+/** A group's pages in alphabetical order, whatever their order in `docs`. */
 export function getDocsGroup(group: DocsGroup): DocsEntry[] {
-  return docs.filter((doc) => doc.group === group);
+  return docs.filter((doc) => doc.group === group).sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export function getDocsEntry(href: string): DocsEntry {

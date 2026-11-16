@@ -12,7 +12,9 @@ A [shadcn](https://ui.shadcn.com/docs/registry) registry of production dashboard
 | `@dentil/date-picker`          | `DatePicker`, `SingleDatePicker` and `DateRangePicker`: single-date and range picker with range presets, date shortcuts, billing cycles, min and max dates, an Apply step, and `Date` or unix timestamp values                                       |
 | `@dentil/date`                 | `Date`, a compact date formatted in a time zone you supply. Accepts unix seconds, milliseconds, ISO strings or `Date`. `showTimezone` underlines the date and opens that zone beside UTC, plus `formatDate` and `toDate`                             |
 | `@dentil/object-timeline`      | `ObjectTimeline`, a vertical event list with an icon, title, description, date and an optional action on the title                                                                                                                                   |
+| `@dentil/description-list`     | `Descriptions`, term and detail pairs in one or two columns built from an array, with links, copy buttons, a "Show more" section and a vertical layout, plus the `DescriptionList`, `DescriptionTerm` and `DescriptionDetails` primitives            |
 | `@dentil/invoice-table`        | `InvoiceTable`, an invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments, plus `formatInvoiceAmount` and `formatInvoicePeriod` |
+| `@dentil/json-viewer`          | `JsonViewer`, a collapsible JSON tree in your theme tokens, with object IDs rendered as links and the date behind unix timestamps on hover, plus `isTimestamp` and `parseTimestamp`                                                                  |
 | `@dentil/select-search`        | `SelectSearch`, a searchable single-select combobox built on Popover and Command                                                                                                                                                                     |
 | `@dentil/async-select`         | `AsyncSelect`, a searchable single-select combobox that loads options from an async fetcher, with debounced search, preloading and custom option rendering                                                                                           |
 | `@dentil/country-select`       | `CountrySelect`, a searchable country picker with ISO 3166-1 codes, localized names from `Intl.DisplayNames`, preferred countries listed first, and optional flags                                                                                   |
@@ -22,6 +24,7 @@ A [shadcn](https://ui.shadcn.com/docs/registry) registry of production dashboard
 | `@dentil/dob-input`            | `DOBInput`, DD / MM / YYYY date of birth fields that auto-advance and only emit real dates                                                                                                                                                           |
 | `@dentil/switch-label`         | `SwitchLabel`, a labeled switch with an optional description aligned to the control or the label text                                                                                                                                                |
 | `@dentil/color-picker`         | `ColorPicker`, a hex color input that reads and writes a 6-digit hex, with a swatch that opens a saturation and hue picker                                                                                                                           |
+| `@dentil/link`                 | `Link`, a text link with a chevron that turns into an arrow on hover, an external variant that opens a new tab, and a `linkComponent` prop for your router                                                                                           |
 
 ## Using the registry
 
@@ -49,7 +52,7 @@ Or add the namespace to your project's `components.json`:
 
 Files are written to `components/dentil/data-table/` (or `src/components/dentil/data-table/`). Requirements: React 19, Tailwind v4 and `@tanstack/react-table` v8. Any shadcn style works, whether it's built on Radix (`new-york`, `radix-*`) or Base UI (`base-*`).
 
-Docs and live demos are at [`/docs`](https://dentil.dev/docs), with a page per item: `/docs/data-table`, `/docs/modals`, `/docs/sheets`, `/docs/date-picker`, `/docs/date`, `/docs/object-timeline`, `/docs/invoice-table`, `/docs/select-search`, `/docs/async-select`, `/docs/country-select`, `/docs/address-input`, `/docs/phone-input`, `/docs/currency-input`, `/docs/dob-input`, `/docs/switch-label` and `/docs/color-picker`. The [changelog](https://dentil.dev/docs/changelog) lists what changed in each item. Agents can read [`/llms.txt`](https://dentil.dev/llms.txt) and [`/skill.md`](https://dentil.dev/skill.md).
+Docs and live demos are at [`/docs`](https://dentil.dev/docs), with a page per item: `/docs/data-table`, `/docs/modals`, `/docs/sheets`, `/docs/date-picker`, `/docs/date`, `/docs/object-timeline`, `/docs/description-list`, `/docs/invoice-table`, `/docs/json-viewer`, `/docs/select-search`, `/docs/async-select`, `/docs/country-select`, `/docs/address-input`, `/docs/phone-input`, `/docs/currency-input`, `/docs/dob-input`, `/docs/switch-label`, `/docs/color-picker` and `/docs/link`. The [changelog](https://dentil.dev/docs/changelog) lists what changed in each item. Agents can read [`/llms.txt`](https://dentil.dev/llms.txt) and [`/skill.md`](https://dentil.dev/skill.md).
 
 ## Development
 
@@ -84,7 +87,16 @@ The site is hosted at [dentil.dev](https://dentil.dev), which is the default for
 
 ### Usage
 
-Vercel Web Analytics counts docs page views. `proxy.ts` also records a `registry_install` custom event, with an `item` property, each time the shadcn CLI fetches `/r/<item>.json`. Fetches of `registry.json` and requests from browsers aren't counted. A dependency installed along with another item counts as an install of that item too. To see the counts, go to Analytics > Events > `registry_install` in the Vercel dashboard. Custom events need Web Analytics turned on and a Pro plan or above.
+Vercel Web Analytics counts docs page views. `proxy.ts` also records a custom event each time the shadcn CLI fetches `/r/<item>.json`. Fetches of `registry.json` and requests from browsers aren't counted.
+
+- `registry_install`, with an `item` property, is a direct install: someone ran `shadcn add` with that item.
+- `registry_dependency`, with `item` and `via` properties, is an item pulled in by another dentil item. `via` is the item that lists it, so installing `address-input` records `country-select` via `address-input`, then `select-search` via `country-select`.
+
+The split works because `registry:build` rewrites each `@dentil/<name>` dependency in `public/r` to `https://dentil.dev/r/<name>.json?via=<parent>`. `registry.json` keeps the short names. Set `REGISTRY_URL` to build dependency URLs for another host. Events from before this change are all `registry_install`, dependencies included. The CLI fetches the first item of each `shadcn add` twice with identical requests, so `registry_install` counts run about double.
+
+The docs record an `install_copy` custom event each time someone copies an install command. Its properties are `item` (the same bare name as `registry_install`), `pm` (the package manager tab) and `page` (the path it was copied from, `/` for the home page). It only counts items someone chose, so it's the better guide to which component is most popular.
+
+To see the counts, go to Analytics > Events in the Vercel dashboard and pick an event, then group by `item`. Custom events need Web Analytics turned on and a Pro plan or above.
 
 ## License
 

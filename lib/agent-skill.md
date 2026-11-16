@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, an invoice line items table with totals or credit note allocation, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
 ---
 
 # dentil
@@ -17,7 +17,9 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/date-picker`          | Single-date and range picker with presets, shortcuts, billing cycles and an Apply step                   | {{SITE_URL}}/docs/date-picker          |
 | `@dentil/date`                 | Compact date formatted in a time zone you supply, from unix, ISO or Date                                 | {{SITE_URL}}/docs/date                 |
 | `@dentil/object-timeline`      | Vertical event list with an icon, title, description, date and an optional action                        | {{SITE_URL}}/docs/object-timeline      |
+| `@dentil/description-list`     | Term and detail pairs in one or two columns, with links, copy buttons and "Show more"                    | {{SITE_URL}}/docs/description-list     |
 | `@dentil/invoice-table`        | Invoice line items with a totals footer and an optional per-line allocation column                       | {{SITE_URL}}/docs/invoice-table        |
+| `@dentil/json-viewer`          | Collapsible JSON tree with linked object IDs and timestamps that show their date on hover                | {{SITE_URL}}/docs/json-viewer          |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
 | `@dentil/async-select`         | Async combobox that loads options as you type, with preload and custom rendering                         | {{SITE_URL}}/docs/async-select         |
 | `@dentil/country-select`       | Searchable country picker (ISO codes, localized names, optional flags)                                   | {{SITE_URL}}/docs/country-select       |
@@ -27,6 +29,7 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/dob-input`            | DD / MM / YYYY date of birth fields                                                                      | {{SITE_URL}}/docs/dob-input            |
 | `@dentil/switch-label`         | Labeled switch with an optional description                                                              | {{SITE_URL}}/docs/switch-label         |
 | `@dentil/color-picker`         | Hex color input with a saturation and hue picker                                                         | {{SITE_URL}}/docs/color-picker         |
+| `@dentil/link`                 | Text link with a hover arrow, or an external link that opens a new tab                                   | {{SITE_URL}}/docs/link                 |
 
 Install only what the user needs. If it's unclear which items they want, ask.
 
@@ -57,7 +60,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/dentil/<item>/`, e.g. `components/dentil/modals/`, `components/dentil/data-table/` or `components/dentil/date-picker/`.
 
-The date display, date picker, object timeline, invoice table and form inputs need no provider, so skip step 3 if those are all the user wants.
+The date display, date picker, object timeline, invoice table, link and form inputs need no provider, so skip step 3 if those are all the user wants.
 
 ## 3. Mount the providers once
 
@@ -305,6 +308,28 @@ import { ObjectTimeline } from '@/components/dentil/object-timeline/object-timel
 
 `onClick` turns the title into a button. Items without it stay plain text. `icon` is any component that takes `className` and `size`, such as a Lucide icon. See {{SITE_URL}}/docs/object-timeline#api.
 
+### Description list
+
+```tsx
+import Link from 'next/link';
+
+import { Descriptions } from '@/components/dentil/description-list/description-list';
+
+<Descriptions
+  linkComponent={Link}
+  columns={[
+    [
+      { term: 'Name', detail: customer.name },
+      { term: 'Email', detail: customer.email, copy: customer.email },
+    ],
+    [{ term: 'Latest invoice', detail: invoice.number, href: `/invoices/${invoice.id}` }],
+  ]}
+  more={[customer.tax_id && { term: 'Tax ID', detail: customer.tax_id }]}
+/>;
+```
+
+Pass `items` for one full-width list or `columns` for lists side by side from `sm`. Falsy entries are skipped, so `value && { term, detail }` adds an item conditionally. `href` links the detail through `linkComponent` (a plain `<a>` by default, so pass the project's router link), and `external` opens it in a new tab. `copy` adds a copy button. `more` hides items behind a "Show more" toggle. `orientation="vertical"` stacks each term above its detail for narrow panels. For custom layouts, compose `DescriptionListColumns`, `DescriptionList`, `DescriptionTerm`, `DescriptionDetails` and `DescriptionCopyButton`. See {{SITE_URL}}/docs/description-list#api.
+
 ### Invoice table
 
 The table doesn't fetch or calculate totals. Map the project's invoice onto `lines` and `totals`. Every amount is in minor units.
@@ -331,6 +356,40 @@ import { InvoiceTable } from '@/components/dentil/invoice-table/invoice-table';
 ```
 
 Optional columns (`quantity`, `unitAmount`, `taxRate`, `tax`) show when any line has a value, or pass `columns` to choose them. `unitAmount` also takes a decimal string in minor units (`'0.05'` is $0.0005), such as Stripe's `unit_amount_decimal`, for prices below one cent. `period: { start, end }` (unix seconds, ISO strings or `Date`s) adds a muted line under the description, such as "Dec 1 – 31, 2026", shown in UTC unless you pass `timezone`. Cells sit at the top of taller lines; pass `verticalAlign="middle"` to centre them, inputs included. `originalAmount` shows a struck-through price before `amount`, and `meta` renders beside the description. A total with `variant: 'entry'` puts its label on the left, for a credit note or part payment line, and `gap` adds space above a group. For credit notes and part payments, pass `allocation={{ values, onChange, max }}`: `values` is keyed by line id, and each line's input is capped at `max(line)`. `formatInvoiceAmount(amount, currency)` formats minor units for labels such as "Tax (10% on $100.00)". See {{SITE_URL}}/docs/invoice-table#api.
+
+### Link
+
+```tsx
+import NextLink from 'next/link';
+
+import { Link } from '@/components/dentil/link/link';
+
+<Link href="/customers/cus_123" linkComponent={NextLink}>
+  View customer
+</Link>;
+<Link href="https://stripe.com/docs" external>
+  Stripe docs
+</Link>;
+```
+
+`linkComponent` defaults to a plain `<a>`. For React Router, adapt its `Link` once with `LinkComponentProps` from `@/components/dentil/link/link`: `const RouterLink = ({ href, ...props }: LinkComponentProps) => <RRLink to={href} {...props} />`. `arrow={false}` hides the hover arrow. `external` opens a new tab and shows an external link icon instead. Other anchor props go to `linkComponent`. To set `next/link` props such as `prefetch`, wrap it: `(props: LinkComponentProps) => <NextLink prefetch={false} {...props} />`. See {{SITE_URL}}/docs/link#api.
+
+### JSON viewer
+
+```tsx
+import NextLink from 'next/link';
+
+import { JsonViewer } from '@/components/dentil/json-viewer/json-viewer';
+
+<JsonViewer
+  data={event}
+  getHref={(value) => (value.startsWith('cus_') ? `/customers/${value}` : undefined)}
+  linkComponent={NextLink}
+  timezone="Europe/London"
+/>;
+```
+
+`data` is any JSON-serializable value. `defaultExpandDepth` sets how many levels start expanded (`1` shows only the top-level keys). `getHref(value, key)` is called for every string value; return a URL to link it. Unix timestamps and ISO date-times are underlined and show the date in `timezone` and UTC on hover. Pass `timestamps={false}` to turn that off, or a function `(value, key) => boolean` (wrapping `isTimestamp` from `@/components/dentil/json-viewer/timestamps`) to change which values count. See {{SITE_URL}}/docs/json-viewer#api.
 
 ### Form inputs
 

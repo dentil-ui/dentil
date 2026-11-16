@@ -9,7 +9,8 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 work="$(mktemp -d)"
 
 cd "$root"
-npm run registry:build
+# Dependency URLs in public/r point here rather than at production. `npm run build` regenerates them.
+REGISTRY_URL="http://127.0.0.1:$port" npm run registry:build
 items=$(node -p "require('./registry.json').items.map((item) => '@dentil/' + item.name).join(' ')")
 
 # 127.0.0.1 rather than localhost: Node resolves localhost to ::1, and http.server only listens on IPv4.

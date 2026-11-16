@@ -11,5 +11,13 @@ export async function InstallCommand({ items, title }: { items: string[]; title?
       return { packageManager, command, html: await highlight(command, 'bash') };
     })
   );
-  return <PackageManagerTabs panels={panels} title={title} />;
+  return <PackageManagerTabs panels={panels} title={title} item={itemNames(items)} />;
+}
+
+/** Bare names, matching the `item` on `registry_install`. Items can be `@dentil/<name>` or a registry URL; flags are dropped. */
+function itemNames(items: string[]) {
+  return items
+    .map((item) => item.match(/^@dentil\/(.+)$/)?.[1] ?? item.match(/\/r\/([^/]+)\.json$/)?.[1])
+    .filter(Boolean)
+    .join(',');
 }

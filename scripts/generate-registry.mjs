@@ -140,6 +140,16 @@ const registry = {
       files: folder('object-timeline'),
     },
     {
+      name: 'description-list',
+      type: 'registry:component',
+      title: 'Description List',
+      description:
+        'Term and detail pairs in one or two columns, built from an array or composed by hand, with links, copy buttons, a "Show more" section and a vertical layout for narrow panels.',
+      dependencies: ['lucide-react'],
+      registryDependencies: ['@dentil/link'],
+      files: folder('description-list'),
+    },
+    {
       name: 'invoice-table',
       type: 'registry:component',
       title: 'Invoice Table',
@@ -232,6 +242,25 @@ const registry = {
       dependencies: ['react-colorful@^5.8.1'],
       registryDependencies: ['button', 'input-group', 'popover'],
       files: folder('color-picker'),
+    },
+    {
+      name: 'link',
+      type: 'registry:component',
+      title: 'Link',
+      description:
+        'Text link with a chevron that turns into an arrow on hover, an external variant that opens a new tab, and a linkComponent prop for your router.',
+      dependencies: ['lucide-react'],
+      files: folder('link'),
+    },
+    {
+      name: 'json-viewer',
+      type: 'registry:component',
+      title: 'JSON Viewer',
+      description:
+        'Collapsible JSON tree in your theme tokens, with object IDs rendered as links and the date behind unix timestamps on hover.',
+      dependencies: ['lucide-react'],
+      registryDependencies: ['hover-card', '@dentil/date'],
+      files: folder('json-viewer'),
     },
   ],
 };

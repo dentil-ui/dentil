@@ -23,6 +23,8 @@
     "components/dentil/date/**/*.tsx",
     "components/dentil/object-timeline/**/*.ts",
     "components/dentil/object-timeline/**/*.tsx",
+    "components/dentil/description-list/**/*.ts",
+    "components/dentil/description-list/**/*.tsx",
     "components/dentil/invoice-table/**/*.ts",
     "components/dentil/invoice-table/**/*.tsx",
     "components/dentil/select-search/**/*.ts",
@@ -42,6 +44,10 @@
     "components/dentil/color-picker/**/*.ts",
     "components/dentil/color-picker/**/*.tsx",
     "components/dentil/switch-label/**/*.ts",
-    "components/dentil/switch-label/**/*.tsx"
+    "components/dentil/switch-label/**/*.tsx",
+    "components/dentil/link/**/*.ts",
+    "components/dentil/link/**/*.tsx",
+    "components/dentil/json-viewer/**/*.ts",
+    "components/dentil/json-viewer/**/*.tsx"
   ]
 }

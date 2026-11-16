@@ -1,5 +1,7 @@
 'use client';
 
+import { track } from '@vercel/analytics';
+import { usePathname } from 'next/navigation';
 import { useId, useLayoutEffect, useSyncExternalStore } from 'react';
 
 import {
@@ -65,10 +67,20 @@ export interface PackageManagerPanel {
 
 /**
  * Tabs for one command per package manager. Which panel and tab look active is driven by `html[data-pm]` in CSS, so
- * it's right before hydration; React state only drives ARIA, focus and the copy value.
+ * it's right before hydration; React state only drives ARIA, focus and the copy value. Copying sends an `install_copy`
+ * analytics event when `item` is set.
  */
-export function PackageManagerTabs({ panels, title }: { panels: PackageManagerPanel[]; title?: string }) {
+export function PackageManagerTabs({
+  panels,
+  title,
+  item,
+}: {
+  panels: PackageManagerPanel[];
+  title?: string;
+  item?: string;
+}) {
   const id = useId();
+  const pathname = usePathname();
   const active = usePackageManager();
   const activeCommand = panels.find((panel) => panel.packageManager === active)?.command ?? panels[0].command;
 
@@ -115,7 +127,11 @@ export function PackageManagerTabs({ panels, title }: { panels: PackageManagerPa
         {title && (
           <span className="text-muted-foreground ml-auto hidden truncate font-mono text-xs sm:block">{title}</span>
         )}
-        <CopyButton value={activeCommand} className={cn('ml-auto shrink-0', title && 'sm:ml-0')} />
+        <CopyButton
+          value={activeCommand}
+          onCopy={item ? () => track('install_copy', { item, pm: active, page: pathname }) : undefined}
+          className={cn('ml-auto shrink-0', title && 'sm:ml-0')}
+        />
       </div>
       {panels.map(({ packageManager, html }) => (
         <div

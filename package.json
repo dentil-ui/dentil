@@ -8,7 +8,7 @@
     "build": "npm run registry:build && next build",
     "start": "next start",
     "lint": "eslint .",
-    "registry:build": "node scripts/generate-registry.mjs && shadcn build",
+    "registry:build": "node scripts/generate-registry.mjs && shadcn build && node scripts/tag-dependencies.mjs",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.registry.json",
     "format": "prettier --write ."
   },

@@ -4,7 +4,13 @@ import { NextResponse, type NextFetchEvent, type NextRequest } from 'next/server
 export function proxy(request: NextRequest, event: NextFetchEvent) {
   const item = request.nextUrl.pathname.match(/^\/r\/([^/]+)\.json$/)?.[1];
   if (item && item !== 'registry' && !isBrowser(request)) {
-    event.waitUntil(track('registry_install', { item }, { request }));
+    // scripts/tag-dependencies.mjs adds ?via=<parent> to the URLs that items list as registry dependencies.
+    const via = request.nextUrl.searchParams.get('via');
+    event.waitUntil(
+      via && /^[a-z0-9-]+$/.test(via)
+        ? track('registry_dependency', { item, via }, { request })
+        : track('registry_install', { item }, { request })
+    );
   }
   return NextResponse.next();
 }
