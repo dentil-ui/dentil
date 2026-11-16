@@ -8,11 +8,12 @@ import { PropsTable, type PropRow } from '@/components/docs/props-table';
 import { InvoiceTableAdjustmentsDemo } from '@/components/demos/invoice-table-adjustments';
 import { InvoiceTableAllocationDemo } from '@/components/demos/invoice-table-allocation';
 import { InvoiceTableOverviewDemo } from '@/components/demos/invoice-table-overview';
+import { InvoiceTablePlanChangeDemo } from '@/components/demos/invoice-table-plan-change';
 
 export const metadata: Metadata = {
   title: 'Invoice Table',
   description:
-    'An invoice line items table for shadcn/ui with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+    'An invoice line items table for shadcn/ui with optional quantity, unit price and tax columns, prorated lines, grouped plan changes, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
 };
 
 const sections = [
@@ -66,11 +67,11 @@ const items = Object.entries(values).map(([invoice_item, amount]) => ({ invoice_
 const tableRows: PropRow[] = [
   {
     name: 'lines',
-    type: 'TLine[]',
+    type: '(TLine | InvoiceLineGroup<TLine>)[]',
     description: (
       <>
         Rows, in display order. <code>TLine</code> extends <code>InvoiceLine</code>, so extra fields are kept and passed
-        back to <code>allocation.max</code>.
+        back to <code>allocation.max</code>. A group renders a heading row with its lines indented under it.
       </>
     ),
   },
@@ -158,6 +159,11 @@ const lineRows: PropRow[] = [
       </>
     ),
   },
+  {
+    name: 'proration',
+    type: 'InvoiceProration',
+    description: 'Adds how the amount relates to the full price, such as "17 of 31 days of $20.00", after the period.',
+  },
   { name: 'quantity', type: 'number', description: 'Shown in the Qty column.' },
   {
     name: 'unitAmount',
@@ -177,9 +183,43 @@ const lineRows: PropRow[] = [
     type: 'number',
     description: (
       <>
-        Struck through before <code>amount</code> when the two differ, e.g. the price before proration.
+        Struck through before <code>amount</code> when the two differ, e.g. the price before a discount. For proration,
+        use <code>proration</code>, which doesn&apos;t read as a discount.
       </>
     ),
+  },
+];
+
+const prorationRows: PropRow[] = [
+  { name: 'fullAmount', type: 'number', description: 'The line’s price for a whole billing period, in minor units.' },
+  {
+    name: 'days',
+    type: '{ used: number; total: number }',
+    description: (
+      <>Shown as &quot;17 of 31 days of $20.00&quot;. Without it the text reads &quot;Prorated from $20.00&quot;.</>
+    ),
+  },
+  { name: 'label', type: 'ReactNode', description: 'Replaces the generated text, e.g. to translate it.' },
+];
+
+const groupRows: PropRow[] = [
+  { name: 'id', type: 'string', description: 'React key for the heading row.' },
+  {
+    name: 'description',
+    type: 'ReactNode',
+    description: 'The heading, such as "Pro → Business". Shown in medium weight.',
+  },
+  { name: 'meta', type: 'ReactNode', description: 'Beside the heading: a badge, a link or a note.' },
+  { name: 'detail', type: 'ReactNode', description: 'Muted line under the heading, e.g. "Upgraded Dec 15, 2026".' },
+  {
+    name: 'lines',
+    type: 'TLine[]',
+    description: 'Lines indented under the heading. They render like any other line, allocation inputs included.',
+  },
+  {
+    name: 'amount',
+    type: 'number',
+    description: 'Net of the lines in minor units, shown on the heading row. Omit it to leave the cell blank.',
   },
 ];
 
@@ -314,9 +354,21 @@ export default function InvoiceTablePage() {
           reads &quot;Dec 1 – 31, 2026&quot; and a period across the new year reads &quot;Dec 15, 2026 – Jan 14,
           2027&quot;. Dates are shown in UTC unless you pass <C>timezone</C>.
         </P>
+        <P>
+          For a prorated line, pass <C>proration</C> with the full price and, if you have them, the days covered. The
+          added seat above reads &quot;17 of 31 days of $20.00&quot; after its period, so the amount explains itself.
+          Keep <C>originalAmount</C> for discounts: a struck-through price reads as a sale.
+        </P>
       </Section>
 
       <Section id="examples" title="Examples">
+        <SubSection
+          title="Plan changes and proration"
+          description="A group puts the credit for unused time and the charge for remaining time under one heading, with the net beside it. Switch to Downgrade to see a negative net credited to the balance.">
+          <Example file="invoice-table-plan-change.tsx" padded>
+            <InvoiceTablePlanChangeDemo />
+          </Example>
+        </SubSection>
         <SubSection
           title="Credit notes and payments"
           description="Entry rows put a credit note or part payment on the left. gap starts each group, and className strikes through the void payment.">
@@ -348,6 +400,14 @@ export default function InvoiceTablePage() {
         </SubSection>
         <SubSection title="InvoiceLine">
           <PropsTable rows={lineRows} />
+        </SubSection>
+        <SubSection title="InvoiceProration">
+          <PropsTable rows={prorationRows} />
+        </SubSection>
+        <SubSection
+          title="InvoiceLineGroup"
+          description="Pass one in lines in place of a line. isInvoiceLineGroup(item) tells the two apart.">
+          <PropsTable rows={groupRows} />
         </SubSection>
         <SubSection title="InvoiceTotal">
           <PropsTable rows={totalRows} />

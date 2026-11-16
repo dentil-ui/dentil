@@ -12,6 +12,17 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-16',
+    title: 'Invoice table proration and plan changes',
+    items: ['@dentil/invoice-table'],
+    changes: [
+      '`@dentil/invoice-table`: `InvoiceLine.proration` shows a prorated line as "17 of 31 days of $20.00" after its period, so it no longer has to borrow the struck-through `originalAmount`, which now documents discounts.',
+      '`@dentil/invoice-table`: `lines` also takes an `InvoiceLineGroup`, a heading row with an optional net `amount` and its lines indented under it, for the credit and charge of a plan upgrade or downgrade. `isInvoiceLineGroup` tells groups from lines.',
+      '`@dentil/invoice-table`: the muted line under a description is now `data-slot="invoice-table-detail"`, with the period inside it as `invoice-table-period` and the proration as `invoice-table-proration`.',
+      '`@dentil/invoice-table`: `formatInvoicePeriod` writes regular spaces around the dash, fixing a hydration mismatch where Node put thin spaces and the browser didn’t.',
+    ],
+  },
+  {
+    date: '2026-11-16',
     title: 'JSON Viewer',
     items: ['@dentil/json-viewer'],
     changes: [

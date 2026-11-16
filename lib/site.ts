@@ -64,7 +64,7 @@ export const docs: DocsEntry[] = [
     href: '/docs/invoice-table',
     title: 'Invoice Table',
     description:
-      'Invoice line items table with optional quantity, unit price and tax columns, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
+      'Invoice line items table with optional quantity, unit price and tax columns, prorated lines, grouped plan changes, a totals footer, and an optional per-line allocation column for credit notes and part payments.',
     items: ['@dentil/invoice-table'],
     group: 'Components',
   },

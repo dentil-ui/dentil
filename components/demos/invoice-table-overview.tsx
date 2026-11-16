@@ -18,13 +18,12 @@ const lines: InvoiceLine[] = [
   {
     id: 'seat-added',
     description: 'Pro plan, added seat',
-    meta: <span className="text-muted-foreground text-xs">Prorated</span>,
     period: { start: '2026-12-15', end: '2026-12-31' },
+    proration: { fullAmount: 2000, days: { used: 17, total: 31 } },
     quantity: 1,
     unitAmount: 2000,
     taxRate: 10,
-    amount: 1100,
-    originalAmount: 2000,
+    amount: 1097,
   },
   {
     id: 'api',

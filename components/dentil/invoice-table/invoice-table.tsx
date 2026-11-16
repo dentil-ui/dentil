@@ -14,13 +14,24 @@ export type InvoiceDate = number | string | Date;
 /** The service period a line covers, shown under its description. */
 export type InvoicePeriod = { start: InvoiceDate; end: InvoiceDate };
 
+/** How a prorated line relates to its full price, shown under its description. */
+export type InvoiceProration = {
+  /** The line's price for a whole billing period, in minor units. */
+  fullAmount: number;
+  /** Shown as "17 of 31 days of $20.00". Without it the detail reads "Prorated from $20.00". */
+  days?: { used: number; total: number };
+  /** Replaces the generated text, e.g. to translate it. */
+  label?: ReactNode;
+};
+
 /** One row of the invoice. Amounts are in minor units (pence, cents). */
 export type InvoiceLine = {
   id: string;
   description: ReactNode;
-  /** Beside the description: badges, a link, a "Prorated" note. */
+  /** Beside the description: badges, a link, a note. */
   meta?: ReactNode;
   period?: InvoicePeriod;
+  proration?: InvoiceProration;
   quantity?: number;
   /**
    * A decimal string such as `'0.05'` keeps fractions of a minor unit
@@ -31,9 +42,27 @@ export type InvoiceLine = {
   taxRate?: number;
   tax?: number;
   amount: number;
-  /** Struck through before `amount`, e.g. the price before proration. */
+  /** Struck through before `amount`, e.g. the price before a discount. For proration, use `proration`. */
   originalAmount?: number;
 };
+
+/** Lines shown as one block under a heading row, such as the credit and charge of a plan change. */
+export type InvoiceLineGroup<TLine extends InvoiceLine = InvoiceLine> = {
+  id: string;
+  description: ReactNode;
+  meta?: ReactNode;
+  /** Muted line under the description, e.g. "Upgraded Dec 15, 2026". */
+  detail?: ReactNode;
+  lines: readonly TLine[];
+  /** Net of the lines, shown on the group row. Omit to leave it blank. */
+  amount?: number;
+};
+
+export function isInvoiceLineGroup<TLine extends InvoiceLine>(
+  item: TLine | InvoiceLineGroup<TLine>
+): item is InvoiceLineGroup<TLine> {
+  return 'lines' in item && Array.isArray(item.lines);
+}
 
 /** One row of the totals footer. `amount` is in minor units. */
 export type InvoiceTotal = {
@@ -67,7 +96,7 @@ export type InvoiceTableColumn = 'quantity' | 'unitAmount' | 'taxRate' | 'tax';
 
 export type InvoiceTableProps<TLine extends InvoiceLine = InvoiceLine> = Omit<ComponentProps<'table'>, 'children'> & {
   /** Extra fields on a line are ignored by the table and passed back to `allocation.max`. */
-  lines: readonly TLine[];
+  lines: readonly (TLine | InvoiceLineGroup<TLine>)[];
   /** ISO 4217 code, e.g. `'USD'`. */
   currency: string;
   /** Defaults to `'en-US'` rather than the browser's, so server and client render the same text. */
@@ -135,11 +164,14 @@ export function formatInvoicePeriod(period: InvoicePeriod, locale = 'en-US', tim
   if (!start || !end) return null;
 
   const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  let text: string;
   try {
-    return new Intl.DateTimeFormat(locale, { ...options, timeZone: timezone }).formatRange(start, end);
+    text = new Intl.DateTimeFormat(locale, { ...options, timeZone: timezone }).formatRange(start, end);
   } catch {
-    return new Intl.DateTimeFormat(locale, { ...options, timeZone: 'UTC' }).formatRange(start, end);
+    text = new Intl.DateTimeFormat(locale, { ...options, timeZone: 'UTC' }).formatRange(start, end);
   }
+  // ICU versions disagree on thin or regular spaces around the dash, which breaks hydration between Node and browsers.
+  return text.replace(/[\u2009\u202f]/g, ' ');
 }
 
 export function InvoiceTable<TLine extends InvoiceLine>({
@@ -156,9 +188,10 @@ export function InvoiceTable<TLine extends InvoiceLine>({
   className,
   ...props
 }: InvoiceTableProps<TLine>) {
+  const flat = lines.flatMap((item) => (isInvoiceLineGroup(item) ? item.lines : [item]));
   const visible = columns
     ? columnOrder.filter((column) => columns.includes(column))
-    : columnOrder.filter((column) => lines.some((line) => line[column] !== undefined));
+    : columnOrder.filter((column) => flat.some((line) => line[column] !== undefined));
   const showRemaining = allocation ? (allocation.showRemaining ?? true) : false;
   const columnCount = 2 + visible.length + (allocation ? 1 : 0) + (showRemaining ? 1 : 0);
 
@@ -175,6 +208,111 @@ export function InvoiceTable<TLine extends InvoiceLine>({
     const value = line[column];
     return value === undefined ? null : money(value);
   };
+
+  const prorationText = ({ fullAmount, days, label }: InvoiceProration) => {
+    if (label !== undefined) return label;
+    if (!days) return `Prorated from ${money(fullAmount)}`;
+    return `${number.format(days.used)} of ${number.format(days.total)} days of ${money(fullAmount)}`;
+  };
+
+  const renderLine = (line: TLine, index: number, group?: { id: string; last: boolean }) => {
+    const max = allocation ? allocation.max(line) : 0;
+    const inputDisabled = !allocation || allocation.disabled || max <= 0;
+    const struck = line.originalAmount !== undefined && line.originalAmount !== line.amount;
+    const period = line.period ? formatInvoicePeriod(line.period, locale, timezone) : null;
+
+    return (
+      <TableRow
+        key={line.id}
+        data-slot="invoice-table-line"
+        data-group={group?.id}
+        className={cn(group && !group.last && 'border-0')}>
+        <TableCell className={cn(lineCell, 'w-full min-w-48 whitespace-normal', group && 'pl-6')}>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>{line.description}</span>
+            {line.meta}
+          </div>
+          {period || line.proration ? (
+            <div data-slot="invoice-table-detail" className="text-muted-foreground mt-0.5 text-xs">
+              {period ? <span data-slot="invoice-table-period">{period}</span> : null}
+              {period && line.proration ? ' · ' : null}
+              {line.proration ? <span data-slot="invoice-table-proration">{prorationText(line.proration)}</span> : null}
+            </div>
+          ) : null}
+        </TableCell>
+        {visible.map((column) => (
+          <TableCell key={column} className={cn(lineCell, 'text-right tabular-nums')}>
+            {cellValue(line, column)}
+          </TableCell>
+        ))}
+        <TableCell className={cn(lineCell, 'text-right tabular-nums')}>
+          {struck ? (
+            <span className="text-muted-foreground mr-2 line-through">{money(line.originalAmount ?? 0)}</span>
+          ) : null}
+          {money(line.amount)}
+        </TableCell>
+        {showRemaining ? (
+          <TableCell className={cn(lineCell, 'text-muted-foreground text-right tabular-nums')}>
+            {money(Math.max(max, 0))}
+          </TableCell>
+        ) : null}
+        {allocation ? (
+          <TableCell
+            data-slot="invoice-table-allocation"
+            className={cn('py-1.5', verticalAlign === 'middle' ? 'align-middle' : 'align-top')}>
+            <CurrencyInput
+              className="ml-auto w-44"
+              inputClassName="text-right"
+              currency={currency}
+              locale={locale}
+              value={allocation.values[line.id] ?? null}
+              maxAmount={Math.max(max, 0)}
+              disabled={inputDisabled}
+              aria-invalid={(allocation.invalid && !inputDisabled) || undefined}
+              aria-label={
+                typeof line.description === 'string'
+                  ? `${allocation.label ?? 'Amount'} for ${line.description}`
+                  : `${allocation.label ?? 'Amount'}, line ${index + 1}`
+              }
+              onChange={(value) => allocation.onChange({ ...allocation.values, [line.id]: value })}
+            />
+          </TableCell>
+        ) : null}
+      </TableRow>
+    );
+  };
+
+  const renderGroup = (group: InvoiceLineGroup<TLine>) => (
+    <TableRow
+      key={`group:${group.id}`}
+      data-slot="invoice-table-group"
+      className={cn('hover:bg-transparent', group.lines.length > 0 && 'border-0')}>
+      <TableCell className={cn(lineCell, 'w-full min-w-48 whitespace-normal')}>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="font-medium">{group.description}</span>
+          {group.meta}
+        </div>
+        {group.detail ? <div className="text-muted-foreground mt-0.5 text-xs">{group.detail}</div> : null}
+      </TableCell>
+      {visible.map((column) => (
+        <TableCell key={column} className={lineCell} />
+      ))}
+      <TableCell className={cn(lineCell, 'text-right font-medium tabular-nums')}>
+        {group.amount === undefined ? null : money(group.amount)}
+      </TableCell>
+      {showRemaining ? <TableCell className={lineCell} /> : null}
+      {allocation ? <TableCell className={lineCell} /> : null}
+    </TableRow>
+  );
+
+  let lineIndex = 0;
+  const rows = lines.flatMap((item) => {
+    if (!isInvoiceLineGroup(item)) return [renderLine(item, lineIndex++)];
+    return [
+      renderGroup(item),
+      ...item.lines.map((line, i) => renderLine(line, lineIndex++, { id: item.id, last: i === item.lines.length - 1 })),
+    ];
+  });
 
   return (
     <Table data-slot="invoice-table" className={className} {...props}>
@@ -207,66 +345,7 @@ export function InvoiceTable<TLine extends InvoiceLine>({
             </TableCell>
           </TableRow>
         ) : (
-          lines.map((line, index) => {
-            const max = allocation ? allocation.max(line) : 0;
-            const inputDisabled = !allocation || allocation.disabled || max <= 0;
-            const struck = line.originalAmount !== undefined && line.originalAmount !== line.amount;
-            const period = line.period ? formatInvoicePeriod(line.period, locale, timezone) : null;
-
-            return (
-              <TableRow key={line.id} data-slot="invoice-table-line">
-                <TableCell className={cn(lineCell, 'w-full min-w-48 whitespace-normal')}>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span>{line.description}</span>
-                    {line.meta}
-                  </div>
-                  {period ? (
-                    <div data-slot="invoice-table-period" className="text-muted-foreground mt-0.5 text-xs">
-                      {period}
-                    </div>
-                  ) : null}
-                </TableCell>
-                {visible.map((column) => (
-                  <TableCell key={column} className={cn(lineCell, 'text-right tabular-nums')}>
-                    {cellValue(line, column)}
-                  </TableCell>
-                ))}
-                <TableCell className={cn(lineCell, 'text-right tabular-nums')}>
-                  {struck ? (
-                    <span className="text-muted-foreground mr-2 line-through">{money(line.originalAmount ?? 0)}</span>
-                  ) : null}
-                  {money(line.amount)}
-                </TableCell>
-                {showRemaining ? (
-                  <TableCell className={cn(lineCell, 'text-muted-foreground text-right tabular-nums')}>
-                    {money(Math.max(max, 0))}
-                  </TableCell>
-                ) : null}
-                {allocation ? (
-                  <TableCell
-                    data-slot="invoice-table-allocation"
-                    className={cn('py-1.5', verticalAlign === 'middle' ? 'align-middle' : 'align-top')}>
-                    <CurrencyInput
-                      className="ml-auto w-44"
-                      inputClassName="text-right"
-                      currency={currency}
-                      locale={locale}
-                      value={allocation.values[line.id] ?? null}
-                      maxAmount={Math.max(max, 0)}
-                      disabled={inputDisabled}
-                      aria-invalid={(allocation.invalid && !inputDisabled) || undefined}
-                      aria-label={
-                        typeof line.description === 'string'
-                          ? `${allocation.label ?? 'Amount'} for ${line.description}`
-                          : `${allocation.label ?? 'Amount'}, line ${index + 1}`
-                      }
-                      onChange={(value) => allocation.onChange({ ...allocation.values, [line.id]: value })}
-                    />
-                  </TableCell>
-                ) : null}
-              </TableRow>
-            );
-          })
+          rows
         )}
       </TableBody>
       {!loading && lines.length > 0 && totals?.length ? (
