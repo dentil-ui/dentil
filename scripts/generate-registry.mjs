@@ -253,6 +253,15 @@ const registry = {
       files: folder('link'),
     },
     {
+      name: 'badge',
+      type: 'registry:component',
+      title: 'Badge',
+      description:
+        'Small status label with theme-aware default, secondary, outline and destructive variants, fixed color variants from red to zinc, and a compact size.',
+      dependencies: ['@radix-ui/react-slot@^1.2.3', 'class-variance-authority@^0.7.1'],
+      files: folder('badge'),
+    },
+    {
       name: 'json-viewer',
       type: 'registry:component',
       title: 'JSON Viewer',

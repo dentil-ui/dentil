@@ -8,10 +8,10 @@ declare module '@tanstack/react-table' {
     /** Where a cell sits when its row is taller than the cell, e.g. beside a multi-line cell. Defaults to `'middle'`. */
     verticalAlign?: 'top' | 'middle' | 'bottom';
     /**
-     * Centre items shorter than a line of text, like a checkbox or icon button, within the cell's 40px minimum height.
-     * Doesn't move the cell in a taller row; use `verticalAlign` for that.
+     * Vertical alignment of the cell's content within its 40px minimum height. Defaults to `'center'`.
+     * `'start'` keeps the content top-aligned. Doesn't move the cell in a taller row; use `verticalAlign` for that.
      */
-    itemAlign?: 'center';
+    itemAlign?: 'center' | 'start';
     /** Shrink the column to its content width (`w-px`). */
     minimize?: boolean;
     /** Keep the cell out of the row link when it renders its own link or control. */

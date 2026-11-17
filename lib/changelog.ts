@@ -12,6 +12,22 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-17',
+    title: 'Data table cell alignment',
+    items: ['@dentil/data-table'],
+    changes: [
+      "Breaking: `@dentil/data-table`: cell content is vertically centered within the cell's 40px minimum height. Set column `meta.itemAlign` to `'start'` to keep it top-aligned.",
+    ],
+  },
+  {
+    date: '2026-11-17',
+    title: 'Badge',
+    items: ['@dentil/badge'],
+    changes: [
+      '`@dentil/badge`: `Badge`, a status label with theme variants (`default`, `secondary`, `outline`, `destructive`), fixed color variants from `red` to `zinc`, and a `sm` size. `asChild` renders it as a link. The first letter is capitalized.',
+    ],
+  },
+  {
+    date: '2026-11-17',
     title: 'Address region select type size',
     items: ['@dentil/address-input'],
     changes: [

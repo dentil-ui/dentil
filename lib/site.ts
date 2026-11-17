@@ -29,6 +29,14 @@ export interface DocsEntry {
 /** One entry per docs page. Drives the docs index, the docs sidebar, the home page cards and page headers. */
 export const docs: DocsEntry[] = [
   {
+    href: '/docs/badge',
+    title: 'Badge',
+    description:
+      'Small status label with theme-aware default, secondary, outline and destructive variants, fixed color variants from red to zinc, and a compact size.',
+    items: ['@dentil/badge'],
+    group: 'Components',
+  },
+  {
     href: '/docs/data-table',
     title: 'Data Table',
     description:

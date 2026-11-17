@@ -212,7 +212,7 @@ col.accessor('amount', {
     align: 'right',          // 'left' (default) | 'center' | 'right', for the header and cells
     verticalAlign: 'top',    // 'top' | 'middle' (default) | 'bottom', where the cell sits in a taller row
     minimize: true,          // shrink the column to its content (w-px)
-    itemAlign: 'center',     // centre a checkbox or icon button within the cell's 40px minimum height
+    itemAlign: 'start',      // 'center' (default) | 'start', within the cell's 40px minimum height
     disableRowLink: true,    // the cell renders its own link/button, so leave it out of the row link
   },
 });

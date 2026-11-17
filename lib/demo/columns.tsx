@@ -2,28 +2,24 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 
+import { Badge, type BadgeVariant } from '@/components/dentil/badge/badge';
 import { ActionsButton } from '@/components/dentil/data-table/actions-button';
 import { DateCell } from '@/components/dentil/data-table/date-cell';
-import { cn } from '@/lib/utils';
 
 import { type Invoice, type InvoiceStatus, formatAmount } from './invoices';
 
-const STATUS_STYLES: Record<InvoiceStatus, string> = {
-  draft: 'bg-muted text-muted-foreground',
-  open: 'bg-blue-500/10 text-blue-700 dark:text-blue-300',
-  paid: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
-  void: 'bg-muted text-muted-foreground line-through',
+const STATUS_VARIANT: Record<InvoiceStatus, NonNullable<BadgeVariant>> = {
+  draft: 'zinc',
+  open: 'blue',
+  paid: 'green',
+  void: 'zinc',
 };
 
 export function StatusBadge({ status }: { status: InvoiceStatus }) {
   return (
-    <span
-      className={cn(
-        'inline-flex h-5 items-center justify-center self-center rounded-md px-1.5 text-xs leading-none font-medium capitalize',
-        STATUS_STYLES[status]
-      )}>
+    <Badge variant={STATUS_VARIANT[status]} size="sm" className={status === 'void' ? 'line-through' : undefined}>
       {status}
-    </span>
+    </Badge>
   );
 }
 

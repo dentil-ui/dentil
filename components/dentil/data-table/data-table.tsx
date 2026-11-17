@@ -296,7 +296,7 @@ function DataTableInner<TData>({
       },
       enableSorting: false,
       enableHiding: false,
-      meta: { minimize: true, itemAlign: 'center' },
+      meta: { minimize: true },
     };
   }, [enableSelection, data, isSelectable, selectedIds, getRowId, selectAllRows, onSelectionChange, selectedRows]);
 
@@ -332,7 +332,7 @@ function DataTableInner<TData>({
       },
       enableSorting: false,
       enableHiding: false,
-      meta: { align: 'right', minimize: true, itemAlign: 'center' },
+      meta: { align: 'right', minimize: true },
     };
   }, [hasExpandable, panelIdPrefix]);
 
@@ -547,7 +547,7 @@ function DataTableInner<TData>({
                                       'h-full min-h-10 w-full',
                                       columnMeta?.align === 'center' && 'justify-center',
                                       columnMeta?.align === 'right' && 'justify-end',
-                                      columnMeta?.itemAlign === 'center' && 'items-center'
+                                      columnMeta?.itemAlign === 'start' ? 'items-start' : 'items-center'
                                     )}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                   </TableCellContent>

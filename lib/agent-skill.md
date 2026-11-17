@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a status badge, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a status badge, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
 ---
 
 # dentil
@@ -19,6 +19,7 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/object-timeline`      | Vertical event list with an icon, title, description, date and an optional action                        | {{SITE_URL}}/docs/object-timeline      |
 | `@dentil/description-list`     | Term and detail pairs in one or two columns, with links, copy buttons and "Show more"                    | {{SITE_URL}}/docs/description-list     |
 | `@dentil/invoice-table`        | Invoice line items with a totals footer and an optional per-line allocation column                       | {{SITE_URL}}/docs/invoice-table        |
+| `@dentil/badge`                | Status label with theme variants and fixed color variants for states such as paid, pending and failed    | {{SITE_URL}}/docs/badge                |
 | `@dentil/json-viewer`          | Collapsible JSON tree with linked object IDs and timestamps that show their date on hover                | {{SITE_URL}}/docs/json-viewer          |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
 | `@dentil/async-select`         | Async combobox that loads options as you type, with preload and custom rendering                         | {{SITE_URL}}/docs/async-select         |
@@ -60,7 +61,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/dentil/<item>/`, e.g. `components/dentil/modals/`, `components/dentil/data-table/` or `components/dentil/date-picker/`.
 
-The date display, date picker, object timeline, invoice table, link and form inputs need no provider, so skip step 3 if those are all the user wants.
+The date display, date picker, object timeline, invoice table, badge, link and form inputs need no provider, so skip step 3 if those are all the user wants.
 
 ## 3. Mount the providers once
 
@@ -242,7 +243,7 @@ export function CustomersTable() {
 }
 ```
 
-The table writes `offset` (zero-based page), `sort` (`'ascending' | 'descending'`), `sort_field` (a value from `sortableColumns`), and tab and filter values keyed by id. For a cursor-paginated API, pass `nextCursor` and `previousCursor` from the response instead of `hasMore`: Next writes `after: nextCursor` and Previous writes `before: previousCursor`, and `null` disables the button. Any change except paging resets the page (`offset`, `after`, `before`). With no pagination and no `showMore`, pass `showBottomBorder` to draw a line under the last row. Leave it off when the table sits inside a bordered container. Other props: `tabs`, `showDisplay`, `toolbar`, `toolbarActions`, `contextMenuActions`, `splitView`, `expandable` (`{ component: (row) => ReactNode, canExpand?, trigger? }`, a chevron column at the end of the row that opens a full-width panel under it; `trigger: 'row'` makes the whole row toggle it instead of linking), `enableSelection` with `selectionActions`, and `emptyState`. Column `meta` takes `align` (`'left' | 'center' | 'right'`), `verticalAlign` (`'top' | 'middle' | 'bottom'`, for cells beside a taller one), `minimize`, `itemAlign: 'center'` (for a checkbox or icon button) and `disableRowLink`. See {{SITE_URL}}/docs/data-table#api.
+The table writes `offset` (zero-based page), `sort` (`'ascending' | 'descending'`), `sort_field` (a value from `sortableColumns`), and tab and filter values keyed by id. For a cursor-paginated API, pass `nextCursor` and `previousCursor` from the response instead of `hasMore`: Next writes `after: nextCursor` and Previous writes `before: previousCursor`, and `null` disables the button. Any change except paging resets the page (`offset`, `after`, `before`). With no pagination and no `showMore`, pass `showBottomBorder` to draw a line under the last row. Leave it off when the table sits inside a bordered container. Other props: `tabs`, `showDisplay`, `toolbar`, `toolbarActions`, `contextMenuActions`, `splitView`, `expandable` (`{ component: (row) => ReactNode, canExpand?, trigger? }`, a chevron column at the end of the row that opens a full-width panel under it; `trigger: 'row'` makes the whole row toggle it instead of linking), `enableSelection` with `selectionActions`, and `emptyState`. Column `meta` takes `align` (`'left' | 'center' | 'right'`), `verticalAlign` (`'top' | 'middle' | 'bottom'`, for cells beside a taller one), `minimize`, `itemAlign` (`'center'` by default, `'start'` to top-align content in the cell) and `disableRowLink`. See {{SITE_URL}}/docs/data-table#api.
 
 - **Filters** (`@dentil/data-table-filter`): build columns with `createColumnConfigHelper<Row>()` from `@/components/dentil/data-table/filter`, for example `dtf.option().id('status').accessor((r) => r.status).displayName('Status').options([...]).build()`. Pass `<DataTableFilters data={data} filterColumns={filterColumns} query={query} setQuery={setQuery} />` from `@/components/dentil/data-table/filters` as the table's `toolbar`.
 - **URL state** (`@dentil/data-table-url-state`): replace `useState<TableQuery>` with `useTableQueryState({}, { urlState: true })` from `@/components/dentil/data-table/use-table-query-state`. In server-rendered Next.js pages, also pass `search: useSearchParams().toString()`.
@@ -373,6 +374,20 @@ import { Link } from '@/components/dentil/link/link';
 ```
 
 `linkComponent` defaults to a plain `<a>`. For React Router, adapt its `Link` once with `LinkComponentProps` from `@/components/dentil/link/link`: `const RouterLink = ({ href, ...props }: LinkComponentProps) => <RRLink to={href} {...props} />`. `arrow={false}` hides the hover arrow. `external` opens a new tab and shows an external link icon instead. Other anchor props go to `linkComponent`. To set `next/link` props such as `prefetch`, wrap it: `(props: LinkComponentProps) => <NextLink prefetch={false} {...props} />`. See {{SITE_URL}}/docs/link#api.
+
+### Badge
+
+```tsx
+import { Badge } from '@/components/dentil/badge/badge';
+
+<Badge variant="green">paid</Badge>
+<Badge variant="amber" size="sm">past due</Badge>
+<Badge variant="blue" asChild>
+  <a href="/invoices/in_123">open</a>
+</Badge>
+```
+
+The first letter is capitalized, so pass the status in lowercase. `default`, `secondary`, `outline` and `destructive` follow the theme. Named colors (`red`, `green`, `zinc`, and the rest) use Tailwind's palette on purpose, so a status keeps its hue in any theme. An svg inside is 12px. `asChild` renders the styles on the child, which must be one element. A parent with `className="group"` and `data-hover` deepens a named color. See {{SITE_URL}}/docs/badge#api.
 
 ### JSON viewer
 
