@@ -11,6 +11,14 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-17',
+    title: 'Address region select type size',
+    items: ['@dentil/address-input'],
+    changes: [
+      '`@dentil/address-input`: the country and region selects match the text fields, at `text-base` on small screens and `text-sm` from `md`.',
+    ],
+  },
+  {
     date: '2026-11-16',
     title: 'Data table bottom border',
     items: ['@dentil/data-table'],

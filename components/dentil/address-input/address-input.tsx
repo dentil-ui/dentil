@@ -110,6 +110,7 @@ export function AddressInput({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         {...props}
+        className="text-base md:text-sm"
       />
 
       {country && (
@@ -120,7 +121,11 @@ export function AddressInput({
           {showState &&
             (regionList ? (
               <div className="*:data-[slot=native-select-wrapper]:w-full">
-                <NativeSelect {...fieldProps('state')} aria-label={regionList.label} autoComplete="address-level1">
+                <NativeSelect
+                  {...fieldProps('state')}
+                  aria-label={regionList.label}
+                  autoComplete="address-level1"
+                  className="py-1 text-base md:py-2 md:text-sm">
                   <NativeSelectOption value="" disabled>
                     {regionList.label}
                   </NativeSelectOption>
