@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a status badge, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a status badge, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a status badge, dashboard metric charts, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a status badge, a dashboard chart with a headline and period-over-period change, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
 ---
 
 # dentil
@@ -20,6 +20,7 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/description-list`     | Term and detail pairs in one or two columns, with links, copy buttons and "Show more"                    | {{SITE_URL}}/docs/description-list     |
 | `@dentil/invoice-table`        | Invoice line items with a totals footer and an optional per-line allocation column                       | {{SITE_URL}}/docs/invoice-table        |
 | `@dentil/badge`                | Status label with theme variants and fixed color variants for states such as paid, pending and failed    | {{SITE_URL}}/docs/badge                |
+| `@dentil/charts`               | Metric charts: headline with change badge, lines with previous-period comparison, category share bar     | {{SITE_URL}}/docs/charts               |
 | `@dentil/json-viewer`          | Collapsible JSON tree with linked object IDs and timestamps that show their date on hover                | {{SITE_URL}}/docs/json-viewer          |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
 | `@dentil/async-select`         | Async combobox that loads options as you type, with preload and custom rendering                         | {{SITE_URL}}/docs/async-select         |
@@ -61,7 +62,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/dentil/<item>/`, e.g. `components/dentil/modals/`, `components/dentil/data-table/` or `components/dentil/date-picker/`.
 
-The date display, date picker, object timeline, invoice table, badge, link and form inputs need no provider, so skip step 3 if those are all the user wants.
+The date display, date picker, object timeline, invoice table, badge, charts, link and form inputs need no provider, so skip step 3 if those are all the user wants.
 
 ## 3. Mount the providers once
 
@@ -388,6 +389,45 @@ import { Badge } from '@/components/dentil/badge/badge';
 ```
 
 The first letter is capitalized, so pass the status in lowercase. `default`, `secondary`, `outline` and `destructive` follow the theme. Named colors (`red`, `green`, `zinc`, and the rest) use Tailwind's palette on purpose, so a status keeps its hue in any theme. An svg inside is 12px. `asChild` renders the styles on the child, which must be one element. A parent with `className="group"` and `data-hover` deepens a named color. See {{SITE_URL}}/docs/badge#api.
+
+### Charts
+
+```tsx
+import NextLink from 'next/link';
+
+import { CategoryBarChart } from '@/components/dentil/charts/category-bar-chart';
+import { LineChart } from '@/components/dentil/charts/line-chart';
+import { useInViewFetch } from '@/components/dentil/charts/use-in-view-fetch';
+
+const { ref } = useInViewFetch(() => load(range), [range.start, range.end]);
+
+<div ref={ref}>
+  <LineChart
+    title="Revenue"
+    value={total}
+    previousValue={previousTotal}
+    formatValue={(v) => currency.format(v / 100)}
+    data={points} // [{ date: 1762128000, value: 120000, previous: 98000, previousDate: 1759449600 }, …]
+    series={[
+      { key: 'value', label: 'This period' },
+      { key: 'previous', label: 'Previous period', comparison: true, dateKey: 'previousDate' },
+    ]}
+    unit="day"
+    timezone="Europe/London"
+    loading={loading}
+    href="/payments"
+    updatedAt={lastUpdated}
+    linkComponent={NextLink}
+  />
+</div>
+
+<CategoryBarChart
+  title="Subscriptions by plan"
+  items={[{ id: 'pro', title: 'Pro', value: 318, href: '/subscriptions?plan=pro' }]}
+/>
+```
+
+Each point's `date` is the bucket start in unix seconds, milliseconds, ISO or `Date`. Non-comparison lines stop at the last bucket that has started, so future buckets filled with `0` don't read as a drop. The change badge is worked out from `value` and `previousValue`; pass `lowerIsBetter` for metrics such as churn or refunds, or `change={false}` to hide it. Colors default to `--chart-1` to `--chart-5`, with comparisons in muted gray. Charts have no border or padding, so put them in the project's own card or grid. Compose `Chart`, `ChartHeader`, `ChartContent` and `ChartFooter` from `chart.tsx` around any Recharts plot when a preset doesn't fit. See {{SITE_URL}}/docs/charts#api.
 
 ### JSON viewer
 

@@ -12,6 +12,16 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-17',
+    title: 'Charts',
+    items: ['@dentil/charts'],
+    changes: [
+      '`@dentil/charts`: `LineChart`, a metric over time with a headline, a period-over-period change badge, any number of lines and previous-period comparisons, and a "View more" footer. Lines stop at the last bucket that has started.',
+      '`@dentil/charts`: `CategoryBarChart`, a total split into categories with a stacked share bar and a row per category that can link elsewhere.',
+      '`@dentil/charts`: `Chart`, `ChartHeader`, `ChartContent` and `ChartFooter` for composing your own Recharts plot, plus `getPercentChange`, `formatChartDate`, `maskFuture` and `useInViewFetch`, which fetches once a chart scrolls into view.',
+    ],
+  },
+  {
+    date: '2026-11-17',
     title: 'Data table cell alignment',
     items: ['@dentil/data-table'],
     changes: [

@@ -37,6 +37,8 @@
     "components/dentil/address-input/**/*.tsx",
     "components/dentil/badge/**/*.ts",
     "components/dentil/badge/**/*.tsx",
+    "components/dentil/charts/**/*.ts",
+    "components/dentil/charts/**/*.tsx",
     "components/dentil/phone-input/**/*.ts",
     "components/dentil/phone-input/**/*.tsx",
     "components/dentil/currency-input/**/*.ts",

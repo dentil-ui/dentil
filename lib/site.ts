@@ -37,6 +37,14 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
+    href: '/docs/charts',
+    title: 'Charts',
+    description:
+      'Dashboard metric charts on Recharts: a headline with a period-over-period change badge, line charts with previous-period comparisons that stop at today, a category share bar, and a hook that fetches when a chart scrolls into view.',
+    items: ['@dentil/charts'],
+    group: 'Components',
+  },
+  {
     href: '/docs/data-table',
     title: 'Data Table',
     description:

@@ -262,6 +262,16 @@ const registry = {
       files: folder('badge'),
     },
     {
+      name: 'charts',
+      type: 'registry:block',
+      title: 'Charts',
+      description:
+        'Dashboard metric charts on Recharts: a headline with a period-over-period change badge, line charts with previous-period comparisons that stop at today, a category share bar, and a hook that fetches when a chart scrolls into view.',
+      dependencies: ['recharts@^3.8.0', 'lucide-react'],
+      registryDependencies: ['chart', '@dentil/badge', '@dentil/link'],
+      files: folder('charts'),
+    },
+    {
       name: 'json-viewer',
       type: 'registry:component',
       title: 'JSON Viewer',
