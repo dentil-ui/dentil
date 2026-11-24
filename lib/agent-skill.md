@@ -1,6 +1,6 @@
 ---
 name: dentil
-description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a status badge, dashboard metric charts, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a status badge, a dashboard chart with a headline and period-over-period change, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
+description: Installs and uses dentil, a shadcn/ui registry of server-driven data tables, promise-based modals and side sheets, a date display, a date picker, an object timeline, an invoice table, a JSON viewer, a status badge, dashboard metric charts, a dashboard page layout, a text link and form inputs. Use when the user mentions dentil or @dentil, or wants a data table with server-side filters, sorting and pagination, modals and sheets opened with `await openModal(...)` or `await openSheet(...)`, a date formatted in a time zone, a date or date range picker, an event timeline, a record page header, a term and detail list for a record page, an invoice line items table with totals or credit note allocation, a JSON viewer for API payloads, a status badge, a dashboard chart with a headline and period-over-period change, a dashboard page layout with headers, a chart grid and a sidebar, a link with a hover arrow, an async combobox, or country, address, phone, currency, date of birth, color or labeled switch inputs.
 ---
 
 # dentil
@@ -17,10 +17,12 @@ description: Installs and uses dentil, a shadcn/ui registry of server-driven dat
 | `@dentil/date-picker`          | Single-date and range picker with presets, shortcuts, billing cycles and an Apply step                   | {{SITE_URL}}/docs/date-picker          |
 | `@dentil/date`                 | Compact date formatted in a time zone you supply, from unix, ISO or Date                                 | {{SITE_URL}}/docs/date                 |
 | `@dentil/object-timeline`      | Vertical event list with an icon, title, description, date and an optional action                        | {{SITE_URL}}/docs/object-timeline      |
+| `@dentil/object-header`        | Record page header row: object type, viewers' avatars, and copy buttons for the URL and ID               | {{SITE_URL}}/docs/object-header        |
 | `@dentil/description-list`     | Term and detail pairs in one or two columns, with links, copy buttons and "Show more"                    | {{SITE_URL}}/docs/description-list     |
 | `@dentil/invoice-table`        | Invoice line items with a totals footer and an optional per-line allocation column                       | {{SITE_URL}}/docs/invoice-table        |
 | `@dentil/badge`                | Status label with theme variants and fixed color variants for states such as paid, pending and failed    | {{SITE_URL}}/docs/badge                |
 | `@dentil/charts`               | Metric charts: headline with change badge, lines with previous-period comparison, category share bar     | {{SITE_URL}}/docs/charts               |
+| `@dentil/dashboard-layout`     | Page container, headers, two-column chart grid, and main pane with sidebar                               | {{SITE_URL}}/docs/dashboard-layout     |
 | `@dentil/json-viewer`          | Collapsible JSON tree with linked object IDs and timestamps that show their date on hover                | {{SITE_URL}}/docs/json-viewer          |
 | `@dentil/select-search`        | Searchable single-select combobox                                                                        | {{SITE_URL}}/docs/select-search        |
 | `@dentil/async-select`         | Async combobox that loads options as you type, with preload and custom rendering                         | {{SITE_URL}}/docs/async-select         |
@@ -62,7 +64,7 @@ If the CLI says it can't find the `@dentil` registry, merge this into `component
 
 The CLI installs any missing stock shadcn/ui components and npm packages. If it asks to overwrite an existing file in `components/ui`, answer no unless the user agrees: dentil works with the stock versions. Files land in `components/dentil/<item>/`, e.g. `components/dentil/modals/`, `components/dentil/data-table/` or `components/dentil/date-picker/`.
 
-The date display, date picker, object timeline, invoice table, badge, charts, link and form inputs need no provider, so skip step 3 if those are all the user wants.
+The date display, date picker, object timeline, object header, invoice table, badge, charts, dashboard layout, link and form inputs need no provider, so skip step 3 if those are all the user wants.
 
 ## 3. Mount the providers once
 
@@ -428,6 +430,64 @@ const { ref } = useInViewFetch(() => load(range), [range.start, range.end]);
 ```
 
 Each point's `date` is the bucket start in unix seconds, milliseconds, ISO or `Date`. Non-comparison lines stop at the last bucket that has started, so future buckets filled with `0` don't read as a drop. The change badge is worked out from `value` and `previousValue`; pass `lowerIsBetter` for metrics such as churn or refunds, or `change={false}` to hide it. Colors default to `--chart-1` to `--chart-5`, with comparisons in muted gray. Charts have no border or padding, so put them in the project's own card or grid. Compose `Chart`, `ChartHeader`, `ChartContent` and `ChartFooter` from `chart.tsx` around any Recharts plot when a preset doesn't fit. See {{SITE_URL}}/docs/charts#api.
+
+### Dashboard layout
+
+```tsx
+import {
+  DashboardContainer,
+  DashboardGrid,
+  DashboardHeader,
+  DashboardHeading,
+  DashboardSection,
+  DashboardSectionContent,
+  DashboardSectionHeader,
+  DashboardSubheading,
+  DashboardTableHeader,
+} from '@/components/dentil/dashboard-layout/dashboard-layout';
+
+<DashboardContainer>
+  <DashboardHeader>
+    <DashboardHeading asChild>
+      <h1>Billing</h1>
+    </DashboardHeading>
+    <Button>Create invoice</Button>
+  </DashboardHeader>
+  <DashboardSection>
+    <DashboardSectionHeader>
+      <DashboardSubheading>Overview</DashboardSubheading>
+    </DashboardSectionHeader>
+    <DashboardGrid>
+      <DashboardSectionContent><LineChart … /></DashboardSectionContent>
+      <DashboardSectionContent><CategoryBarChart … /></DashboardSectionContent>
+    </DashboardGrid>
+  </DashboardSection>
+  <DashboardTableHeader>
+    <DashboardSubheading>Invoices</DashboardSubheading>
+  </DashboardTableHeader>
+  <DataTable … />
+</DashboardContainer>
+```
+
+Put `DashboardContainer` straight inside the app shell's content area, with no padding: blocks bring their own 20px side padding, and the container's -1px margin lets a bordered child sit on the shell's edge. Each child of the container, a `DashboardSplit` and its panes is pulled up and left by 1px, so a table or sidebar shares its border with the block before it. `DashboardGrid` is one column, then two from `xl`. For a record page, wrap `DashboardSplitMain` and `DashboardSplitSidebar` (384px with a left border from `xl`) in `<DashboardSplit className="border-t">`; give the container `fixedHeight` so each pane scrolls on its own. `DashboardHeading` is an `h3` and `DashboardSubheading` an `h4`; pass `asChild` to render another level. See {{SITE_URL}}/docs/dashboard-layout#api.
+
+### Object header
+
+```tsx
+import { ObjectHeader } from '@/components/dentil/object-header/object-header';
+import { Receipt } from 'lucide-react';
+
+<ObjectHeader
+  icon={Receipt}
+  title="Invoice"
+  id={invoice.id}
+  url
+  presence={[currentUser, ...viewers]}
+  onCopy={() => toast.success('Copied to clipboard')}
+/>;
+```
+
+Put it at the top of a record page, above the page heading; its 20px side padding lines up with `@dentil/dashboard-layout`. `id` shows a copy button labelled with the ID. `url` shows a "URL" copy button: pass a string, such as a share link, or `true` to copy `window.location.href` when clicked. `presence` takes `{ id?, name, avatar? }[]` from your realtime provider (Liveblocks, Supabase Realtime and so on); put the current user first, since earlier avatars sit on top, and avatars past `max` (5) collapse into "+N". There's no toast built in, so use `onCopy`. Extra actions passed as `children` go between the avatars and the copy buttons. See {{SITE_URL}}/docs/object-header#api.
 
 ### JSON viewer
 

@@ -11,6 +11,22 @@ export interface ChangelogEntry {
 /** Newest first. Rendered at /docs/changelog and linked from /llms.txt. */
 export const changelog: ChangelogEntry[] = [
   {
+    date: '2026-11-24',
+    title: 'Object header',
+    items: ['@dentil/object-header'],
+    changes: [
+      '`@dentil/object-header`: `ObjectHeader`, `ObjectHeaderCopyButton` and `ObjectHeaderPresence`, a record page header row with the object type, stacked avatars for the people viewing the record, and copy buttons for the page URL and the object ID.',
+    ],
+  },
+  {
+    date: '2026-11-24',
+    title: 'Dashboard layout',
+    items: ['@dentil/dashboard-layout'],
+    changes: [
+      '`@dentil/dashboard-layout`: `DashboardContainer`, `DashboardHeader`, `DashboardHeading`, `DashboardSubheading`, `DashboardGrid`, `DashboardSplit`, `DashboardSplitMain`, `DashboardSplitSidebar`, `DashboardSection`, `DashboardSectionHeader`, `DashboardSectionContent`, `DashboardSectionTitle` and `DashboardTableHeader`, page layout blocks that let bordered children such as tables and sidebars share a 1px edge.',
+    ],
+  },
+  {
     date: '2026-11-17',
     title: 'Charts',
     items: ['@dentil/charts'],

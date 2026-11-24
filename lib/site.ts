@@ -45,6 +45,14 @@ export const docs: DocsEntry[] = [
     group: 'Components',
   },
   {
+    href: '/docs/dashboard-layout',
+    title: 'Dashboard Layout',
+    description:
+      'Page layout for dashboards: a full-bleed container, a page header, section and table headers, a two-column chart grid, and a main pane with a sidebar, with shared 1px borders between bordered blocks.',
+    items: ['@dentil/dashboard-layout'],
+    group: 'Components',
+  },
+  {
     href: '/docs/data-table',
     title: 'Data Table',
     description:
@@ -113,6 +121,14 @@ export const docs: DocsEntry[] = [
     title: 'Object Timeline',
     description: 'Vertical event list with an icon, title, description, date and an optional action on the title.',
     items: ['@dentil/object-timeline'],
+    group: 'Components',
+  },
+  {
+    href: '/docs/object-header',
+    title: 'Object Header',
+    description:
+      'A record page header row: the object type with an icon, stacked avatars for the people viewing the record, and dashed copy buttons for the page URL and the object ID.',
+    items: ['@dentil/object-header'],
     group: 'Components',
   },
   {

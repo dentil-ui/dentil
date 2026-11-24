@@ -15,7 +15,7 @@ export function ExampleTabs({
 }) {
   const [view, setView] = useState<'preview' | 'code'>('preview');
   return (
-    <div className="flex flex-col gap-2">
+    <div className="relative flex flex-col gap-2">
       <div role="tablist" className="flex gap-4 border-b text-sm">
         {(['preview', 'code'] as const).map((value) => (
           <button
@@ -34,10 +34,17 @@ export function ExampleTabs({
           </button>
         ))}
       </div>
-      {/* Keep the preview mounted so its state survives a peek at the code. */}
+      {/*
+        Keep the preview mounted so its state survives a peek at the code. It's hidden with `visibility` rather than
+        `display: none` and keeps its width, so charts inside never measure 0×0 and Recharts doesn't warn.
+      */}
       <div
-        hidden={view !== 'preview'}
-        className={cn('bg-background overflow-hidden rounded-lg border', padded ? 'p-6' : 'pt-4')}>
+        aria-hidden={view !== 'preview' || undefined}
+        className={cn(
+          'bg-background overflow-hidden rounded-lg border',
+          padded ? 'p-6' : 'pt-4',
+          view !== 'preview' && 'invisible absolute inset-x-0 top-0 max-h-0'
+        )}>
         {preview}
       </div>
       <div hidden={view !== 'code'}>{code}</div>

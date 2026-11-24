@@ -140,6 +140,14 @@ const registry = {
       files: folder('object-timeline'),
     },
     {
+      name: 'object-header',
+      type: 'registry:component',
+      title: 'Object Header',
+      description:
+        'A record page header row: the object type with an icon, stacked avatars for the people viewing the record, and dashed copy buttons for the page URL and the object ID.',
+      files: folder('object-header'),
+    },
+    {
       name: 'description-list',
       type: 'registry:component',
       title: 'Description List',
@@ -260,6 +268,15 @@ const registry = {
         'Small status label with theme-aware default, secondary, outline and destructive variants, fixed color variants from red to zinc, and a compact size.',
       dependencies: ['@radix-ui/react-slot@^1.2.3', 'class-variance-authority@^0.7.1'],
       files: folder('badge'),
+    },
+    {
+      name: 'dashboard-layout',
+      type: 'registry:component',
+      title: 'Dashboard Layout',
+      description:
+        'Page layout for dashboards: a full-bleed container, a page header, section and table headers, a two-column chart grid, and a main pane with a sidebar, with shared 1px borders between bordered blocks.',
+      dependencies: ['@radix-ui/react-slot@^1.2.3'],
+      files: folder('dashboard-layout'),
     },
     {
       name: 'charts',
