@@ -3,6 +3,7 @@ export const siteConfig = {
   description: 'Production dashboard primitives for shadcn/ui, installable from the @dentil registry.',
   /** Public URL of this site. Set NEXT_PUBLIC_SITE_URL on deploy. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dentil.dev',
+  repository: 'https://github.com/dentil-ui/dentil',
 };
 
 export const registryUrl = `${siteConfig.url}/r/{name}.json`;
