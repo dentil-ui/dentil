@@ -12,6 +12,14 @@ export interface ChangelogEntry {
 export const changelog: ChangelogEntry[] = [
   {
     date: '2026-11-24',
+    title: 'Currency input hydration',
+    items: ['@dentil/currency-input'],
+    changes: [
+      "`@dentil/currency-input`: without `currencies`, the picker reads `Intl.supportedValuesOf('currency')` only after hydration, so a server render no longer mismatches a browser with a different currency list.",
+    ],
+  },
+  {
+    date: '2026-11-24',
     title: 'Object header',
     items: ['@dentil/object-header'],
     changes: [

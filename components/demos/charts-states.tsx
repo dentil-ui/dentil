@@ -3,8 +3,15 @@
 import { LineChart } from '@/components/dentil/charts/line-chart';
 import { DEMO_NOW, revenue, revenueTotals } from '@/lib/demo/charts';
 
-const currency = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', notation: 'compact' });
-const formatPence = (pence: number) => currency.format(pence / 100);
+// Spelled out rather than `notation: 'compact'`, whose suffixes differ between Node and browsers (£549K vs £549k)
+// and would break hydration.
+const currency = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 1 });
+const formatPence = (pence: number) => {
+  const pounds = pence / 100;
+  if (Math.abs(pounds) >= 1_000_000) return `${currency.format(pounds / 1_000_000)}M`;
+  if (Math.abs(pounds) >= 1_000) return `${currency.format(Math.round(pounds / 1_000))}K`;
+  return currency.format(pounds);
+};
 
 const series = [
   { key: 'value', label: 'This period' },

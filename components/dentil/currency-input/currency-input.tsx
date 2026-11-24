@@ -64,11 +64,13 @@ export function CurrencyInput({
   const { symbol, digits } = getCurrencyFormat(currency, locale);
   const code = currency.toUpperCase();
   const picking = onCurrencyChange != null;
+  const hydrated = useHydrated();
   const options = React.useMemo(() => {
     if (!picking) return [];
-    const codes = (currencies ?? Intl.supportedValuesOf('currency')).map((c) => c.toUpperCase());
+    // Node and each browser ship different currency lists, so the `Intl` list is read only after hydration.
+    const codes = (currencies ?? (hydrated ? Intl.supportedValuesOf('currency') : [])).map((c) => c.toUpperCase());
     return codes.includes(code) ? codes : [code, ...codes];
-  }, [picking, currencies, code]);
+  }, [picking, currencies, code, hydrated]);
   const factor = 10 ** digits;
   const toMinor = (amount: number | undefined) => (amount === undefined ? undefined : Math.round(amount * factor));
 
@@ -115,21 +117,9 @@ export function CurrencyInput({
         {...props}
       />
       {onCurrencyChange && searchable ? (
-        <CurrencySearch
-          value={code}
-          options={options}
-          locale={locale}
-          disabled={disabled}
-          onChange={changeCurrency}
-        />
+        <CurrencySearch value={code} options={options} locale={locale} disabled={disabled} onChange={changeCurrency} />
       ) : onCurrencyChange ? (
-        <CurrencySelect
-          value={code}
-          options={options}
-          locale={locale}
-          disabled={disabled}
-          onChange={changeCurrency}
-        />
+        <CurrencySelect value={code} options={options} locale={locale} disabled={disabled} onChange={changeCurrency} />
       ) : (
         <InputGroupAddon align="inline-end">
           <InputGroupText>{code}</InputGroupText>
@@ -145,6 +135,17 @@ interface CurrencySelectProps {
   locale: string | undefined;
   disabled: boolean;
   onChange: (currency: string) => void;
+}
+
+const subscribeNoop = () => () => {};
+
+/** `false` during the server render and hydration, `true` after. */
+function useHydrated() {
+  return React.useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false
+  );
 }
 
 function currencyNamer(locale: string | undefined) {
@@ -199,7 +200,7 @@ function CurrencySearch({ value, options, locale, disabled, onChange }: Currency
       align="end"
       contentClassName="min-w-72"
       renderValue={() => <CodeStack value={value} options={options} />}
-      className="text-muted-foreground hover:text-muted-foreground focus-visible:bg-accent order-last h-full w-auto gap-1 rounded-l-none rounded-r-md border-0 border-l bg-transparent font-medium shadow-none group-data-[disabled=true]/input-group:opacity-50 focus-visible:border-border focus-visible:ring-0 has-[>svg]:ps-2.5 has-[>svg]:pe-2 dark:border-border dark:bg-transparent dark:hover:bg-accent"
+      className="text-muted-foreground hover:text-muted-foreground focus-visible:bg-accent focus-visible:border-border dark:border-border dark:hover:bg-accent order-last h-full w-auto gap-1 rounded-l-none rounded-r-md border-0 border-l bg-transparent font-medium shadow-none group-data-[disabled=true]/input-group:opacity-50 focus-visible:ring-0 has-[>svg]:ps-2.5 has-[>svg]:pe-2 dark:bg-transparent"
     />
   );
 }
@@ -212,7 +213,7 @@ function CurrencySelect({ value, options, locale, disabled, onChange }: Currency
     <div
       data-slot="currency-input-select"
       data-align="inline-end"
-      className="text-muted-foreground hover:bg-accent has-focus-visible:bg-accent relative order-last flex h-full shrink-0 items-center gap-1 rounded-r-md border-l ps-2.5 pe-2 text-sm font-medium transition-colors select-none has-disabled:pointer-events-none group-data-[disabled=true]/input-group:opacity-50">
+      className="text-muted-foreground hover:bg-accent has-focus-visible:bg-accent relative order-last flex h-full shrink-0 items-center gap-1 rounded-r-md border-l ps-2.5 pe-2 text-sm font-medium transition-colors select-none group-data-[disabled=true]/input-group:opacity-50 has-disabled:pointer-events-none">
       <CodeStack value={value} options={options} />
       <ChevronDownIcon className="size-4 opacity-50" aria-hidden="true" />
       <select
